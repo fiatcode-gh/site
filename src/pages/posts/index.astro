@@ -1,0 +1,31 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import BlogPostCard from "../../components/BlogPostCard.astro";
+
+const posts = await getCollection("blog");
+posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+---
+
+<Layout
+  contentClass="py-12"
+  title="Posts - Dhemas Nurjaya"
+  description="Read the latest blog posts by Dhemas Nurjaya"
+>
+  <h1 class="text-4xl font-bold mb-8">Posts</h1>
+  <ul class="space-y-4">
+    {
+      posts.map((post) => (
+        <li>
+          <BlogPostCard
+            id={post.id}
+            title={post.data.title}
+            date={post.data.date}
+            description={post.data.description}
+            tags={post.data.tags}
+          />
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
