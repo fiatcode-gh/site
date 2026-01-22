@@ -1,15 +1,18 @@
 ---
-import socialEmail from "../assets/social-email.svg";
-import socialFacebook from "../assets/social-facebook.svg";
-import socialGithub from "../assets/social-github.svg";
-import socialLinkedIn from "../assets/social-linkedin.svg";
-import socialX from "../assets/social-x.svg";
+import { Image } from 'astro:assets';
+import profileImage from "../assets/images/profile.jpg";
+import socialEmail from "../assets/images/social-email.svg";
+import socialFacebook from "../assets/images/social-facebook.svg";
+import socialGithub from "../assets/images/social-github.svg";
+import socialLinkedIn from "../assets/images/social-linkedin.svg";
+import socialX from "../assets/images/social-x.svg";
 ---
 
 <div class="flex flex-col min-h-full items-center justify-center">
-  <img
-    src="/images/profile.jpg"
-    alt="profile picture of Dhemas Nurjaya"
+  <Image
+    src={profileImage}
+    loading="eager"
+    alt="Dhemas Nurjaya"
     class="w-48 h-48 rounded-2xl"
   />
   <h1 class="text-5xl font-bold mt-4">Dhemas Nurjaya</h1>
@@ -19,19 +22,19 @@ import socialX from "../assets/social-x.svg";
       href="https://www.linkedin.com/in/dhemas-nurjaya-030890bb"
       aria-label="Linkedin"
     >
-      <img src={socialLinkedIn.src} alt="" fetchpriority="high" class="w-6 h-6 invert" />
+      <Image src={socialLinkedIn} alt="LinkedIn" loading="eager" class="w-6 h-6 invert" />
     </a>
     <a href="https://github.com/dhemasnurjaya" aria-label="Github">
-      <img src={socialGithub.src} alt="" fetchpriority="high" class="w-6 h-6 invert" />
+      <Image src={socialGithub} alt="Github" loading="eager" class="w-6 h-6 invert" />
     </a>
     <a href="https://x.com/dhemaseka" aria-label="X">
-      <img src={socialX.src} alt="" fetchpriority="high" class="w-6 h-6 invert" />
+      <Image src={socialX} alt="X" loading="eager" class="w-6 h-6 invert" />
     </a>
     <a href="https://www.facebook.com/Dhemas" aria-label="Facebook">
-      <img src={socialFacebook.src} alt="" fetchpriority="high" class="w-6 h-6 invert" />
+      <Image src={socialFacebook} alt="Facebook" loading="eager" class="w-6 h-6 invert" />
     </a>
     <a href="mailto:dhemasnurjaya@gmail.com" aria-label="Email">
-      <img src={socialEmail.src} alt="" fetchpriority="high" class="w-6 h-6 invert" />
+      <Image src={socialEmail} alt="Email" loading="eager" class="w-6 h-6 invert" />
     </a>
   </div>
   <div class="mt-24"></div>
