@@ -6,7 +6,8 @@ const posts = await getCollection("blog");
 const tagsMap = new Map<string, number>();
 posts.forEach((post) => {
   post.data.tags?.forEach((tag) => {
-    tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
+    const currentCount = tagsMap.get(tag) || 0;
+    tagsMap.set(tag, currentCount + 1);
   });
 });
 const tags = Array.from(tagsMap.entries()).sort((a, b) =>
