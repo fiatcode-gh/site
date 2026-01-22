@@ -1,5 +1,5 @@
 ---
-title: 'Android Devices Not Showing on Flutter Project'
+title: "Android Devices Not Showing on Flutter Project"
 description: "A fix for new Flutter project that doesn't have Android devices showing up"
 date: 2025-02-22T09:21:22+07:00
 draft: false
@@ -22,4 +22,4 @@ As you can see, I have no Android SDK selected for my Flutter project. So, go ah
 
 ![choose android sdk](/images/choose-sdk.webp)
 
-Hope this can help someone who has similar issues with Flutter project and Android devices. 
+Hope this can help someone who has similar issues with Flutter project and Android devices.

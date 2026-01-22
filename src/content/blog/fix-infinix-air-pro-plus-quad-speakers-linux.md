@@ -1,6 +1,6 @@
 ---
-title: 'Fix Infinix Air Pro+ Quad Speakers in Linux'
-description: 'A fix for Infinix Air Pro+ -- only 2 of 4 speakers working in Linux'
+title: "Fix Infinix Air Pro+ Quad Speakers in Linux"
+description: "A fix for Infinix Air Pro+ -- only 2 of 4 speakers working in Linux"
 date: 2025-02-23T23:27:49+07:00
 draft: false
 tags:
@@ -83,8 +83,8 @@ $ sudo pacman -S alsa-tools
 $ sudo hdajackretask
 ```
 
-After opening the tool, check the `Show unconnected pins` and there will be list of nodes that can be retasked. 
-I need to experiment with this remapping. After trials and errors, I found that `0x1a` and `0x1b` is the responsible nodes for my extra speakers. Overriding them and changing their role as `Internal Speaker` solve my issue. 
+After opening the tool, check the `Show unconnected pins` and there will be list of nodes that can be retasked.
+I need to experiment with this remapping. After trials and errors, I found that `0x1a` and `0x1b` is the responsible nodes for my extra speakers. Overriding them and changing their role as `Internal Speaker` solve my issue.
 
 ![hdajackretask remap nodes](/images/hdajackretask-remap-node.png)
 
