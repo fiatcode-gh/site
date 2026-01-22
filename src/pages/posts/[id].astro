@@ -10,8 +10,9 @@ import BlogPost from "@/components/BlogPost.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
+  const filteredPosts = posts.filter((post) => !post.data.draft);
   const paths = await Promise.all(
-    posts.map(async (post) => {
+    filteredPosts.map(async (post) => {
       const id = post.id;
       const content = await render(post);
       return {

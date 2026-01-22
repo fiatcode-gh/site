@@ -5,8 +5,9 @@ import PageTitle from "@/components/PageTitle.astro";
 import Tag from "@/components/Tag.astro";
 
 const posts = await getCollection("blog");
+const filteredPosts = posts.filter((post) => !post.data.draft);
 const tagsMap = new Map<string, number>();
-posts.forEach((post) => {
+filteredPosts.forEach((post) => {
   post.data.tags?.forEach((tag) => {
     const currentCount = tagsMap.get(tag) || 0;
     tagsMap.set(tag, currentCount + 1);
