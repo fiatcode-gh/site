@@ -1,0 +1,21 @@
+---
+interface Props {
+  name: string;
+  count?: number;
+  href?: string;
+  variant?: "default" | "small";
+}
+
+const { name, count, href, variant = "default" } = Astro.props;
+const linkHref = href || `/tags/${name}`;
+const isSmall = variant === "small";
+const textSize = isSmall ? "text-xs" : "text-sm";
+---
+
+<a href={linkHref}>
+  <span
+    class={`${textSize} text-zinc-400 font-semibold rounded-md bg-zinc-800 px-2 py-2 hover:bg-zinc-700`}
+  >
+    #{name}{count !== undefined && <sup>{count}</sup>}
+  </span>
+</a>

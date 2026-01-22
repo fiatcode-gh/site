@@ -1,4 +1,6 @@
 ---
+import Tag from "@/components/Tag.astro";
+
 interface Props {
   title: string;
   description: string;
@@ -41,11 +43,7 @@ const { title, description, date, tags } = Astro.props;
     {
       tags?.map((tag) => (
         <li>
-          <a href={`/tags/${tag}`}>
-            <span class="text-sm text-zinc-400 font-semibold rounded-md bg-zinc-800 px-2 py-2 hover:bg-zinc-700">
-              #{tag}
-            </span>
-          </a>
+          <Tag name={tag} />
         </li>
       ))
     }
