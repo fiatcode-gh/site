@@ -2,6 +2,8 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import BlogPostCard from "@/components/BlogPostCard.astro";
 import Layout from "@/layouts/Layout.astro";
+import PageTitle from "@/components/PageTitle.astro";
+import EmptyState from "@/components/EmptyState.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -36,7 +38,7 @@ const { filteredPosts } = Astro.props;
   title={`Posts tagged with "${name}" - Dhemas Nurjaya`}
   description={`Browse blog posts tagged with "${name}" by Dhemas Nurjaya`}
 >
-  <h1 class="text-4xl font-bold mb-8">Posts tagged with "{name}"</h1>
+  <PageTitle title={`Posts tagged with "${name}"`} />
   {
     filteredPosts.length > 0 ? (
       <ul class="space-y-4">
@@ -53,7 +55,7 @@ const { filteredPosts } = Astro.props;
         ))}
       </ul>
     ) : (
-      <p class="text-lg text-zinc-400">No posts found with the tag "{name}".</p>
+      <EmptyState message={`No posts found with the tag "${name}".`} />
     )
   }
 </Layout>
