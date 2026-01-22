@@ -6,10 +6,11 @@ import Header from "../components/Header.astro";
 interface Props {
   title: string;
   description: string;
-  contentClass?: string;
+  contentLayout?: "default" | "fill-height";
 }
 
-const { title, description, contentClass = "" } = Astro.props;
+const { title, description, contentLayout = "default" } = Astro.props;
+const contentClass = contentLayout === "fill-height" ? "flex-1" : "py-12";
 ---
 
 <!doctype html>
@@ -24,7 +25,7 @@ const { title, description, contentClass = "" } = Astro.props;
   </head>
   <body class="h-screen max-w-5xl mx-auto flex flex-col font-sans">
     <Header />
-    <div class={`w-full max-w-3xl mx-auto ${contentClass ?? ""}`}>
+    <div class={`w-full max-w-3xl mx-auto ${contentClass}`}>
       <slot />
     </div>
     <Footer />
