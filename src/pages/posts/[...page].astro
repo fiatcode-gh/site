@@ -13,8 +13,9 @@ export async function getStaticPaths({
   paginate: PaginateFunction;
 }) {
   const posts = await getCollection("blog");
-  posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-  return paginate(posts, { pageSize: 5 });
+  const filteredPosts = posts.filter((post) => !post.data.draft);
+  filteredPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  return paginate(filteredPosts, { pageSize: 10 });
 }
 
 interface Props {
