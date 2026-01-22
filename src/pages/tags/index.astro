@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+
+const posts = await getCollection("blog");
+const tagsMap = new Map<string, number>();
+posts.forEach((post) => {
+  post.data.tags?.forEach((tag) => {
+    tagsMap.set(tag, (tagsMap.get(tag) || 0) + 1);
+  });
+});
+const tags = Array.from(tagsMap.entries()).sort((a, b) =>
+  a[0].localeCompare(b[0]),
+);
+---
+
+<Layout title="Tags - Dhemas Nurjaya" description="Browse blog posts by tags">
+  <h1 class="text-4xl font-bold mb-8">Tags</h1>
+  <ul class="flex flex-wrap gap-4">
+    {
+      tags?.map(([tag, count]) => (
+        <li class="mb-4">
+          <a href={`/tags/${tag}`}>
+            <span class="text-lg text-zinc-400 font-semibold rounded-md bg-zinc-800 px-2 py-2 hover:bg-zinc-700">
+              {tag} <sup>{count}</sup>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
