@@ -43,7 +43,7 @@ const { title, description, date, tags } = Astro.props;
     {
       tags?.map((tag) => (
         <li>
-          <Tag name={tag} />
+          <Tag name={tag} variant="small" />
         </li>
       ))
     }

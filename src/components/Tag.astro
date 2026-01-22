@@ -9,7 +9,7 @@ interface Props {
 const { name, count, href, variant = "default" } = Astro.props;
 const linkHref = href || `/tags/${name}`;
 const isSmall = variant === "small";
-const textSize = isSmall ? "text-xs" : "text-sm";
+const textSize = isSmall ? "text-sm" : "text-base";
 ---
 
 <a href={linkHref}>
