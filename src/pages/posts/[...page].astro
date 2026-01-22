@@ -1,0 +1,51 @@
+---
+import type { PaginateFunction, Page } from "astro";
+import { getCollection } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import BlogPostCard from "@/components/BlogPostCard.astro";
+import PageTitle from "@/components/PageTitle.astro";
+import type { CollectionEntry } from "astro:content";
+import Pagination from "@/components/Pagination.astro";
+
+export async function getStaticPaths({
+  paginate,
+}: {
+  paginate: PaginateFunction;
+}) {
+  const posts = await getCollection("blog");
+  posts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
+  return paginate(posts, { pageSize: 5 });
+}
+
+interface Props {
+  page: Page<CollectionEntry<"blog">>;
+}
+
+const { page } = Astro.props;
+---
+
+<Layout
+  title="Posts - Dhemas Nurjaya"
+  description="Read the latest blog posts by Dhemas Nurjaya"
+>
+  <PageTitle title="Posts" />
+  <ul class="space-y-4">
+    {
+      page.data.map((post) => (
+        <li>
+          <BlogPostCard
+            id={post.id}
+            title={post.data.title}
+            date={post.data.date}
+            description={post.data.description}
+          />
+        </li>
+      ))
+    }
+  </ul>
+  <Pagination
+    currentPage={page.currentPage}
+    lastPage={page.lastPage}
+    getPageUrl={(page) => (page === 1 ? `/posts/` : `/posts/${page}/`)}
+  />
+</Layout>
