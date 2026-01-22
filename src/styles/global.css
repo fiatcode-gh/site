@@ -1,10 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap");
-@import url("https://fonts.googleapis.com/css2?family=JetBrains+Mono&display=swap");
+@import "@fontsource-variable/noto-sans";
+@import "@fontsource/jetbrains-mono";
 @import "tailwindcss";
-@plugin '@tailwindcss/typography';
+@plugin "@tailwindcss/typography";
 
 @theme {
-  --font-sans: "Noto Sans", sans-serif;
+  --font-sans: "Noto Sans Variable", sans-serif;
   --font-mono: "JetBrains Mono", monospace;
 }
 
