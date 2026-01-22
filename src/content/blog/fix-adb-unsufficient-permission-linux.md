@@ -1,6 +1,6 @@
 ---
-title: 'Fix ADB Insufficient Permission'
-description: 'udev rules for fixing ADB Insufficient permission in Linux'
+title: "Fix ADB Insufficient Permission"
+description: "udev rules for fixing ADB Insufficient permission in Linux"
 date: 2025-02-24T11:29:30+07:00
 draft: false
 tags:
@@ -10,6 +10,7 @@ tags:
 ---
 
 # Why need this?
+
 Connecting an Android device to a Linux computer could has problem with permission. Listing devices with `adb devices` might show `unauthorized` status or `insufficient permission` error message.
 
 ```bash
@@ -33,7 +34,7 @@ $ lsusb
 Bus 001 Device 005: ID 18d1:4ee7 Google Inc. Nexus/Pixel Device
 ```
 
-`18d1` is *vendor id* and `4ee7` is the *product id*.
+`18d1` is _vendor id_ and `4ee7` is the _product id_.
 
 2. Create an `udev` rule for this device, I create mine in `/etc/udev/rules.d/51-android.rules`.
 
