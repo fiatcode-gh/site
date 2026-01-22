@@ -1,0 +1,59 @@
+---
+import { getCollection, type CollectionEntry } from "astro:content";
+import BlogPostCard from "../../components/BlogPostCard.astro";
+import Layout from "../../layouts/Layout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  const tags = new Set<string>();
+
+  posts.forEach((post) => {
+    if (post.data.tags) {
+      post.data.tags.forEach((tag: string) => tags.add(tag));
+    }
+  });
+
+  return Array.from(tags).map((name) => {
+    const filteredPosts = posts.filter(
+      (post) => post.data.tags && post.data.tags.includes(name),
+    );
+    return {
+      params: { name },
+      props: { filteredPosts },
+    };
+  });
+}
+
+interface Props {
+  filteredPosts: CollectionEntry<"blog">[];
+}
+
+const { name } = Astro.params;
+const { filteredPosts } = Astro.props;
+---
+
+<Layout
+  title={`Posts tagged with "${name}" - Dhemas Nurjaya`}
+  description={`Browse blog posts tagged with "${name}" by Dhemas Nurjaya`}
+>
+  <h1 class="text-4xl font-bold mb-8">Posts tagged with "{name}"</h1>
+  {
+    filteredPosts.length > 0 ? (
+      <ul class="space-y-4">
+        {filteredPosts.map((post) => (
+          <li>
+            <BlogPostCard
+              id={post.id}
+              title={post.data.title}
+              date={post.data.date}
+              description={post.data.description}
+              tags={post.data.tags}
+            />
+          </li>
+        ))}
+      </ul>
+    ) : (
+      <p class="text-lg text-zinc-400">No posts found with the tag "{name}".</p>
+    )
+  }
+</Layout>

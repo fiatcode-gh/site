@@ -1,0 +1,41 @@
+---
+import { getCollection, render, type CollectionEntry, type RenderResult } from "astro:content";
+import Layout from "../../layouts/Layout.astro";
+import BlogPost from "../../components/BlogPost.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blog");
+  const paths = await Promise.all(
+    posts.map(async (post) => {
+      const id = post.id;
+      const content = await render(post);
+      return {
+        params: { id },
+        props: { post, content },
+      };
+    })
+  );
+  return paths;
+}
+
+interface Props {
+  post: CollectionEntry<"blog">;
+  content: RenderResult;
+}
+
+const { post, content } = Astro.props;
+---
+
+<Layout
+  title={`${post.data.title} - Dhemas Nurjaya`}
+  description={post.data.description}
+>
+  <BlogPost
+    title={post.data.title}
+    description={post.data.description}
+    date={post.data.date}
+    tags={post.data.tags}
+  >
+    <content.Content />
+  </BlogPost>
+</Layout>
