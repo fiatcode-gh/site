@@ -1,0 +1,26 @@
+---
+import NavLink from "./NavLink.astro";
+
+interface Props {
+  currentPage: number;
+  lastPage: number;
+  getPageUrl: (page: number) => string;
+}
+
+const { currentPage, lastPage, getPageUrl } = Astro.props;
+---
+
+<nav aria-label="Pagination Navigation" class="flex py-6">
+  {
+    currentPage > 1 && (
+      <NavLink href={getPageUrl(currentPage - 1)}>« Previous</NavLink>
+    )
+  }
+  {
+    currentPage < lastPage && (
+      <NavLink href={getPageUrl(currentPage + 1)} class="ml-auto">
+        Next »
+      </NavLink>
+    )
+  }
+</nav>
