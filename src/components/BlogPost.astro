@@ -37,15 +37,17 @@ const { title, description, date, tags } = Astro.props;
     <slot />
   </div>
 
-  <div class="flex flex-wrap gap-2">
+  <ul class="flex flex-wrap gap-2">
     {
       tags?.map((tag) => (
-        <a href={`/tags/${tag}`}>
-          <span class="text-sm text-zinc-400 font-semibold rounded-md bg-zinc-800 px-2 py-2 hover:bg-zinc-700">
-            #{tag}
-          </span>
-        </a>
+        <li>
+          <a href={`/tags/${tag}`}>
+            <span class="text-sm text-zinc-400 font-semibold rounded-md bg-zinc-800 px-2 py-2 hover:bg-zinc-700">
+              #{tag}
+            </span>
+          </a>
+        </li>
       ))
     }
-  </div>
+  </ul>
 </article>
