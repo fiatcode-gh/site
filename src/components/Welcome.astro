@@ -1,5 +1,5 @@
 ---
-import { Image } from 'astro:assets';
+import { Image } from "astro:assets";
 import profileImage from "@/assets/images/profile.jpg";
 import socialEmail from "@/assets/images/social-email.svg";
 import socialFacebook from "@/assets/images/social-facebook.svg";
@@ -19,7 +19,12 @@ import socialX from "@/assets/images/social-x.svg";
   <h2 class="text-xl mt-2">Passionate Software Engineer</h2>
   <div class="flex flex-row gap-8 mt-8" aria-label="social links">
     <a href="https://github.com/fiatcode-gh" aria-label="Github">
-      <Image src={socialGithub} alt="Github" loading="eager" class="w-6 h-6 invert" />
+      <Image
+        src={socialGithub}
+        alt="Github"
+        loading="eager"
+        class="w-6 h-6 invert"
+      />
     </a>
   </div>
   <div class="mt-24"></div>
