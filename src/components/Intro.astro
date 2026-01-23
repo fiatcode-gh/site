@@ -1,11 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import profileImage from "@/assets/images/profile.webp";
-import socialEmail from "@/assets/images/social-email.svg";
-import socialFacebook from "@/assets/images/social-facebook.svg";
-import socialGithub from "@/assets/images/social-github.svg";
-import socialLinkedIn from "@/assets/images/social-linkedin.svg";
-import socialX from "@/assets/images/social-x.svg";
+import { Linkedin, Github, Twitter, Facebook, Mail } from "lucide-astro";
 import SocialLink from "@/components/SocialLink.astro";
 ---
 
@@ -27,32 +23,23 @@ import SocialLink from "@/components/SocialLink.astro";
     <SocialLink
       href="https://www.linkedin.com/in/dhemas-nurjaya-030890bb"
       label="Linkedin"
-      icon={socialLinkedIn}
-      alt="LinkedIn"
+      icon={Linkedin}
     />
     <SocialLink
       href="https://github.com/dhemasnurjaya"
       label="Github"
-      icon={socialGithub}
-      alt="Github"
+      icon={Github}
     />
-    <SocialLink
-      href="https://x.com/dhemaseka"
-      label="X"
-      icon={socialX}
-      alt="X"
-    />
+    <SocialLink href="https://x.com/dhemaseka" label="X" icon={Twitter} />
     <SocialLink
       href="https://www.facebook.com/Dhemas"
       label="Facebook"
-      icon={socialFacebook}
-      alt="Facebook"
+      icon={Facebook}
     />
     <SocialLink
       href="mailto:dhemasnurjaya@gmail.com"
       label="Email"
-      icon={socialEmail}
-      alt="Email"
+      icon={Mail}
     />
   </div>
   <div class="mt-24"></div>

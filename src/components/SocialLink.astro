@@ -1,17 +1,17 @@
 ---
-import { Image } from "astro:assets";
-import type { ImageMetadata } from "astro";
-
 interface Props {
   href: string;
   label: string;
-  icon: ImageMetadata;
-  alt: string;
+  icon: any;
 }
 
-const { href, label, icon, alt } = Astro.props;
+const { href, label, icon: Icon } = Astro.props;
 ---
 
-<a href={href} aria-label={label}>
-  <Image src={icon} alt={alt} loading="eager" class="w-6 h-6 invert" />
+<a
+  href={href}
+  aria-label={label}
+  class="text-zinc-300 hover:text-zinc-100 transition-colors"
+>
+  <Icon class="size-6" />
 </a>
