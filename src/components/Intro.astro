@@ -1,11 +1,7 @@
 ---
 import { Image } from "astro:assets";
 import profileImage from "@/assets/images/profile.webp";
-import socialEmail from "@/assets/images/social-email.svg";
-import socialFacebook from "@/assets/images/social-facebook.svg";
-import socialGithub from "@/assets/images/social-github.svg";
-import socialLinkedIn from "@/assets/images/social-linkedin.svg";
-import socialX from "@/assets/images/social-x.svg";
+import { Linkedin, Github, Twitter, Facebook, Mail } from "lucide-astro";
 import SocialLink from "@/components/SocialLink.astro";
 ---
 
@@ -27,8 +23,7 @@ import SocialLink from "@/components/SocialLink.astro";
     <SocialLink
       href="https://github.com/fiatcode-gh"
       label="Github"
-      icon={socialGithub}
-      alt="Github"
+      icon={Github}
     />
   </div>
   <div class="mt-24"></div>
