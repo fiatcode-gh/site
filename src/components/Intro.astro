@@ -1,6 +1,6 @@
 ---
 import { Image } from "astro:assets";
-import profileImage from "@/assets/images/profile.jpg";
+import profileImage from "@/assets/images/profile.webp";
 import socialEmail from "@/assets/images/social-email.svg";
 import socialFacebook from "@/assets/images/social-facebook.svg";
 import socialGithub from "@/assets/images/social-github.svg";
@@ -13,6 +13,7 @@ import SocialLink from "@/components/SocialLink.astro";
   <Image
     src={profileImage}
     loading="eager"
+    fetchpriority="high"
     alt="Dhemas Nurjaya"
     class="size-36 sm:size-48 rounded-2xl"
   />
