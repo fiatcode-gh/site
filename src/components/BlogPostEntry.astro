@@ -1,0 +1,28 @@
+---
+import Link from "@/components/Link.astro";
+
+interface Props {
+  id: string;
+  date: Date;
+  title: string;
+  description: string;
+}
+
+const { id, date, title, description } = Astro.props;
+---
+
+<div>
+  <Link href={`/posts/${id}`}>
+    <h2 class="text-lg font-semibold">{title}</h2>
+  </Link>
+  <div class="flex items-center text-neutral-500 text-sm">
+    {
+      date.toLocaleDateString("en-US", {
+        year: "numeric",
+        month: "long",
+        day: "numeric",
+      })
+    }
+  </div>
+  <p class="text-base text-neutral-400">{description}</p>
+</div>

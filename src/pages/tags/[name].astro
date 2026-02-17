@@ -1,6 +1,6 @@
 ---
 import { getCollection, type CollectionEntry } from "astro:content";
-import BlogPostCard from "@/components/BlogPostCard.astro";
+import BlogPostEntry from "@/components/BlogPostEntry.astro";
 import Layout from "@/layouts/Layout.astro";
 import PageTitle from "@/components/PageTitle.astro";
 import EmptyState from "@/components/EmptyState.astro";
@@ -44,7 +44,7 @@ const { filteredPosts } = Astro.props;
       <ul class="space-y-4">
         {filteredPosts.map((post) => (
           <li>
-            <BlogPostCard
+            <BlogPostEntry
               id={post.id}
               title={post.data.title}
               date={post.data.date}

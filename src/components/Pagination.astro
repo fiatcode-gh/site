@@ -1,5 +1,5 @@
 ---
-import NavLink from "./NavLink.astro";
+import Link from "./Link.astro";
 
 interface Props {
   currentPage: number;
@@ -13,14 +13,14 @@ const { currentPage, lastPage, getPageUrl } = Astro.props;
 <nav aria-label="Pagination Navigation" class="flex py-6">
   {
     currentPage > 1 && (
-      <NavLink href={getPageUrl(currentPage - 1)}>« Previous</NavLink>
+      <Link href={getPageUrl(currentPage - 1)}>« Previous</Link>
     )
   }
   {
     currentPage < lastPage && (
-      <NavLink href={getPageUrl(currentPage + 1)} class="ml-auto">
+      <Link href={getPageUrl(currentPage + 1)} class="ml-auto">
         Next »
-      </NavLink>
+      </Link>
     )
   }
 </nav>

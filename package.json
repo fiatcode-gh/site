@@ -10,12 +10,11 @@
     "format": "prettier --write ."
   },
   "dependencies": {
-    "@fontsource-variable/noto-sans": "^5.2.10",
     "@fontsource/jetbrains-mono": "^5.2.8",
     "@tailwindcss/vite": "^4.1.18",
     "astro": "^5.16.10",
+    "astro-expressive-code": "^0.41.6",
     "astro-pagefind": "^1.8.5",
-    "lucide-astro": "^0.556.0",
     "tailwindcss": "^4.1.18"
   },
   "devDependencies": {

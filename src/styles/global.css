@@ -1,15 +1,13 @@
-@import "@fontsource-variable/noto-sans";
 @import "@fontsource/jetbrains-mono";
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-sans: "Noto Sans Variable", sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --font-default: "JetBrains Mono", monospace;
 }
 
 @layer base {
   body {
-    @apply bg-zinc-900 text-zinc-300;
+    @apply bg-neutral-900 text-neutral-300;
   }
 }
