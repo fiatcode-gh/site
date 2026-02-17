@@ -2,7 +2,7 @@
 import type { PaginateFunction, Page } from "astro";
 import { getCollection } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
-import BlogPostCard from "@/components/BlogPostCard.astro";
+import BlogPostEntry from "@/components/BlogPostEntry.astro";
 import PageTitle from "@/components/PageTitle.astro";
 import type { CollectionEntry } from "astro:content";
 import Pagination from "@/components/Pagination.astro";
@@ -30,11 +30,11 @@ const { page } = Astro.props;
   description="Read the latest blog posts by Dhemas Nurjaya"
 >
   <PageTitle title="Posts" />
-  <ul class="space-y-4">
+  <ul class="space-y-6">
     {
       page.data.map((post) => (
         <li>
-          <BlogPostCard
+          <BlogPostEntry
             id={post.id}
             title={post.data.title}
             date={post.data.date}

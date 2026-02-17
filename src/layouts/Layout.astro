@@ -2,6 +2,7 @@
 import "@/styles/global.css";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
+import Sidebar from "@/components/Sidebar.astro";
 
 interface Props {
   title: string;
@@ -21,10 +22,15 @@ const { title, description } = Astro.props;
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
   </head>
-  <body class="h-screen max-w-5xl mx-auto flex flex-col font-sans p-4">
+  <body class="max-w-5xl mx-auto flex flex-col font-default">
     <Header />
-    <main class="w-full max-w-3xl mx-auto flex-1 py-12">
-      <slot />
+    <main class="flex flex-col md:flex-row">
+      <section class="w-full md:flex-3 p-4 bg-neutral-800">
+        <slot />
+      </section>
+      <aside class="w-full md:flex-1 p-4">
+        <Sidebar />
+      </aside>
     </main>
     <Footer />
   </body>

@@ -1,13 +1,14 @@
 // @ts-check
+import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
-import tailwindcss from "@tailwindcss/vite";
+import expressiveCode from "astro-expressive-code";
 import pagefind from "astro-pagefind";
 
 // https://astro.build/config
 export default defineConfig({
-  integrations: [pagefind()],
   vite: {
     plugins: [tailwindcss()],
   },
+  integrations: [expressiveCode(), pagefind()],
 });

@@ -4,7 +4,10 @@ import Layout from "@/layouts/Layout.astro";
 import Search from "astro-pagefind/components/Search";
 ---
 
-<Layout title="Dhemas Nurjaya" description="Welcome to my personal website">
+<Layout
+  title="Search - Dhemas Nurjaya"
+  description="Search posts on Dhemas Nurjaya's website"
+>
   <PageTitle title="Search" />
   <Search
     id="search"
@@ -20,37 +23,40 @@ import Search from "astro-pagefind/components/Search";
 
 <style is:global>
   .pagefind-ui {
-    --pagefind-ui-scale: 1;
-    --pagefind-ui-primary: #a1a1aa; /* zinc-400 */
-    --pagefind-ui-text: #d4d4d8; /* zinc-300 */
-    --pagefind-ui-background: #18181b; /* zinc-900 */
-    --pagefind-ui-border: #3f3f46; /* zinc-700 */
-    --pagefind-ui-tag: #27272a; /* zinc-800 */
+    --pagefind-ui-scale: 0.9;
+    --pagefind-ui-primary: #a3a3a3; /* neutral-400 */
+    --pagefind-ui-text: #d4d4d8; /* neutral-300 */
+    --pagefind-ui-background: #171717; /* neutral-900 */
+    --pagefind-ui-border: #404040; /* neutral-700 */
+    --pagefind-ui-tag: #262626; /* neutral-800 */
     --pagefind-ui-border-width: 1px;
-    --pagefind-ui-border-radius: 0.5rem;
-    --pagefind-ui-font: "Noto Sans Variable", sans-serif;
+    --pagefind-ui-border-radius: 0rem;
+    --pagefind-ui-font: "JetBrains Mono", monospace;
   }
 
   .pagefind-ui__search-input {
-    background: #27272a; /* zinc-800 */
-    color: #d4d4d8; /* zinc-300 */
+    background: #262626; /* neutral-800 */
+    color: #d4d4d8; /* neutral-300 */
+    border: 1px solid #404040; /* neutral-700 */
   }
 
   .pagefind-ui__search-input::placeholder {
-    color: #71717a; /* zinc-500 */
+    color: #737373; /* neutral-500 */
   }
 
   .pagefind-ui__result {
-    border-radius: 0.5rem !important;
-    padding: 1rem !important;
-    background: #27272a !important; /* zinc-800 */
-    border: none !important;
-    margin-bottom: 1rem !important;
+    border-bottom: 1px solid #404040 !important; /* neutral-700 */
+    padding: 1rem 0 !important;
+    background: transparent !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    margin-bottom: 0 !important;
     position: relative !important;
   }
 
   .pagefind-ui__result:last-child {
-    margin-bottom: 0 !important;
+    border-bottom: none !important;
   }
 
   .pagefind-ui__result-inner {
@@ -60,8 +66,14 @@ import Search from "astro-pagefind/components/Search";
   }
 
   .pagefind-ui__result-link {
-    color: #d4d4d8; /* zinc-300 */
+    color: #d4d4d8; /* neutral-300 */
     text-decoration: none !important;
+    font-weight: 500;
+  }
+
+  .pagefind-ui__result-link:hover {
+    text-decoration: underline !important;
+    color: #fafafa; /* neutral-50 */
   }
 
   .pagefind-ui__result-link::after {
@@ -75,15 +87,22 @@ import Search from "astro-pagefind/components/Search";
   }
 
   .pagefind-ui__result-title {
-    color: #fafafa; /* zinc-50 */
+    color: #fafafa; /* neutral-50 */
   }
 
   .pagefind-ui__result-excerpt {
-    color: #a1a1aa; /* zinc-400 */
+    color: #a3a3a3; /* neutral-400 */
+    margin-top: 0.5rem;
   }
 
   .pagefind-ui__message {
-    color: #a1a1aa; /* zinc-400 */
+    color: #a3a3a3; /* neutral-400 */
+    padding: 1rem 0;
+  }
+
+  /* Remove default image styling if present, though showImages: false handles most */
+  .pagefind-ui__result-thumb {
+    display: none;
   }
 </style>
 

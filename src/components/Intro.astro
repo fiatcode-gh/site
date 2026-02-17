@@ -1,25 +1,39 @@
 ---
-import { Image } from "astro:assets";
-import profileImage from "@/assets/images/profile.webp";
-import { Linkedin, Github, Twitter, Facebook, Mail } from "lucide-astro";
+import PageTitle from "@/components/PageTitle.astro";
 import SocialLink from "@/components/SocialLink.astro";
+import Linkedin from "@/assets/images/linkedin.svg";
+import Github from "@/assets/images/github.svg";
+import Twitter from "@/assets/images/twitter.svg";
+import Facebook from "@/assets/images/facebook.svg";
+import Mail from "@/assets/images/at-sign.svg";
 ---
 
-<div class="flex flex-col min-h-full items-center justify-center">
-  <Image
-    src={profileImage}
-    loading="eager"
-    fetchpriority="high"
-    alt="Dhemas Nurjaya"
-    class="size-36 sm:size-48 rounded-2xl"
-  />
-  <h1 class="text-3xl sm:text-5xl font-bold mt-4 text-center">
-    Dhemas Nurjaya
-  </h1>
-  <h2 class="text-lg sm:text-xl mt-2 text-center">
-    Passionate Software Engineer
-  </h2>
-  <div class="flex flex-row gap-8 mt-8" aria-label="social links">
+<div class="flex flex-col">
+  <PageTitle title="Hi, I'm Dhemas 👋" />
+  <p class="mb-4">
+    Cross-platform developer. Linux fan stuck on Windows. Craftsman at heart.
+  </p>
+  <p class="mb-4">
+    I write about building apps, learning new tech, and the occasional
+    existential crisis that comes with debugging production code. This is where
+    I share what I'm working on, what I'm learning, and thoughts that don't fit
+    in a commit message.
+  </p>
+  <p class="mb-4">
+    Currently working at a local startup where "full-stack" means Flutter 📱,
+    Spring ☕, and React Router 🌐—sometimes all in the same day. I follow The
+    Craftsman's Way: quality is not negotiable. Clean Architecture, TDD, and DDD
+    aren't just buzzwords here; they're how I try to keep my sanity intact.
+  </p>
+  <p class="mb-4">
+    Also, I built this blog with Astro ⚡ because life's too short for slow
+    websites.
+  </p>
+  <p class="mb-8">
+    Stick around if you're into cross-platform dev, software craftsmanship, or
+    just want to see someone figure things out in public. 🚀
+  </p>
+  <div class="flex gap-6 items-center" aria-label="social links">
     <SocialLink
       href="https://www.linkedin.com/in/dhemas-nurjaya-030890bb"
       label="Linkedin"
@@ -42,5 +56,4 @@ import SocialLink from "@/components/SocialLink.astro";
       icon={Mail}
     />
   </div>
-  <div class="mt-24"></div>
 </div>

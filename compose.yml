@@ -1,0 +1,10 @@
+services:
+  site-server:
+    build: .
+    restart: unless-stopped
+    networks:
+      - traefik-proxy
+
+networks:
+  traefik-proxy:
+    external: true

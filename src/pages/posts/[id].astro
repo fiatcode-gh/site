@@ -6,7 +6,8 @@ import {
   type RenderResult,
 } from "astro:content";
 import Layout from "@/layouts/Layout.astro";
-import BlogPost from "@/components/BlogPost.astro";
+import Tag from "@/components/Tag.astro";
+import Markdown from "@/components/Markdown.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -36,12 +37,35 @@ const { post, content } = Astro.props;
   title={`${post.data.title} - Dhemas Nurjaya`}
   description={post.data.description}
 >
-  <BlogPost
-    title={post.data.title}
-    description={post.data.description}
-    date={post.data.date}
-    tags={post.data.tags}
-  >
-    <content.Content />
-  </BlogPost>
+  <article data-pagefind-body>
+    <header class="mb-12">
+      <h1 class="text-2xl font-bold mb-2">{post.data.title}</h1>
+      <h2 class="text-base mb-2">{post.data.description}</h2>
+      <div class="flex gap-4 text-neutral-500 text-sm">
+        <time datetime={new Date(post.data.date).toISOString()}>
+          {
+            post.data.date.toLocaleDateString("en-US", {
+              year: "numeric",
+              month: "long",
+              day: "numeric",
+            })
+          }
+        </time>
+      </div>
+    </header>
+
+    <Markdown>
+      <content.Content />
+    </Markdown>
+
+    <ul class="flex flex-wrap gap-2">
+      {
+        post.data.tags?.map((tag) => (
+          <li>
+            <Tag name={tag} variant="small" />
+          </li>
+        ))
+      }
+    </ul>
+  </article>
 </Layout>
