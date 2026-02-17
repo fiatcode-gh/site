@@ -1,0 +1,41 @@
+[general]
+host = "::"
+port = 80
+root = "/public"
+log-level = "info"
+compression = true
+compression-level = "default"
+cache-control-headers = false  # disable default cache headers, we define our own below
+
+[advanced]
+
+# HTML files — always revalidate with the server
+# Browser caches it but checks if it's still fresh on every request.
+# This means after a rebuild + redeploy, users get the new page on next visit
+# without needing a manual refresh.
+[[advanced.headers]]
+source = "**/*.html"
+[advanced.headers.headers]
+Cache-Control = "no-cache, must-revalidate"
+
+# Astro-fingerprinted assets (JS, CSS) — cache forever
+# Astro hashes filenames like `_astro/index.DkJh93xa.js`, so a new build
+# produces a new filename. The browser will never serve a stale file because
+# the HTML (always revalidated above) will reference the new filename.
+[[advanced.headers]]
+source = "**/_astro/**"
+[advanced.headers.headers]
+Cache-Control = "public, max-age=31536000, immutable"
+
+# Images and fonts — cache for 1 week
+# These don't get Astro's fingerprinting by default (unless imported in JS/CSS),
+# so we use a shorter TTL as a safety net.
+[[advanced.headers]]
+source = "**/*.{png,jpg,jpeg,gif,webp,avif,svg,ico}"
+[advanced.headers.headers]
+Cache-Control = "public, max-age=604800"
+
+[[advanced.headers]]
+source = "**/*.{woff,woff2,ttf,otf}"
+[advanced.headers.headers]
+Cache-Control = "public, max-age=604800"

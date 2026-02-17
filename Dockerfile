@@ -12,7 +12,4 @@ RUN npm run build
 # Stage 2: Serve
 FROM joseluisq/static-web-server:2-alpine
 
-ENV SERVER_ROOT=/public
-ENV SERVER_PORT=80
-
 COPY --from=build /app/dist /public

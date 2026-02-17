@@ -4,7 +4,7 @@ services:
     restart: unless-stopped
     networks:
       - traefik-proxy
-
-networks:
-  traefik-proxy:
-    external: true
+    volumes:
+      - ./sws.config.toml:/config.toml
+    environment:
+      - SERVER_CONFIG_FILE=/config.toml
