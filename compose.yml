@@ -8,3 +8,7 @@ services:
       - ./sws.config.toml:/config.toml
     environment:
       - SERVER_CONFIG_FILE=/config.toml
+
+networks:
+  traefik-proxy:
+    external: true
