@@ -5,9 +5,7 @@ date: 2026-02-20T13:08:00+07:00
 draft: false
 tags:
   - linux
-  - fedora
-  - engineering
-  - developer_experience
+  - dev-setup
 ---
 
 There’s a specific kind of anxiety that comes with running a system upgrade on a deadline. You’re not just updating a browser; you’re shifting the ground beneath your IDE, your compilers, and your carefully tuned environment. One bad dependency, and your afternoon is gone.

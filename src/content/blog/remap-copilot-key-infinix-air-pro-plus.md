@@ -5,8 +5,7 @@ date: 2025-03-01T22:41:32+07:00
 draft: false
 tags:
   - linux
-  - laptop
-  - infinix
+  - hardware
   - tweak
 ---
 

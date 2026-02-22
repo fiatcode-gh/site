@@ -4,10 +4,9 @@ description: "A fix for Infinix Air Pro+ -- only 2 of 4 speakers working in Linu
 date: 2025-02-23T23:27:49+07:00
 draft: false
 tags:
-  - laptop
-  - infinix
-  - tweak
   - linux
+  - hardware
+  - tweak
 ---
 
 I installed Linux ([EndeavourOS](https://endeavouros.com/)) in my Infinix Air Pro+ last week and noticed that the sound coming from the speakers was bad. This laptops has 4 speakers, hence only 2 of them are working. This is how I fix this issue.

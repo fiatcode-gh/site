@@ -4,10 +4,10 @@ description: "Fixing Infinix Air Pro+ washed out screen color in Windows and Lin
 date: 2025-02-21T18:09:54+07:00
 draft: false
 tags:
-  - laptop
-  - infinix
+  - windows
+  - linux
+  - hardware
   - tweak
-  - script
 ---
 
 I have Infinix Air Pro+ and I use it for my work. I can say it is a good laptop coding mainly because it has 2.5k OLED 16:10 screen. But I found a problem with its screen color. When the screen brightness is below about 50% and the screen turned off (to save power, not necessarily going system sleep/suspend) and turns back on, the color looks washed out.
