@@ -4,9 +4,8 @@ description: "A brief intro to Conflict Free Replicated Data Types"
 date: 2025-02-24T09:58:08+07:00
 draft: false
 tags:
-  - programming
   - dart
-  - data
+  - programming
 ---
 
 # Background

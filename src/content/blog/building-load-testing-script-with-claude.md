@@ -5,8 +5,7 @@ date: 2026-02-22T13:23:00+07:00
 draft: false
 tags:
   - go
-  - engineering
-  - tooling
+  - testing
   - ai
 ---
 

@@ -4,9 +4,8 @@ description: "udev rules for fixing ADB Insufficient permission in Linux"
 date: 2025-02-24T11:29:30+07:00
 draft: false
 tags:
-  - android
-  - adb
   - linux
+  - android
 ---
 
 # Why need this?

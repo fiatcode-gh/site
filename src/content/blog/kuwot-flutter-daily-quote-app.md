@@ -4,8 +4,8 @@ description: "Flutter Daily Quote App"
 date: 2025-02-20T15:26:04+07:00
 draft: true
 tags:
-  - programming
   - flutter
+  - project
 ---
 
 I made [Kuwot](https://play.google.com/store/apps/details?id=com.dhemasnurjaya.kuwot) last year in my spare time. I want to share it, you can use it as an inspiration, practice app, or something else is up to you since I open-sourced the code (links below).

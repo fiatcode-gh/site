@@ -4,10 +4,8 @@ description: "A fix for new Flutter project that doesn't have Android devices sh
 date: 2025-02-22T09:21:22+07:00
 draft: false
 tags:
-  - programming
   - flutter
   - android
-  - emulator
 ---
 
 When I create a new Flutter project targeting Android device, I can't choose which Android device to run it. Either it a real connected devices or AVDs, even the devices is available and listed in `Device Manager` tab.

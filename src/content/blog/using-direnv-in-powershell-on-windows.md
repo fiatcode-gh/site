@@ -4,8 +4,8 @@ description: "Simple way to manage environment variables in PowerShell on Window
 date: 2026-02-17T12:50:32+07:00
 draft: false
 tags:
-  - script
   - windows
+  - dev-setup
 ---
 
 # Background
