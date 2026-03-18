@@ -155,7 +155,7 @@ After=multi-user.target
 [Service]
 ExecStart=/usr/local/bin/monitor_screen_power.sh
 Restart=always
-User=dhemas
+User=user
 
 [Install]
 WantedBy=multi-user.target

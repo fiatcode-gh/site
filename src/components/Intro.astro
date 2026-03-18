@@ -1,15 +1,9 @@
 ---
 import PageTitle from "@/components/PageTitle.astro";
-import SocialLink from "@/components/SocialLink.astro";
-import Linkedin from "@/assets/images/linkedin.svg";
-import Github from "@/assets/images/github.svg";
-import Twitter from "@/assets/images/twitter.svg";
-import Facebook from "@/assets/images/facebook.svg";
-import Mail from "@/assets/images/at-sign.svg";
 ---
 
 <div>
-  <PageTitle title="Hi, I'm Dhemas 👋" />
+  <PageTitle title="Hi 👋" />
   <p class="mb-4">
     Cross-platform developer. Linux fan stuck on Windows. Craftsman at heart.
   </p>
@@ -33,27 +27,4 @@ import Mail from "@/assets/images/at-sign.svg";
     Stick around if you're into cross-platform dev, software craftsmanship, or
     just want to see someone figure things out in public. 🚀
   </p>
-  <div class="flex gap-6 items-center" aria-label="social links">
-    <SocialLink
-      href="https://www.linkedin.com/in/dhemas-nurjaya-030890bb"
-      label="Linkedin"
-      icon={Linkedin}
-    />
-    <SocialLink
-      href="https://github.com/dhemasnurjaya"
-      label="Github"
-      icon={Github}
-    />
-    <SocialLink href="https://x.com/dhemaseka" label="X" icon={Twitter} />
-    <SocialLink
-      href="https://www.facebook.com/Dhemas"
-      label="Facebook"
-      icon={Facebook}
-    />
-    <SocialLink
-      href="mailto:dhemasnurjaya@gmail.com"
-      label="Email"
-      icon={Mail}
-    />
-  </div>
 </div>

@@ -9,14 +9,14 @@ tags:
 
 # Introduction
 
-Hi there! I'm Dhemas, an Indonesian software engineer. I grew up in a small town called Salatiga, Central Java, Indonesia. I really like to tinker with computer since I was a child. Playing games (SkiFree to Age of Empires II) in my dad's office computer, then learn some office softwares, buying a floppy disk to save my diary (encrypted with Webdings font!), buying PC magazines, leads to learn how to assemble my own computer and do an OS install. That was a good time!
+Hey, I'm FiatCode — a software engineer who's been poking at computers since childhood. It started with games on my dad's office PC (SkiFree, Age of Empires II), then spiraled into learning office software, saving my diary on a floppy disk (encrypted with Webdings font — very secure), flipping through PC magazines, and eventually building my own machine and installing OSes from scratch. Good times.
 
-Long story short, I decide to take an Information Technology major in my local university then got accepted in my first company right after graduated, working as a mobile application developer. Since then, it is already 7 years I work as a software developer and now I'm a part of a software house startup company.
+Eventually I took an Information Technology degree, landed my first job right after graduating as a mobile app developer, and have been writing software for seven years since. These days I'm part of a small software house startup.
 
-I never really write anything in my 7 years journey and I feel kinda regretted it. So I decide to create this blog, where I can write anything I found interesting. Maybe it's a coding-related thing, technology heads up, or maybe just my random thought. Feel free read and share!
+One thing I never did in all that time was write anything down — and I regret it. So here's the blog. I'll write about whatever I find interesting: code, tech, or the occasional random thought. Read and share as you like.
 
 # Bonus
 
-This is a cat from my work, maybe someday she can be a good software tester to find ~~mice~~ bugs from my code.
+This is a cat from my workplace. Someday she might make a great software tester — sniffing out ~~mice~~ bugs in my code.
 
 ![Piko 1](/images/piko-1.webp) ![Piko 2](/images/piko-2.webp) ![Piko 3](/images/piko-3.webp)

@@ -23,7 +23,7 @@ Output:
 ---------
 sec   ed25519/C50213C2685D0XXX 2025-04-30 [SC] [expires: 2030-04-29]
       9D01A4041614F5DF7C9A1EC9C50213C2685D0XXX
-uid                 [ultimate] Dhemas Nurjaya <dhemasnurjaya@gmail.com>
+uid                 [ultimate] Your Name <you@mail.com>
 ssb   cv25519/B962022817E5DXXX 2025-04-30 [E] [expires: 2030-04-29]
 ```
 
