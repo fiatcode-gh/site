@@ -9,19 +9,22 @@ tags:
   - tweak
 ---
 
-> Since I'm moving to Linux, my Copilot key becomes useless.
+Honestly, even on Windows I never once pressed that Copilot key intentionally. It just sat there, taking up prime keyboard real estate. Moving to Linux gave me the perfect excuse to finally do something about it.
 
-Let me rephrase that! Even when I was using Windows, I never using this Copilot shortcut key in my keyboard 😬. Fortunately, using Linux I can remap this key for something else ~~more useful~~.
+---
 
-# Requirements
+### What you'll need
 
-- A laptop (I'm using Infinix Air Pro+) with a working keyboard.
-- [keyd](https://github.com/rvaiya/keyd)
+- A laptop with a Copilot key (I'm on the Infinix Air Pro+)
+- [keyd](https://github.com/rvaiya/keyd) installed
 
-# Finding what this Copilot key do
+---
 
-- Open your favorite terminal and execute `sudo keyd monitor`. This command will print what events are triggered when a particular key is pressed.
-- Press the Copilot key and read the output. In my laptop, it print out this:
+### Finding out what the key actually sends
+
+Start by running `sudo keyd monitor` in your terminal. It will print keyboard events as you press keys. Hit the Copilot key and watch the output.
+
+On my machine, it printed:
 
 ```bash
 AT Translated Set 2 keyboard  0001:0001:70533846  leftmeta down
@@ -29,13 +32,15 @@ AT Translated Set 2 keyboard  0001:0001:70533846  leftshift down
 AT Translated Set 2 keyboard  0001:0001:70533846  f23 down
 ```
 
-- Now I know that my copilot key triggers `leftmeta`, `leftshift`, and `f23`. It's seem legit combination of modifier keys and a function key. But unfortunately when I tried to use it in my desktop environment (I use KDE) to bind a shortcut, it only detect the modifier `meta` and `shift`.
+So the key fires `leftmeta + leftshift + f23` — a modifier combo plus a function key. The problem is KDE's shortcut dialog only picks up `meta + shift`, completely ignoring `f23`. Binding it there is a dead end.
 
-# `keyd` for the rescue
+---
 
-Edit `/etc/keyd/default.conf` file and I added these lines:
+### Remapping with keyd
 
-```plaintext
+Edit `/etc/keyd/default.conf` and add:
+
+```ini
 [ids]
 0001:0001:70533846
 
@@ -43,4 +48,8 @@ Edit `/etc/keyd/default.conf` file and I added these lines:
 f23 = f13
 ```
 
-`ids` is my keyboad ID, and the last line tells to remap `f23` key to `f13` (which is doesn't exist physically). Then reload `keyd` with `sudo keyd reload`. Now I can bind my Copilot key to something else. I'm using it for [yakuake](https://github.com/KDE/yakuake) show/hide toggle.
+The `ids` section targets this specific keyboard. The last line remaps `f23` to `f13` — a key that doesn't physically exist, which means KDE sees a clean, unambiguous keypress with no conflicting modifiers.
+
+Reload keyd with `sudo keyd reload`, then head to KDE's shortcut settings and bind the Copilot key to whatever you want. I mapped mine to [Yakuake](https://github.com/KDE/yakuake)'s show/hide toggle.
+
+A dedicated dropdown terminal, one keypress away — much better than launching Copilot.
