@@ -68,18 +68,23 @@ There's a second benefit: the test suite becomes living documentation. Not a REA
 
 ### Give the Agent a Conscience
 
-The final piece is tooling — specifically, how you configure the agent itself.
+The final piece is tooling — and there's a specific one worth knowing about: [**Superpowers**](https://github.com/obra/superpowers) by Jesse Vincent.
 
-Most AI coding agents support system prompts, custom instructions, or something similar. This is where you encode your standards. Not just "write clean code" (that's useless), but specific, executable constraints:
+Superpowers is an agentic skills framework — a collection of composable skill files that you install into your coding agent once, and from that point forward, the agent follows them automatically. No prompting required. The skills trigger on their own based on what you're doing.
 
-- Plan before implementing. Write a numbered implementation plan. Wait for approval before touching code.
-- Follow the architectural boundaries defined in the project. No cross-layer dependencies without explicit justification.
-- All new logic must have a corresponding test. Red before green.
-- Domain objects use domain language. No `Manager`, no `Handler`, no `Util`.
+The workflow it enforces is exactly what good software development looks like:
 
-An agent with clear constraints operates like a senior developer who has internalized the team's standards. An agent without them operates like an intern with unlimited caffeine and no code review process.
+1. **Brainstorming first** — before touching code, the agent asks what you're actually trying to build, teases out a spec, and shows it to you in digestible chunks for validation.
+2. **Writing a plan** — once the design is approved, it produces a detailed implementation plan broken into 2-5 minute tasks, with exact file paths and verification steps. Clear enough for a junior engineer to follow.
+3. **TDD throughout** — during implementation, it enforces red/green/refactor. Write a failing test. Watch it fail. Write the minimal code. Watch it pass. Commit. Code written before tests gets deleted.
+4. **Subagent-driven execution** — each task gets a fresh subagent with a two-stage review: spec compliance first, then code quality. It's not uncommon for Claude to run autonomously for hours without going off-plan.
+5. **Code review between tasks** — issues are reported by severity. Critical issues block progress.
 
-The constraint file is worth writing. It's a few hours of thought that pays back on every single task the agent runs.
+It works with Claude Code, Cursor, OpenCode, Codex, and Gemini CLI. Installation is a single command.
+
+The point isn't the tool itself — the point is the principle behind it. An agent without structure will take the path of least resistance every time. An agent with well-defined skills follows the process you'd want a human developer to follow: think before coding, test before shipping, review before merging.
+
+That's the difference between AI that helps you build something solid and AI that helps you dig a hole faster.
 
 ---
 
