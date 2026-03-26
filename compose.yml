@@ -10,7 +10,7 @@ services:
       - SERVER_CONFIG_FILE=/config.toml
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.site.rule=Host(`dhemasnurjaya.com`) || Host(`www.dhemasnurjaya.com`)"
+      - "traefik.http.routers.site.rule=Host(`fiatcode.dev`) || Host(`www.fiatcode.dev`)"
       - "traefik.http.routers.site.entrypoints=web-secure"
       - "traefik.http.routers.site.tls.certresolver=defaultResolver"
       - "traefik.http.routers.site.middlewares=strip-www@file"
