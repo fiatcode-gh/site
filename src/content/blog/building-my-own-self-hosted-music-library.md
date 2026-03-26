@@ -272,7 +272,7 @@ services:
       ND_SESSIONTIMEOUT: 24h
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.navidrome.rule=Host(`music.dhemasnurjaya.com`)"
+      - "traefik.http.routers.navidrome.rule=Host(`music.fiatcode.dev`)"
       - "traefik.http.routers.navidrome.entrypoints=websecure"
       - "traefik.http.routers.navidrome.tls.certresolver=letsencrypt"
       - "traefik.http.services.navidrome.loadbalancer.server.port=4533"

@@ -8,7 +8,7 @@ tags:
   - project
 ---
 
-I made [Kuwot](https://play.google.com/store/apps/details?id=com.dhemasnurjaya.kuwot) last year in my spare time. I want to share it, you can use it as an inspiration, practice app, or something else is up to you since I open-sourced the code (links below).
+I made [Kuwot](https://codeberg.org/fiatcode/kuwot-app) last year in my spare time. I want to share it, you can use it as an inspiration, practice app, or something else is up to you since I open-sourced the code (links below).
 
 # Introduction
 

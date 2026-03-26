@@ -1235,13 +1235,3 @@ class WeatherApp extends StatelessWidget {
   }
 }
 ```
-
----
-
-## Testing
-
-.
-
----
-
-All the codes in this set of articles are available on [GitHub](https://github.com/dhemasnurjaya/flutter-clean-architecture), and will be updated regularly because I use them too as my project starter.
