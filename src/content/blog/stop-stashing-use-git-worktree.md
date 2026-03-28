@@ -3,7 +3,7 @@ title: "Stop Stashing. Use Git Worktree."
 description: "Switching branches to review a PR shouldn't cost you your mental context. It doesn't have to."
 date: 2026-03-26T00:00:00+07:00
 draft: false
-tags: ["git", "workflow", "tooling", "dx"]
+tags: ["git", "dev-setup"]
 ---
 
 ## Switching branches to review a PR shouldn't cost you your mental context. It doesn't have to.

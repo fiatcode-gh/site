@@ -8,9 +8,9 @@ tags:
   - android
 ---
 
-# Why need this?
+## `adb devices` shows `unauthorized`. One udev rule fixes it.
 
-Connecting an Android device to a Linux computer could has problem with permission. Listing devices with `adb devices` might show `unauthorized` status or `insufficient permission` error message.
+Plug in an Android device on Linux, run `adb devices`, and sometimes you get this:
 
 ```bash
 $ adb devices
@@ -20,11 +20,15 @@ List of devices attached
 RR2M9002AHY     unauthorized
 ```
 
-This happens because by default, in Linux, when you connect an Android device via USB, the system assigns it to the `root` user and a restrictive permission mode (often 0600), meaning that regular users cannot access it.
+The problem is that Linux assigns USB devices to `root` with restrictive permissions (0600) by default. Regular users can't access them directly, so ADB sees the device but can't talk to it.
 
-# How to fix
+The fix is a udev rule that assigns the right permissions when the device is plugged in.
 
-1. Check `vendor id` and `device id` from connected Android device with `lsusb`.
+---
+
+### Step 1: Find the vendor and product IDs
+
+Run `lsusb` with the device connected:
 
 ```bash
 $ lsusb
@@ -33,21 +37,31 @@ $ lsusb
 Bus 001 Device 005: ID 18d1:4ee7 Google Inc. Nexus/Pixel Device
 ```
 
-`18d1` is _vendor id_ and `4ee7` is the _product id_.
+`18d1` is the _vendor ID_ and `4ee7` is the _product ID_.
 
-2. Create an `udev` rule for this device, I create mine in `/etc/udev/rules.d/51-android.rules`.
+---
+
+### Step 2: Create the udev rule
+
+Create a file at `/etc/udev/rules.d/51-android.rules`:
 
 ```bash
 SUBSYSTEM=="usb", ATTRS{idVendor}=="18d1", ATTRS{idProduct}=="4ee7", MODE="0666", GROUP="plugdev", SYMLINK+="google_pixel_4a_%n"
 ```
 
-- `SUBSYSTEM=="usb"` ensures the rule applies only to USB devices.
-- `ATTRS{idVendor}=="18d1" and ATTRS{idProduct}=="4ee7"` match the Google Pixel USB devices by their vendor and product IDs.
-- `MODE="0666"` sets the device's permission mode to 0666, meaning read/write access for all users.
-- `GROUP="plugdev"` assigns the device to the plugdev group, which allows users in that group to access it.
-- `SYMLINK+="google_pixel_4a_%n"` creates a symlink (shortcut) under /dev/ with a readable name for easier identification.
+What each field does:
 
-3. Reconnect the device to make sure the rule is correct. If not, try to reload `udev` rules and restart it.
+- `SUBSYSTEM=="usb"` — applies only to USB devices
+- `ATTRS{idVendor}` and `ATTRS{idProduct}` — matches this specific device
+- `MODE="0666"` — read/write access for all users
+- `GROUP="plugdev"` — assigns the device to the `plugdev` group
+- `SYMLINK+="google_pixel_4a_%n"` — creates a readable symlink under `/dev/` for easier identification
+
+---
+
+### Step 3: Reconnect
+
+Reconnect the device. If it still doesn't work, reload the udev rules and try again:
 
 ```bash
 $ sudo udevadm control --reload-rules

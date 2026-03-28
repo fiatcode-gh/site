@@ -6,12 +6,15 @@ draft: false
 tags:
   - linux
   - hardware
-  - tweak
 ---
 
-I installed Linux ([EndeavourOS](https://endeavouros.com/)) in my Infinix Air Pro+ last week and noticed that the sound coming from the speakers was bad. This laptops has 4 speakers, hence only 2 of them are working. This is how I fix this issue.
+The Infinix Air Pro+ has four speakers — a tweeter pair and a woofer pair. On Linux, only two of them activate by default. The audio sounds thin as a result. This is how to get all four working.
 
-# Check ALSA for Hidden Speakers
+---
+
+### Finding the Hidden Nodes
+
+ALSA sees the hardware but doesn't always know what to do with every output node. Dump the codec info to see what's there:
 
 ```bash
 $ cat /proc/asound/card0/codec* | grep -i "node"
@@ -67,24 +70,25 @@ Node 0x0e [Pin Complex] wcaps 0x40778d: 8-Channels Digital Amp-Out CP
 Node 0x0f [Pin Complex] wcaps 0x40778d: 8-Channels Digital Amp-Out CP
 ```
 
-Looking at that output, it seems that this laptop has several nodes that could be an audio output. They are nodes with `Stereo Amp-In Amp-Out` in it's description. Filtering the result with that, I got:
+The nodes worth paying attention to:
 
-- 0x14 - Stereo Amp-Out (I suspect this is the front speakers that are working)
-- 0x15 - Stereo Amp-Out (likely another speakers?)
-- 0x18, 0x19, 0x1a, 0x1b - Stereo Amp-In Amp-Out (might be extra speaker outputs)
+- `0x14` — Stereo Amp-Out (the active front speakers)
+- `0x15` — Stereo Amp-Out (another output, likely inactive)
+- `0x18`, `0x19`, `0x1a`, `0x1b` — Stereo Amp-In Amp-Out (candidates for the extra pair)
 
-# Enable Additional Speakers with `hdajackretask`
+---
 
-`hdajackretask` is a tool from ALSA that allow us to remap/retask those nodes/jack into different purposes.
+### Enabling the Extra Speakers with hdajackretask
+
+`hdajackretask` is an ALSA tool that lets you reassign what each node does. Install it:
 
 ```bash
 $ sudo pacman -S alsa-tools
 $ sudo hdajackretask
 ```
 
-After opening the tool, check the `Show unconnected pins` and there will be list of nodes that can be retasked.
-I need to experiment with this remapping. After trials and errors, I found that `0x1a` and `0x1b` is the responsible nodes for my extra speakers. Overriding them and changing their role as `Internal Speaker` solve my issue.
+Once open, enable **Show unconnected pins** to see all the nodes that can be retasked. After some trial and error: `0x1a` and `0x1b` are the nodes for the second speaker pair. Override them and set their role to **Internal Speaker**.
 
 ![hdajackretask remap nodes](/images/hdajackretask-remap-node.png)
 
-Now all my speakers is working! I hope this will help someone in the future.
+All four speakers active.

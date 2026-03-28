@@ -8,14 +8,27 @@ tags:
   - windows
 ---
 
-# What's needed
+## Every commit, cryptographically yours.
 
-[Git for Windows](https://git-scm.com/install/windows) already shipped with `gpg`. You only need to add `C:\Program Files\Git\usr\bin\` to PATH.
+GitHub shows a green "Verified" badge on commits signed with GPG. On Windows, Git for Windows already ships with `gpg` — you just need to expose it and wire up the config.
 
-# How-to
+First, add `C:\Program Files\Git\usr\bin\` to your PATH.
 
-- generate gpg key: `gpg --full-generate-key`
-- show generated key: `gpg --list-secret-keys --keyid-format=long`
+---
+
+### Generate and Export the Key
+
+Generate a new GPG key:
+
+```bash
+gpg --full-generate-key
+```
+
+List it to get the key ID:
+
+```bash
+gpg --list-secret-keys --keyid-format=long
+```
 
 ```plaintext
 Output:
@@ -27,9 +40,17 @@ uid                 [ultimate] Your Name <you@mail.com>
 ssb   cv25519/B962022817E5DXXX 2025-04-30 [E] [expires: 2030-04-29]
 ```
 
-- export the key to register it to Github account: `gpg --armor --export C50213C2685D0XXX`
-- copy the output and add it to Github GPG key in the setting page
-- tell git to sign all commits and tags
+Export the public key:
+
+```bash
+gpg --armor --export C50213C2685D0XXX
+```
+
+Copy the output and add it to your GitHub account under **Settings > SSH and GPG keys**.
+
+---
+
+### Configure Git
 
 ```plaintext
 git config --global user.signingkey C50213C2685D0XXX
@@ -38,6 +59,4 @@ git config --global commit.gpgsign true
 git config --global gpg.program "C:\\Program Files\\Git\\usr\\bin\\gpg.exe"
 ```
 
-# Important
-
-don't forget to set `gpg.program` to configure `gpg` executable in global git config just in case you already have another `gpg` installed somewhere else.
+Setting `gpg.program` explicitly is important — if you have another `gpg` installed elsewhere on your PATH, Git will find the wrong one.

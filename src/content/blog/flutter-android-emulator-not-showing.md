@@ -8,16 +8,16 @@ tags:
   - android
 ---
 
-When I create a new Flutter project targeting Android device, I can't choose which Android device to run it. Either it a real connected devices or AVDs, even the devices is available and listed in `Device Manager` tab.
+New Flutter project in Android Studio. Real device plugged in, AVDs configured, everything showing in Device Manager — and the device dropdown in the run toolbar is completely empty.
 
 ![no devices showing](/images/no-devices.webp)
 
-All I need to do is open `File > Project Structure...` or `Ctrl + Alt + Shift + S`.
+Open **File > Project Structure** (`Ctrl + Alt + Shift + S`).
 
 ![project structure window](/images/project-structure.webp)
 
-As you can see, I have no Android SDK selected for my Flutter project. So, go ahead and select one of SDK listed there and click `OK`. That's it! Now you can see all the devices available to run my Flutter project.
+No Android SDK is selected for the project. Pick one from the list and click **OK**.
 
 ![choose android sdk](/images/choose-sdk.webp)
 
-Hope this can help someone who has similar issues with Flutter project and Android devices.
+That's it. All devices appear immediately — no restart required.

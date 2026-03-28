@@ -6,7 +6,6 @@ draft: false
 tags:
   - linux
   - hardware
-  - tweak
 ---
 
 Honestly, even on Windows I never once pressed that Copilot key intentionally. It just sat there, taking up prime keyboard real estate. Moving to Linux gave me the perfect excuse to finally do something about it.
