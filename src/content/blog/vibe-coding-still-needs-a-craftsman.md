@@ -3,7 +3,7 @@ title: "Vibe Coding Still Needs a Craftsman"
 description: "AI agents can write code faster than you ever will. That doesn't mean you can stop thinking."
 date: 2026-03-25T00:00:00+07:00
 draft: false
-tags: ["ai", "software-craftsmanship", "tdd", "ddd", "clean-architecture"]
+tags: ["ai", "craftsmanship"]
 ---
 
 ## AI agents can write code faster than you ever will. That doesn't mean you can stop thinking.

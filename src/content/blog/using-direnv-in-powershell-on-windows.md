@@ -8,16 +8,22 @@ tags:
   - dev-setup
 ---
 
-# Background
+## `.envrc` files shouldn't be a Linux-only thing.
 
-I want a `direnv` functionality in PowerShell running in Windows. Using the [official direnv](https://direnv.net/docs/installation.html) introduces problems because of platform compatibility (Unix-based vs Windows). So I decided to make a PowerShell script to load (and unload) `.envrc` file automatically just like `direnv` does.
+`direnv` automatically loads and unloads environment variables when you `cd` into or out of a directory. On Linux and macOS it's a first-class tool. On Windows in PowerShell, the [official direnv](https://direnv.net/docs/installation.html) has platform compatibility issues.
 
-# How to Use
+So I wrote a drop-in replacement: a PowerShell script that hooks into the prompt, watches for `.envrc` files, and loads or unloads variables automatically — same behavior, no Unix dependency.
 
-- save the `direnv` script below to `$PROFILE\Scripts\direnv.ps1`.
-- add `. "$PSScriptRoot\Scripts\direnv.ps1"` line to `$PROFILE` to load it.
+---
 
-# Script
+### Installation
+
+- Save the script below to `$PROFILE\Scripts\direnv.ps1`
+- Add `. "$PSScriptRoot\Scripts\direnv.ps1"` to your `$PROFILE`
+
+---
+
+### The Script
 
 ```powershell
 # PowerShell direnv alternative - Add to $PROFILE

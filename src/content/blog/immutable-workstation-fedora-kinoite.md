@@ -83,12 +83,3 @@ PURO_ROOT=/home/user/.puro
 Running Fedora 43 on my IdeaPad 14AHP10 has been a revelation. Because I’ve only "layered" my shell (Fish) onto the host, the system is incredibly lean.
 
 I’ve stopped worrying about my OS. I’m just building things again.
-
----
-
-### **Final Documentation Summary**
-
-- **OS:** Fedora 43 Kinoite (KDE Plasma 6)
-- **Shell:** Fish
-- **Hardware:** IdeaPad 14AHP10 (Ryzen 7 8845HS)
-- **Method:** Hybrid-Atomic / Home-run management

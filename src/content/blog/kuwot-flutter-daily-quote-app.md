@@ -5,7 +5,7 @@ date: 2025-02-20T15:26:04+07:00
 draft: true
 tags:
   - flutter
-  - project
+  - dart
 ---
 
 I made [Kuwot](https://codeberg.org/fiatcode/kuwot-app) last year in my spare time. I want to share it, you can use it as an inspiration, practice app, or something else is up to you since I open-sourced the code (links below).

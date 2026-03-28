@@ -5,14 +5,16 @@ date: 2025-02-24T09:58:08+07:00
 draft: false
 tags:
   - dart
-  - programming
+  - distributed-systems
 ---
 
-# Background
+## Two devices. Independent changes. No server. No conflicts.
 
-When searching techniques for syncing data between peers, I stumbled upon CRDT (Conflict-free Replicated Data Types). It's basically a algorithm for syncing for distributed systems. CRDT ensures all data changes between peer will be synced with correct order and no data loss.
+I was building an offline-first feature in Flutter — two devices needed to modify the same data independently and sync later without losing anything. Last-write-wins throws data away. Distributed locks need a server. Neither worked.
 
-Since I working with Dart (for Flutter project), I use a [CRDT library for Dart](https://github.com/cachapa/crdt). This library implements core concept of CRDT and it's pretty basic. Here some types of CRDT that often used:
+That's when I found CRDTs — Conflict-free Replicated Data Types. A data structure that can be modified independently on multiple nodes and always merged into a consistent final state, without real-time coordination.
+
+Since I was working in Dart, I used the [CRDT library](https://github.com/cachapa/crdt) by cachapa. It implements the core concepts. The common types:
 
 1. **G-Counter (Grow-only Counter)**: A counter that can only be incremented.
 2. **P-Counter (Decrement Counter)**: A counter that can be both incremented and decremented.
@@ -22,40 +24,33 @@ Since I working with Dart (for Flutter project), I use a [CRDT library for Dart]
 6. **LWW-Register (Last Write Wins Register)**: A register that stores the last written value, using a timestamp to determine the most recent update.
 7. **MV-Register (Multi-Value Register)**: A register that stores all values that have been written, using unique identifiers to track writes.
 
-# How it works -- basic version
+---
 
-Main components:
+### How It Works
 
-- HLC (Hardware Logical Clock). Combines _wall clock/local time_, a counter that increments, and an optional _node ID_ for uniqueness sake.
-- The data itself (usually contains a key, value, and the HLC object).
+Two main components:
 
-## **Scenario: Two Devices Synchronizing Data**
+- **HLC (Hybrid Logical Clock)** — combines wall clock time, an incrementing counter, and an optional node ID for uniqueness.
+- **The record itself** — a key, a value, and the HLC of its last modification.
 
-We have two devices, **Device A** and **Device B**, which both maintain their own local datasets. Each device can modify data independently. When they synchronize, their CRDT implementations will merge their changes and resolve conflicts.
+**The scenario:** Device A and Device B both start with the same dataset. They each make changes offline. When they sync, CRDT merges both changesets deterministically.
 
-## Initial State
-
-- Both devices start with the same data:
+**Initial state (both devices):**
 
 | Key | Value | isDeleted | Last Modified |
 | --- | ----- | --------- | ------------- |
 | 1   | Alice | false     | HLC: A1       |
 | 2   | Bob   | false     | HLC: A2       |
 
-- Device A's last modified HLC: `A2`.
-- Device B's last modified HLC: `A2`.
-
 ---
 
-## Changes Made on Each Device
-
-1. **Device A deletes Bob's record (key 2):**
+**Device A deletes Bob's record (key 2):**
 
 | Key | Value | isDeleted | Last Modified |
 | --- | ----- | --------- | ------------- |
 | 2   | null  | true      | HLC: A3       |
 
-2. **Device B updates Alice's name to Alice Smith (key 1):**
+**Device B updates Alice's name (key 1):**
 
 | Key | Value       | isDeleted | Last Modified |
 | --- | ----------- | --------- | ------------- |
@@ -63,68 +58,32 @@ We have two devices, **Device A** and **Device B**, which both maintain their ow
 
 ---
 
-## Synchronization and Merge
+### Synchronization and Merge
 
-- Device A sends its **changeset** to Device B:
+Each device sends only its changeset — the records it modified since the last sync.
 
-| Key | Value | isDeleted | Last Modified |
-| --- | ----- | --------- | ------------- |
-| 2   | null  | true      | HLC: A3       |
+The `merge` method processes incoming records:
 
-- Device B sends its **changeset** to Device A:
+1. **Validate the changeset** — schema check, valid HLC timestamps.
+2. **Compare records for key 1 (Alice):**
 
-| Key | Value       | isDeleted | Last Modified |
-| --- | ----------- | --------- | ------------- |
-| 1   | Alice Smith | false     | HLC: B3       |
-
----
-
-## Step-by-Step Conflict Resolution
-
-The `merge` method processes these changes:
-
-1. **Validate Changeset**:
-   Each incoming record is validated to ensure it matches the expected schema and contains valid HLC timestamps.
-2. **Compare Records for Key 1 (`Alice`)**:
-
-| Key | Value | isDeleted | Last Modified |
-| --- | ----- | --------- | ------------- |
-| 1   | Alice | false     | HLC: A1       |
-
-Incoming record from Device B:
-| Key | Value | isDeleted | Last Modified |
-| --- | ----- | --------- | ------------- |
-| 1 | Alice Smith | false | HLC: B3 |
-
-**Conflict Resolution Rule**: The record with the higher `Last Modified` HLC wins. HLC `B3 > A1,` so Device A updates Alice's record to:
+Device A has `HLC: A1`. Incoming from Device B: `HLC: B3`. Higher HLC wins — Device A updates Alice to:
 
 | Key | Value       | isDeleted | Last Modified |
 | --- | ----------- | --------- | ------------- |
 | 1   | Alice Smith | false     | HLC: B3       |
 
-3. **Compare Records for Key 2 (`Bob`)**:
+3. **Compare records for key 2 (Bob):**
 
-| Key | Value | isDeleted | Last Modified |
-| --- | ----- | --------- | ------------- |
-| 2   | Bob   | false     | HLC: A2       |
-
-Incoming record from Device A:
-| Key | Value | isDeleted | Last Modified |
-| --- | ----- | --------- | ------------- |
-| 2 | null | true | HLC: A3 |
-
-**Conflict Resolution Rule**: The record with the higher `Last Modified` HLC wins. HLC `A3 > A2`, so Device B updates Bob's record to:
+Device B has `HLC: A2`. Incoming from Device A: `HLC: A3`. Higher HLC wins — Device B applies the delete:
 
 | Key | Value | isDeleted | Last Modified |
 | --- | ----- | --------- | ------------- |
 | 2   | null  | true      | HLC: A3       |
 
-4. **Propagate Changes**:
-   Both devices now have identical datasets after merging.
+4. **Both devices now have identical datasets.**
 
----
-
-## Final Merged Dataset on Both Devices
+**Final merged state:**
 
 | Key | Value       | isDeleted | Last Modified |
 | --- | ----------- | --------- | ------------- |
@@ -133,11 +92,10 @@ Incoming record from Device A:
 
 ---
 
-## Summary of Conflict Resolution Rules
+### The Rules
 
-1. **Higher HLC Wins**
-   Records with higher HLCs (later timestamps) overwrite those with lower HLCs.
-2. **Soft Deletes**
-   A `null` value with `isDeleted: true` is treated as a soft delete. It wins if its HLC is higher.
-3. **Deterministic Behavior**
-   All nodes independently apply the same conflict resolution logic, ensuring eventual consistency.
+1. **Higher HLC wins** — later timestamps overwrite earlier ones.
+2. **Soft deletes win when newer** — a `null` + `isDeleted: true` record beats an older live record.
+3. **Deterministic everywhere** — every node applies the same logic independently and arrives at the same result.
+
+That's eventual consistency without coordination. The data converges no matter what order the syncs happen in.

@@ -7,22 +7,24 @@ date: 2025-01-12T00:12:04+07:00
 draft: false
 tags:
   - flutter
-  - architecture
+  - craftsmanship
 ---
 
 ![flutter-clean-architecture](/images/flutter_dash.png)
 
-# What is Clean Architecture?
+## Structure your Flutter code so it can survive contact with real-world requirements.
 
-Do you ever wondering how to manage your Flutter code? How to make it neat, modular, easy to maintain and test? Here where _clean architecture_ comes in.
+Clean Architecture keeps your codebase modular, testable, and maintainable. The layers enforce clear dependency rules: UI depends on business logic, business logic depends on nothing external. When requirements change — and they always do — you change one layer without touching the others.
 
-Basically, clean architecture is a way to organize your code into separated pieces that will make your project cleaner. It may looks complicated at first and a lot of boiler code for some reasons. But trust me, it will be a lot easier if you apply the clean architecture in your code, especially in medium to bigger projects.
+It does mean more files upfront. That cost pays off fast once the project grows past a handful of features.
 
-In this set of Clean Architecture articles, we will create a basic mobile app that uses [WeatherAPI](https://www.weatherapi.com/) to get current weather. Let's get started!
+This guide walks through a concrete Flutter implementation using [WeatherAPI](https://www.weatherapi.com/). The patterns apply to any app of medium complexity or larger.
 
-> Please note that this guide requires basic knowledge of Dart and Flutter. So I don't recommend going through this guide if you are completely new to the topic.
+> Assumes basic familiarity with Dart and Flutter.
 
-# Directory Structure
+---
+
+## Directory Structure
 
 I use this directory structure to organize my code into clean architecture. Once you got the idea, you may modify the structure to match your needs.
 

@@ -6,8 +6,6 @@ draft: false
 tags:
   - linux
   - self-hosting
-  - music
-  - open-source
 ---
 
 There's a specific kind of dissatisfaction that comes with streaming services. The music is there, the app is polished, but none of it is really _yours_. The moment you stop paying, it disappears. The algorithm decides what comes next. Your listening history is someone else's data.
