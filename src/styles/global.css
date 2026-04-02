@@ -1,9 +1,9 @@
-@import "@fontsource/jetbrains-mono";
+@import "@fontsource/fira-code";
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
 @theme {
-  --font-default: "JetBrains Mono", monospace;
+  --font-default: "Fira Code", monospace;
 }
 
 @layer base {
