@@ -27,16 +27,32 @@ const { title, description } = Astro.props;
     <meta name="description" content={description} />
     <meta name="generator" content={Astro.generator} />
   </head>
-  <body class="max-w-5xl mx-auto flex flex-col font-default">
-    <Header />
-    <main class="grid grid-cols-1 md:grid-cols-4 gap-0 items-start">
-      <section class="md:col-span-3 p-4 bg-neutral-800">
-        <slot />
-      </section>
-      <aside class="p-4">
-        <Sidebar />
-      </aside>
-    </main>
-    <Footer />
+  <body class="font-mono text-ink antialiased">
+    <div class="mx-auto flex min-h-screen max-w-5xl flex-col px-4 sm:px-6">
+      <Header />
+      <main
+        class="grid flex-1 grid-cols-1 items-start gap-px md:grid-cols-4 md:gap-8"
+      >
+        <section class="reveal relative md:col-span-3" style="--d: 1">
+          <!-- active-window top edge: solid phosphor tab + flat rail -->
+          <div
+            class="pointer-events-none absolute inset-x-0 -top-px flex"
+            aria-hidden="true"
+          >
+            <span class="h-px w-24 bg-phosphor/80"></span>
+            <span class="h-px flex-1 bg-line"></span>
+          </div>
+          <div
+            class="border border-line-soft bg-surface/70 p-5 backdrop-blur-[1px] sm:p-8"
+          >
+            <slot />
+          </div>
+        </section>
+        <aside class="reveal py-5 md:py-0" style="--d: 2">
+          <Sidebar />
+        </aside>
+      </main>
+      <Footer />
+    </div>
   </body>
 </html>

@@ -1,6 +1,4 @@
 ---
-import Link from "./Link.astro";
-
 interface Props {
   currentPage: number;
   lastPage: number;
@@ -8,19 +6,30 @@ interface Props {
 }
 
 const { currentPage, lastPage, getPageUrl } = Astro.props;
+
+const linkClass =
+  "inline-flex items-center gap-2 border border-line-soft px-3 py-1.5 font-mono text-sm text-ink-dim transition-colors hover:border-phosphor hover:text-phosphor";
 ---
 
-<nav aria-label="Pagination Navigation" class="flex py-6">
+<nav
+  aria-label="Pagination Navigation"
+  class="mt-10 flex items-center border-t border-line-soft pt-6"
+>
   {
     currentPage > 1 && (
-      <Link href={getPageUrl(currentPage - 1)}>« Previous</Link>
+      <a href={getPageUrl(currentPage - 1)} class={linkClass}>
+        <span aria-hidden="true">←</span> prev
+      </a>
     )
   }
+  <span class="mx-auto font-mono text-xs text-ink-faint tabular-nums">
+    {currentPage} / {lastPage}
+  </span>
   {
     currentPage < lastPage && (
-      <Link href={getPageUrl(currentPage + 1)} class="ml-auto">
-        Next »
-      </Link>
+      <a href={getPageUrl(currentPage + 1)} class={linkClass}>
+        next <span aria-hidden="true">→</span>
+      </a>
     )
   }
 </nav>

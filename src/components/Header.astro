@@ -1,27 +1,53 @@
 ---
-import Link from "@/components/Link.astro";
+const links = [
+  { href: "/posts", label: "posts" },
+  { href: "/tags", label: "tags" },
+  { href: "/search", label: "search" },
+];
+
+const path = Astro.url.pathname;
+const isActive = (href: string) =>
+  href === "/" ? path === "/" : path.startsWith(href);
 ---
 
-<header class="w-full p-6">
+<header
+  class="reveal flex flex-wrap items-center gap-x-5 gap-y-3 py-7"
+  style="--d: 0"
+>
+  <a
+    href="/"
+    aria-label="Home"
+    class="group inline-flex items-center gap-1.5 text-sm font-medium text-ink-dim transition-colors hover:text-ink"
+  >
+    <span class="text-phosphor">~</span>
+    <span
+      class="bg-phosphor px-1.5 py-0.5 text-bg transition-colors group-hover:bg-phosphor-deep"
+      >fiatcode</span
+    >
+  </a>
+
   <nav aria-label="Main navigation">
-    <ul class="flex flex-wrap gap-4 items-center">
-      <li>
-        <a
-          href="/"
-          aria-label="Home"
-          class="inline-block before:content-['['] after:content-[']_#'] p-1 bg-green-600 text-neutral-800 hover:bg-green-500 transition-colors"
-          >fiatcode</a
-        >
-      </li>
-      <li class="inline-flex before:content-['./'] before:text-neutral-500">
-        <Link href="/posts" ariaLabel="Posts">posts</Link>
-      </li>
-      <li class="inline-flex before:content-['./'] before:text-neutral-500">
-        <Link href="/tags" ariaLabel="Tags">tags</Link>
-      </li>
-      <li class="inline-flex before:content-['./'] before:text-neutral-500">
-        <Link href="/search" ariaLabel="Search">search</Link>
-      </li>
+    <ul class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
+      {
+        links.map((link) => (
+          <li class="flex items-center">
+            <span class="text-ink-faint" aria-hidden="true">
+              ./
+            </span>
+            <a
+              href={link.href}
+              class:list={[
+                "transition-colors underline-offset-4 hover:text-phosphor hover:underline",
+                isActive(link.href)
+                  ? "text-phosphor underline"
+                  : "text-ink-dim",
+              ]}
+            >
+              {link.label}
+            </a>
+          </li>
+        ))
+      }
     </ul>
   </nav>
 </header>
