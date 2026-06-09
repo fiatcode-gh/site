@@ -11,7 +11,7 @@ tags:
 
 ## CI was the last rented link in an otherwise self-hosted stack. So I brought it home.
 
-I came back to [Kuwot](https://fiatcode.dev/posts/kuwot-flutter-daily-quote-app) — my daily-quote app — to push a small update. The reason was mundane: I'd moved its API to a new server and domain a while back, the old host had finally gone dark, and the app on the Play Store was still pointed at a ghost. A fresh build with the new host would fix it. Five minutes of work.
+I came back to [Kuwot](https://play.google.com/store/apps/details?id=com.dhemasnurjaya.kuwot) — my daily-quote app — to push a small update. The reason was mundane: I'd moved its API to a new server and domain a while back, the old host had finally gone dark, and the app on the Play Store was still pointed at a ghost. A fresh build with the new host would fix it. Five minutes of work.
 
 Then I opened the project and remembered how it shipped: [Codemagic](https://codemagic.io). A hosted CI service, building my app bundles on managed Macs in someone else's data center.
 
