@@ -21,28 +21,33 @@ import Search from "astro-pagefind/components/Search";
 <style is:global>
   .pagefind-ui {
     --pagefind-ui-scale: 0.9;
-    --pagefind-ui-primary: #a3a3a3; /* neutral-400 */
-    --pagefind-ui-text: #d4d4d8; /* neutral-300 */
-    --pagefind-ui-background: #171717; /* neutral-900 */
-    --pagefind-ui-border: #404040; /* neutral-700 */
-    --pagefind-ui-tag: #262626; /* neutral-800 */
+    --pagefind-ui-primary: var(--color-ink-dim);
+    --pagefind-ui-text: var(--color-ink);
+    --pagefind-ui-background: var(--color-surface);
+    --pagefind-ui-border: var(--color-line);
+    --pagefind-ui-tag: var(--color-surface-2);
     --pagefind-ui-border-width: 1px;
     --pagefind-ui-border-radius: 0rem;
-    --pagefind-ui-font: "JetBrains Mono", monospace;
+    --pagefind-ui-font: var(--font-mono);
   }
 
   .pagefind-ui__search-input {
-    background: #262626; /* neutral-800 */
-    color: #d4d4d8; /* neutral-300 */
-    border: 1px solid #404040; /* neutral-700 */
+    background: var(--color-surface-2);
+    color: var(--color-ink);
+    border: 1px solid var(--color-line);
+  }
+
+  .pagefind-ui__search-input:focus {
+    border-color: var(--color-phosphor);
+    outline: none;
   }
 
   .pagefind-ui__search-input::placeholder {
-    color: #737373; /* neutral-500 */
+    color: var(--color-ink-faint);
   }
 
   .pagefind-ui__result {
-    border-bottom: 1px solid #404040 !important; /* neutral-700 */
+    border-bottom: 1px solid var(--color-line-soft) !important;
     padding: 1rem 0 !important;
     background: transparent !important;
     border-top: none !important;
@@ -63,14 +68,14 @@ import Search from "astro-pagefind/components/Search";
   }
 
   .pagefind-ui__result-link {
-    color: #d4d4d8; /* neutral-300 */
+    color: var(--color-ink);
     text-decoration: none !important;
     font-weight: 500;
   }
 
   .pagefind-ui__result-link:hover {
     text-decoration: underline !important;
-    color: #fafafa; /* neutral-50 */
+    color: var(--color-phosphor);
   }
 
   .pagefind-ui__result-link::after {
@@ -84,16 +89,16 @@ import Search from "astro-pagefind/components/Search";
   }
 
   .pagefind-ui__result-title {
-    color: #fafafa; /* neutral-50 */
+    color: var(--color-ink);
   }
 
   .pagefind-ui__result-excerpt {
-    color: #a3a3a3; /* neutral-400 */
+    color: var(--color-ink-dim);
     margin-top: 0.5rem;
   }
 
   .pagefind-ui__message {
-    color: #a3a3a3; /* neutral-400 */
+    color: var(--color-ink-dim);
     padding: 1rem 0;
   }
 

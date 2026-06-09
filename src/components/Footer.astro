@@ -1,6 +1,14 @@
-<footer class="w-full p-6 text-sm text-neutral-400">
-  <p>
-    &copy; {new Date().getFullYear()} fiatcode.
-  </p>
-  <p>All rights reserved.</p>
+---
+const year = new Date().getFullYear();
+---
+
+<footer class="mt-12 border-t border-line-soft py-7 text-xs text-ink-faint">
+  <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
+    <span class="text-phosphor">$</span>
+    <span>echo</span>
+    <span class="text-ink-dim">
+      &copy; {year} fiatcode &mdash; built with Astro, no trackers.
+    </span>
+  </div>
+  <p class="mt-1.5 pl-5">Crafted, not generated. All rights reserved.</p>
 </footer>

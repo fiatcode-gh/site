@@ -6,4 +6,16 @@ interface Props {
 const { title } = Astro.props;
 ---
 
-<h1 class="text-2xl font-bold mb-4">{title}</h1>
+<div class="relative mb-8">
+  <div class="inline-flex flex-col">
+    <h1 class="font-mono text-2xl font-semibold tracking-tight text-ink">
+      <span class="mr-2 text-phosphor" aria-hidden="true">#</span>{title}
+    </h1>
+    <!-- solid phosphor underline, exactly as wide as the heading -->
+    <span class="mt-3 h-px bg-phosphor" aria-hidden="true"></span>
+  </div>
+  <!-- dim hairline continues to the panel edge, behind the phosphor -->
+  <span
+    class="absolute bottom-0 left-0 -z-10 h-px w-full bg-line-soft"
+    aria-hidden="true"></span>
+</div>

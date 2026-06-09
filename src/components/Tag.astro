@@ -9,13 +9,20 @@ interface Props {
 const { name, count, href, variant = "default" } = Astro.props;
 const linkHref = href || `/tags/${name}`;
 const isSmall = variant === "small";
-const textSize = isSmall ? "text-sm" : "text-base";
 ---
 
-<a href={linkHref}>
-  <span
-    class={`${textSize} text-neutral-400 font-semibold bg-neutral-900 px-2 py-2 hover:bg-neutral-700`}
-  >
-    #{name}{count !== undefined && <sup>{count}</sup>}
-  </span>
+<a
+  href={linkHref}
+  class:list={[
+    "group inline-flex items-center gap-1 border border-line-soft bg-surface-2/60 font-mono lowercase text-ink-dim transition-colors hover:border-phosphor hover:text-phosphor",
+    isSmall ? "px-2 py-0.5 text-xs" : "px-2.5 py-1 text-sm",
+  ]}
+>
+  <span class="text-phosphor/70 transition-colors group-hover:text-phosphor"
+    >#</span
+  >{name}{
+    count !== undefined && (
+      <span class="ml-0.5 text-ink-faint tabular-nums">{count}</span>
+    )
+  }
 </a>

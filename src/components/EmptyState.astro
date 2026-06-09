@@ -6,4 +6,10 @@ interface Props {
 const { message } = Astro.props;
 ---
 
-<p class="text-lg text-neutral-400">{message}</p>
+<div class="border border-dashed border-line py-10 text-center">
+  <p class="font-mono text-sm text-ink-faint">
+    <span class="text-phosphor">$</span> ls&nbsp;&mdash;&nbsp;<span
+      class="text-ink-dim">{message}</span
+    >
+  </p>
+</div>
