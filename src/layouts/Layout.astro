@@ -7,9 +7,10 @@ import Sidebar from "@/components/Sidebar.astro";
 interface Props {
   title: string;
   description: string;
+  sidebar?: boolean;
 }
 
-const { title, description } = Astro.props;
+const { title, description, sidebar = true } = Astro.props;
 ---
 
 <!doctype html>
@@ -32,9 +33,15 @@ const { title, description } = Astro.props;
     <div class="mx-auto flex min-h-screen max-w-5xl flex-col px-4 sm:px-6">
       <Header />
       <main
-        class="grid flex-1 grid-cols-1 items-start gap-px md:grid-cols-4 md:gap-8"
+        class:list={[
+          "grid flex-1 grid-cols-1 items-start gap-px",
+          sidebar && "md:grid-cols-4 md:gap-8",
+        ]}
       >
-        <section class="reveal relative md:col-span-3" style="--d: 1">
+        <section
+          class:list={["reveal relative", sidebar && "md:col-span-3"]}
+          style="--d: 1"
+        >
           <!-- active-window top edge: solid phosphor tab + flat rail -->
           <div
             class="pointer-events-none absolute inset-x-0 -top-px flex"
@@ -47,9 +54,13 @@ const { title, description } = Astro.props;
             <slot />
           </div>
         </section>
-        <aside class="reveal py-5 md:py-0" style="--d: 2">
-          <Sidebar />
-        </aside>
+        {
+          sidebar && (
+            <aside class="reveal py-5 md:py-0" style="--d: 2">
+              <Sidebar />
+            </aside>
+          )
+        }
       </main>
       <Footer />
     </div>
