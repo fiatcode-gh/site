@@ -109,7 +109,9 @@
         class="min-h-40 w-full resize-y border border-line bg-bg/40 p-3 font-mono text-sm text-ink placeholder:text-ink-faint"
       ></textarea>
       {#if result.error}
-        <p class="font-mono text-xs text-phosphor-deep"># {result.error}</p>
+        <p aria-live="polite" class="font-mono text-xs text-phosphor-deep">
+          # {result.error}
+        </p>
       {/if}
     </div>
   </div>
@@ -125,7 +127,9 @@
       class="mt-2 block w-full font-mono text-xs text-ink-dim file:mr-3 file:border file:border-line file:bg-surface-2 file:px-3 file:py-1.5 file:font-mono file:text-xs file:text-ink-dim"
     />
     {#if fileError}
-      <p class="mt-2 font-mono text-xs text-phosphor-deep"># {fileError}</p>
+      <p aria-live="polite" class="mt-2 font-mono text-xs text-phosphor-deep">
+        # {fileError}
+      </p>
     {/if}
     {#if fileBase64}
       <div class="mt-3 flex flex-col gap-2">
