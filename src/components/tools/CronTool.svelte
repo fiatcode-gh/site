@@ -48,25 +48,37 @@
       </p>
     {/if}
   {:else}
-    <div class="border border-line-soft bg-surface-2/40 p-4">
-      <p class="font-serif text-lg text-ink">{result.description}</p>
-    </div>
+    {#if result.description}
+      <div class="border border-line-soft bg-surface-2/40 p-4">
+        <p class="font-serif text-lg text-ink">{result.description}</p>
+      </div>
+    {:else}
+      <p class="font-mono text-xs text-ink-faint">
+        # no plain-language description available for this syntax
+      </p>
+    {/if}
 
-    <div class="flex flex-col gap-2">
-      <h2 class="font-mono text-xs text-ink-faint">
-        next {result.nextRuns.length} runs — computed in your browser's timezone:
-        <span class="text-phosphor">{timeZone}</span>
-      </h2>
-      <ol
-        class="flex flex-col divide-y divide-line-soft border border-line-soft bg-bg/40 font-mono text-sm"
-      >
-        {#each result.nextRuns as run, i (i)}
-          <li class="flex items-baseline gap-3 px-3 py-2">
-            <span class="text-ink-faint">{i + 1}.</span>
-            <span class="text-ink">{fmt.format(run)}</span>
-          </li>
-        {/each}
-      </ol>
-    </div>
+    {#if result.nextRuns}
+      <div class="flex flex-col gap-2">
+        <h2 class="font-mono text-xs text-ink-faint">
+          next {result.nextRuns.length} runs — computed in your browser's timezone:
+          <span class="text-phosphor">{timeZone}</span>
+        </h2>
+        <ol
+          class="flex flex-col divide-y divide-line-soft border border-line-soft bg-bg/40 font-mono text-sm"
+        >
+          {#each result.nextRuns as run, i (run.getTime())}
+            <li class="flex items-baseline gap-3 px-3 py-2">
+              <span class="text-ink-faint">{i + 1}.</span>
+              <span class="text-ink">{fmt.format(run)}</span>
+            </li>
+          {/each}
+        </ol>
+      </div>
+    {:else}
+      <p class="font-mono text-xs text-ink-faint">
+        # next-run times unavailable for this expression
+      </p>
+    {/if}
   {/if}
 </div>

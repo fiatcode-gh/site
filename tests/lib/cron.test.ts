@@ -52,3 +52,14 @@ describe("explainCron", () => {
     });
   });
 });
+
+describe("explainCron with diverging parsers", () => {
+  it("describes @reboot even though next runs cannot be computed", () => {
+    const result = explainCron("@reboot", {});
+    expect(result.ok).toBe(true);
+    if (result.ok) {
+      expect(result.description?.toLowerCase()).toContain("startup");
+      expect(result.nextRuns).toBeNull();
+    }
+  });
+});
