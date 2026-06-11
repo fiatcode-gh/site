@@ -1,0 +1,25 @@
+---
+import PageTitle from "@/components/PageTitle.astro";
+
+interface Props {
+  name: string;
+  description: string;
+}
+
+const { name, description } = Astro.props;
+---
+
+<PageTitle title={name} />
+<p class="mb-2 font-mono text-sm text-ink-dim">{description}</p>
+<p class="mb-8 font-mono text-xs text-ink-faint">
+  <span class="text-phosphor" aria-hidden="true">#</span> runs entirely in your browser
+  — nothing is uploaded
+</p>
+<slot />
+<p class="mt-10 font-mono text-sm">
+  <a
+    href="/tools"
+    class="text-ink-dim underline-offset-4 transition-colors hover:text-phosphor hover:underline"
+    ><span class="text-ink-faint" aria-hidden="true">$</span> cd ..</a
+  >
+</p>

@@ -1,0 +1,39 @@
+---
+import PageTitle from "@/components/PageTitle.astro";
+import Layout from "@/layouts/Layout.astro";
+import { tools } from "@/lib/tools/registry";
+---
+
+<Layout
+  title="Tools | fiatcode"
+  description="Small, fully client-side developer utilities. Everything runs in your browser — nothing is uploaded."
+  sidebar={false}
+>
+  <PageTitle title="Tools" />
+  <p class="mb-8 font-mono text-sm text-ink-dim">
+    Small utilities that run entirely in your browser. No uploads, no trackers,
+    no servers.
+  </p>
+  <ul class="grid grid-cols-1 gap-3 sm:grid-cols-2">
+    {
+      tools.map((tool) => (
+        <li>
+          <a
+            href={`/tools/${tool.slug}/`}
+            class="group block h-full border border-line-soft bg-surface-2/40 p-5 transition-colors hover:border-phosphor/60"
+          >
+            <h2 class="font-mono text-base text-ink">
+              <span class="text-ink-faint">./</span>
+              <span class="transition-colors group-hover:text-phosphor">
+                {tool.slug}
+              </span>
+            </h2>
+            <p class="mt-2 font-mono text-sm text-ink-dim">
+              {tool.description}
+            </p>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Layout>
