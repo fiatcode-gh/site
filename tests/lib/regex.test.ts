@@ -101,3 +101,15 @@ describe("replacePreview", () => {
     expect(replacePreview("(", "g", "abc", "x").ok).toBe(false);
   });
 });
+
+describe("segments with zero-width matches", () => {
+  it("skips empty hit segments and preserves the full text", () => {
+    const result = runRegex("\\b", "g", "a b");
+    if (!result.ok) throw new Error("unexpected");
+    const segs = segments("a b", result.matches);
+    // Zero-width matches produce no highlighted segments…
+    expect(segs.every((s) => !s.hit)).toBe(true);
+    // …and the text survives intact and in order.
+    expect(segs.map((s) => s.text).join("")).toBe("a b");
+  });
+});
