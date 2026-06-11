@@ -53,3 +53,13 @@ describe("base64ToBytes", () => {
     expect(Array.from(base64ToBytes("++++"))).toEqual([0xfb, 0xef, 0xbe]);
   });
 });
+
+describe("edge cases", () => {
+  it("round-trips the empty string", () => {
+    expect(decodeText(encodeText(""))).toBe("");
+  });
+
+  it("rejects legal-chars-illegal-length input (length % 4 === 1)", () => {
+    expect(() => base64ToBytes("aaaaa")).toThrow();
+  });
+});
