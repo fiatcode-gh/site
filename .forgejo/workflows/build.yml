@@ -29,10 +29,27 @@ jobs:
       - name: Push image
         working-directory: src
         run: |
+          set -eu
           SHORT_SHA=$(git rev-parse --short HEAD)
-          podman login git.fiatcode.dev \
-            -u ${{ github.repository_owner }} --password-stdin \
-            <<< "${{ secrets.REGISTRY_TOKEN }}"
-          podman push git.fiatcode.dev/${{ github.repository }}:latest
-          podman push git.fiatcode.dev/${{ github.repository }}:$SHORT_SHA
+          # Forgejo's registry hands out a short-lived, effectively
+          # single-use bearer token, so a second manifest upload in the
+          # same login session fails with "authentication required". Log
+          # in fresh before every push (and retry) to dodge that.
+          push_tag() {
+            ref="git.fiatcode.dev/${{ github.repository }}:$1"
+            for attempt in 1 2 3; do
+              if podman login git.fiatcode.dev \
+                   -u ${{ github.repository_owner }} --password-stdin \
+                   <<< "${{ secrets.REGISTRY_TOKEN }}" \
+                 && podman push "$ref"; then
+                return 0
+              fi
+              echo "::warning::push of $ref failed (attempt $attempt), retrying in 3s"
+              sleep 3
+            done
+            echo "::error::push of $ref failed after 3 attempts"
+            return 1
+          }
+          push_tag latest
+          push_tag "$SHORT_SHA"
           podman logout git.fiatcode.dev
