@@ -1,0 +1,18 @@
+---
+import ToolShell from "@/components/ToolShell.astro";
+import Base64Tool from "@/components/tools/Base64Tool.svelte";
+import Layout from "@/layouts/Layout.astro";
+import { tools } from "@/lib/tools/registry";
+
+const tool = tools.find((t) => t.slug === "base64")!;
+---
+
+<Layout
+  title={`${tool.name} | fiatcode`}
+  description={tool.description}
+  sidebar={false}
+>
+  <ToolShell name={tool.name} description={tool.description}>
+    <Base64Tool client:load />
+  </ToolShell>
+</Layout>
