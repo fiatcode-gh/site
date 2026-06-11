@@ -34,16 +34,21 @@
 
   function downloadPng() {
     if (!view?.svg) return;
+    // Typed values bypass the input's min/max; an oversized canvas makes
+    // toBlob fail silently, so clamp before sizing it.
+    const s = Number.isFinite(scale)
+      ? Math.max(4, Math.min(40, Math.floor(scale)))
+      : 16;
     const { data, size } = qrMatrix(text, { ecc, border });
     const canvas = document.createElement("canvas");
-    canvas.width = canvas.height = size * scale;
+    canvas.width = canvas.height = size * s;
     const ctx = canvas.getContext("2d")!;
     ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, canvas.width, canvas.height);
     ctx.fillStyle = "#000000";
     for (let y = 0; y < size; y++) {
       for (let x = 0; x < size; x++) {
-        if (data[y][x]) ctx.fillRect(x * scale, y * scale, scale, scale);
+        if (data[y][x]) ctx.fillRect(x * s, y * s, s, s);
       }
     }
     canvas.toBlob((blob) => {
