@@ -19,9 +19,14 @@ export function minifyJson(input: string): JsonResult {
   return transform(input, (v) => JSON.stringify(v));
 }
 
+// The prefix scan below is O(n²); past this size we drop the line/column hint
+// rather than freeze the tab on every keystroke.
+const FALLBACK_SCAN_LIMIT = 5_000;
+
 function findErrorPosition(input: string): number | null {
   // Scan progressively longer substrings to pinpoint the first unexpected-token
   // position. This handles runtimes that don't include "position N" in the message.
+  if (input.length > FALLBACK_SCAN_LIMIT) return null;
   for (let i = 1; i <= input.length; i++) {
     try {
       JSON.parse(input.slice(0, i));
