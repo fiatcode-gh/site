@@ -10,8 +10,9 @@ describe("explainCron", () => {
     });
     expect(result.ok).toBe(true);
     if (result.ok) {
-      expect(result.description.toLowerCase()).toContain("15");
-      expect(result.nextRuns.map((d) => d.toISOString())).toEqual([
+      expect(result.description?.toLowerCase()).toContain("15");
+      expect(result.nextRuns).not.toBeNull();
+      expect(result.nextRuns!.map((d) => d.toISOString())).toEqual([
         "2026-01-01T00:15:00.000Z",
         "2026-01-01T00:30:00.000Z",
         "2026-01-01T00:45:00.000Z",
@@ -28,7 +29,10 @@ describe("explainCron", () => {
     });
     expect(result.ok).toBe(true);
     if (result.ok) {
-      expect(result.nextRuns[0].toISOString()).toBe("2026-01-01T02:00:00.000Z");
+      expect(result.nextRuns).not.toBeNull();
+      expect(result.nextRuns![0].toISOString()).toBe(
+        "2026-01-01T02:00:00.000Z",
+      );
     }
   });
 
