@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onDestroy } from "svelte";
   import ExifReader from "exifreader";
   import {
     cleanedFilename,
@@ -20,7 +21,12 @@
 
   const lossy = $derived(mime === "image/jpeg" || mime === "image/webp");
 
+  // Bumped on every process() call so a superseded run (user dropped a new
+  // file mid-processing) bails instead of interleaving its state writes.
+  let generation = 0;
+
   async function process(file: File) {
+    const gen = ++generation;
     error = "";
     busy = true;
     fields = [];
@@ -29,12 +35,22 @@
     original = file;
     try {
       const buffer = await file.arrayBuffer();
+      if (gen !== generation) return;
       try {
         fields = summarizeTags(ExifReader.load(buffer));
       } catch {
         fields = []; // unreadable/absent metadata is not an error
       }
-      const bitmap = await createImageBitmap(file);
+      // "from-image" bakes the EXIF orientation into the pixels BEFORE the
+      // tag is discarded — otherwise portrait phone photos download sideways
+      // on engines whose default resolves to "none".
+      const bitmap = await createImageBitmap(file, {
+        imageOrientation: "from-image",
+      });
+      if (gen !== generation) {
+        bitmap.close();
+        return;
+      }
       const canvas = document.createElement("canvas");
       canvas.width = bitmap.width;
       canvas.height = bitmap.height;
@@ -45,20 +61,26 @@
       const blob = await new Promise<Blob | null>((resolve) =>
         canvas.toBlob(resolve, mime, isLossy ? quality : undefined),
       );
+      if (gen !== generation) return;
       if (!blob) throw new Error("re-encode failed");
       cleanedUrl = URL.createObjectURL(blob);
       cleanedName = cleanedFilename(file.name, mime);
       cleanedSize = blob.size;
     } catch (err) {
+      if (gen !== generation) return;
       original = null;
       error =
         err instanceof Error
           ? `could not process this file — ${err.message}`
           : "could not process this file";
     } finally {
-      busy = false;
+      if (gen === generation) busy = false;
     }
   }
+
+  onDestroy(() => {
+    if (cleanedUrl) URL.revokeObjectURL(cleanedUrl);
+  });
 
   function onFileChange(event: Event) {
     const file = (event.currentTarget as HTMLInputElement).files?.[0];
