@@ -1,0 +1,18 @@
+---
+import ToolShell from "@/components/ToolShell.astro";
+import JwtTool from "@/components/tools/JwtTool.svelte";
+import Layout from "@/layouts/Layout.astro";
+import { tools } from "@/lib/tools/registry";
+
+const tool = tools.find((t) => t.slug === "jwt")!;
+---
+
+<Layout
+  title={`${tool.name} | fiatcode`}
+  description={tool.description}
+  sidebar={false}
+>
+  <ToolShell name={tool.name} description={tool.description}>
+    <JwtTool client:visible />
+  </ToolShell>
+</Layout>
