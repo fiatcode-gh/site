@@ -32,3 +32,19 @@ describe("qrMatrix", () => {
     expect(() => qrMatrix("", { ecc: "M", border: 2 })).toThrow();
   });
 });
+
+describe("input hardening", () => {
+  it("throws when text exceeds QR capacity", () => {
+    expect(() => qrSvg("x".repeat(5000), { ecc: "M", border: 2 })).toThrow();
+  });
+
+  it("clamps out-of-range borders instead of corrupting the matrix", () => {
+    const neg = qrMatrix("hello", { ecc: "M", border: -5 });
+    const zero = qrMatrix("hello", { ecc: "M", border: 0 });
+    expect(neg.size).toBe(zero.size);
+
+    const huge = qrMatrix("hello", { ecc: "M", border: 999 });
+    const ten = qrMatrix("hello", { ecc: "M", border: 10 });
+    expect(huge.size).toBe(ten.size);
+  });
+});
