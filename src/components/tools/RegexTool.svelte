@@ -1,5 +1,6 @@
 <script lang="ts">
   import { replacePreview, runRegex, segments } from "@/lib/tools/regex";
+  import CopyButton from "./CopyButton.svelte";
 
   const FLAG_NAMES: Record<string, string> = {
     g: "global",
@@ -148,6 +149,10 @@
     />
     {#if replaced}
       {#if replaced.ok}
+        <div class="flex items-center justify-between">
+          <span class="font-mono text-xs text-ink-faint">result</span>
+          <CopyButton text={replaced.output} />
+        </div>
         <pre
           class="max-h-48 overflow-auto border border-line bg-bg/40 p-3 font-mono text-sm whitespace-pre-wrap text-ink">{replaced.output}</pre>
       {:else}
