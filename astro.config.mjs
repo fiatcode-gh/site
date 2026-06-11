@@ -6,6 +6,7 @@ import expressiveCode from "astro-expressive-code";
 import pagefind from "astro-pagefind";
 
 import sitemap from "@astrojs/sitemap";
+import svelte from "@astrojs/svelte";
 
 // https://astro.build/config
 export default defineConfig({
@@ -13,5 +14,5 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [expressiveCode(), pagefind(), sitemap()],
+  integrations: [expressiveCode(), pagefind(), sitemap(), svelte()],
 });
