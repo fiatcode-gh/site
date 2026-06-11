@@ -1,6 +1,9 @@
 # build output
 dist/
 
+# local AI-generated docs (specs/plans) — keep on disk, never commit
+docs/superpowers/
+
 # generated types
 .astro/
 
