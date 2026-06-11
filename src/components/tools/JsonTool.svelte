@@ -41,9 +41,12 @@
 
   <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
     <div class="flex flex-col gap-2">
-      <label for="json-input" class="font-mono text-xs text-ink-faint"
-        >input</label
-      >
+      <!-- min-h-8 matches the output header (CopyButton height) so both textareas align -->
+      <div class="flex min-h-8 items-center">
+        <label for="json-input" class="font-mono text-xs text-ink-faint"
+          >input</label
+        >
+      </div>
       <textarea
         id="json-input"
         bind:value={input}
@@ -53,7 +56,7 @@
       ></textarea>
     </div>
     <div class="flex flex-col gap-2">
-      <div class="flex items-center justify-between">
+      <div class="flex min-h-8 items-center justify-between">
         <label for="json-output" class="font-mono text-xs text-ink-faint"
           >output</label
         >
