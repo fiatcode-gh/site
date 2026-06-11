@@ -49,3 +49,35 @@ describe("positionToLineCol", () => {
     expect(positionToLineCol("ab\ncd\nef", 6)).toEqual({ line: 3, column: 1 });
   });
 });
+
+describe("error-position fallback", () => {
+  it("reports line and column for token errors without engine position info", () => {
+    const result = formatJson('{\n"a": oops\n}', 2);
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.line).toBe(2);
+      expect(result.column).toBe(6);
+    }
+  });
+
+  it("reports position 1:1 for an immediately-bad input", () => {
+    const result = formatJson("oops", 2);
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.line).toBe(1);
+      expect(result.column).toBe(1);
+    }
+  });
+
+  it("returns promptly without line/column for oversized invalid input", () => {
+    const big = "[" + "1,".repeat(10_000) + "x]";
+    const start = performance.now();
+    const result = formatJson(big, 2);
+    const elapsed = performance.now() - start;
+    expect(result.ok).toBe(false);
+    if (!result.ok) {
+      expect(result.line).toBeUndefined();
+    }
+    expect(elapsed).toBeLessThan(500);
+  });
+});
