@@ -13,7 +13,7 @@ tags:
 
 [Logseq](https://github.com/logseq/logseq) is my second brain. Every project I'm thinking about, every note worth keeping, every AI-generated session summary I want to revisit — it's all in there. And for a long time, that worked fine, because Logseq was something I opened in its own window.
 
-Then I started writing more code with [Claude Code](https://github.com/anthropics/claude-code) and [OpenCode](https://github.com/opencode-ai/opencode) in the terminal, full-screen. And I started teaching my AI to write back to Logseq on its own — `journal-update` after a session to log what shipped, `find-todo` to surface open work across the graph, the whole [`ai-stack`](https://git.fiatcode.dev/fiatcode/ai-stack) plugin doing its thing. The AI was *actively* writing to my second brain. And to read what it just wrote, I had to alt-tab to an Electron app — heavy, slow to focus, hungry for RAM.
+Then I started writing more code with [Claude Code](https://github.com/anthropics/claude-code) and [OpenCode](https://github.com/opencode-ai/opencode) in the terminal, full-screen. And I started teaching my AI to write back to Logseq on its own — `journal-update` after a session to log what shipped, `find-todo` to surface open work across the graph, the whole [`ai-stack`](https://git.fiatcode.dev/fiatcode/ai-stack) plugin doing its thing. The AI was _actively_ writing to my second brain. And to read what it just wrote, I had to alt-tab to an Electron app — heavy, slow to focus, hungry for RAM.
 
 The seam was the problem. Two things that should have been one thing — my work surface and my knowledge store — were living in different windows, on different toolchains, in different mental contexts. Every time I alt-tabbed, I paid a tax.
 
@@ -49,9 +49,8 @@ That's the loop. Read, navigate, edit, repeat — all in the same pane, all with
 
 ### The general lesson
 
-peekseq started as a tool for me — built to scratch one specific itch in one specific workflow. But it doesn't *stay* that way. It opens any Logseq graph backed by plain `.md` files under `pages/` and `journals/`, and since v1.1 it edits them through whatever editor you already have. If your notes are on disk, peekseq will read them, link them, search them, and hand them off to your `$EDITOR` when you want to write.
+peekseq started as a tool for me — built to scratch one specific itch in one specific workflow. But it doesn't _stay_ that way. It opens any Logseq graph backed by plain `.md` files under `pages/` and `journals/`, and since v1.1 it edits them through whatever editor you already have. If your notes are on disk, peekseq will read them, link them, search them, and hand them off to your `$EDITOR` when you want to write.
 
 So while it was born from one person's context-switch tax, the thing that came out the other side is generic enough for anyone running a Logseq graph in a terminal. Point it at your graph with `--graph` or `$PEEKSEQ_GRAPH`, and you have the same loop: boot, land on today, navigate, read, edit. No Electron. No separate window. Just the notes, in the same pane as the rest of your work.
 
 If you live in a terminal and you keep a Logseq graph, give it a try. The whole thing is a single Go binary, the install is `go install`, and the README is honest about what it doesn't do.
-

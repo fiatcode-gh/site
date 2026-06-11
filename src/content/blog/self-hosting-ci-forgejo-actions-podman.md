@@ -62,7 +62,7 @@ Wrap that in a `systemctl --user` service and the runner comes online, polls, an
 
 Here's where the "five-minute update" showed its true size. A handful of things that did not go clean:
 
-**Codemagic left a landmine in my signing config.** My `android/app/build.gradle` had a release-signing block that branched on `if (System.getenv("CI"))` to pick up Codemagic's managed keystore. Forgejo's runner *also* sets `CI=true`. So on Forgejo that branch fires with all of Codemagic's specific variables empty — a broken or unsigned build. I rewired it to read generic `KEYSTORE_*` env vars, falling back to a local `keystore.properties` for desk builds. `CI=true` is universal; a CI-*specific* branch keyed on it is a trap waiting for the next CI.
+**Codemagic left a landmine in my signing config.** My `android/app/build.gradle` had a release-signing block that branched on `if (System.getenv("CI"))` to pick up Codemagic's managed keystore. Forgejo's runner _also_ sets `CI=true`. So on Forgejo that branch fires with all of Codemagic's specific variables empty — a broken or unsigned build. I rewired it to read generic `KEYSTORE_*` env vars, falling back to a local `keystore.properties` for desk builds. `CI=true` is universal; a CI-_specific_ branch keyed on it is a trap waiting for the next CI.
 
 **Third-party actions need full URLs.** Forgejo resolves a bare `actions/checkout@v4` from its own registry at `code.forgejo.org`, not GitHub. So `subosito/flutter-action`, which lives on GitHub, had to be spelled out as `uses: https://github.com/subosito/flutter-action@v2` — or it 404s.
 
