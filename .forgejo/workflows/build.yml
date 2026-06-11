@@ -1,0 +1,38 @@
+name: build-image
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  build:
+    runs-on: host
+    steps:
+      # Plain git clone instead of actions/checkout — host jobs would
+      # need Node.js on the workstation for JS actions; git is enough.
+      - name: Clone source
+        run: |
+          rm -rf src
+          git clone ${{ github.server_url }}/${{ github.repository }} src
+          git -C src checkout ${{ github.sha }}
+
+      - name: Build image
+        working-directory: src
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          # --format docker: keep Dockerfile HEALTHCHECK (dropped by OCI format)
+          podman build --format docker \
+            -t git.fiatcode.dev/${{ github.repository }}:latest \
+            -t git.fiatcode.dev/${{ github.repository }}:$SHORT_SHA \
+            .
+
+      - name: Push image
+        working-directory: src
+        run: |
+          SHORT_SHA=$(git rev-parse --short HEAD)
+          podman login git.fiatcode.dev \
+            -u ${{ github.repository_owner }} --password-stdin \
+            <<< "${{ secrets.REGISTRY_TOKEN }}"
+          podman push git.fiatcode.dev/${{ github.repository }}:latest
+          podman push git.fiatcode.dev/${{ github.repository }}:$SHORT_SHA
+          podman logout git.fiatcode.dev
