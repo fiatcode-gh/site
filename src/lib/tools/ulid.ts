@@ -2,6 +2,7 @@
 // millisecond timestamp + 16 chars of randomness, Crockford base32.
 const ALPHABET = "0123456789ABCDEFGHJKMNPQRSTVWXYZ";
 
+// Assumes timestamp < 2^48 (the ULID spec ceiling, year 10889); larger values wrap.
 export function encodeTime(timestamp: number, length = 10): string {
   if (!Number.isInteger(timestamp) || timestamp < 0) {
     throw new Error("timestamp must be a non-negative integer");

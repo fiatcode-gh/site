@@ -1,4 +1,5 @@
 <script lang="ts">
+  import { onMount } from "svelte";
   import { generateUlids } from "@/lib/tools/ulid";
   import { generateUuids } from "@/lib/tools/uuid";
   import CopyButton from "./CopyButton.svelte";
@@ -18,7 +19,9 @@
     }
   }
 
-  generate();
+  // Generate on mount only — running this at SSR/build time would bake the
+  // same "random" IDs into the static HTML for every visitor.
+  onMount(generate);
 </script>
 
 <div class="flex flex-col gap-5">
