@@ -12,13 +12,13 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.2",
-    "@astrojs/svelte": "^7.2.5",
+    "@astrojs/svelte": "^8.1.2",
     "@fontsource-variable/newsreader": "^5.2.10",
     "@fontsource/fira-code": "^5.2.7",
     "@tailwindcss/vite": "^4.1.18",
-    "astro": "^5.16.10",
-    "astro-expressive-code": "^0.41.6",
-    "astro-pagefind": "^1.8.5",
+    "astro": "^6.4.7",
+    "astro-expressive-code": "^0.43.1",
+    "astro-pagefind": "^1.8.6",
     "cron-parser": "5.5.0",
     "cronstrue": "3.14.0",
     "exifreader": "4.41.0",
@@ -32,7 +32,7 @@
     "prettier-plugin-astro": "^0.14.1",
     "prettier-plugin-organize-imports": "^4.3.0",
     "prettier-plugin-svelte": "^4.1.0",
-    "typescript": "^5.9.3",
+    "typescript": "^6.0.3",
     "vitest": "^4.1.8"
   }
 }
