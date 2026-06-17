@@ -10,7 +10,7 @@ tags:
 
 ## I shipped `peekseq` as a Logseq viewer. Renaming it to `weft` was how I learned what it had become.
 
-A couple of weeks ago I wrote that [your second brain belongs in your terminal](/blog/your-second-brain-belongs-in-your-terminal), and I shipped a little Go TUI to prove it. I called it `peekseq`. _Peek_, as in look — a viewer for my Logseq graph that ran in the same pane as Claude.
+A couple of weeks ago I wrote that [your second brain belongs in your terminal](/posts/your-second-brain-belongs-in-your-terminal), and I shipped a little Go TUI to prove it. I called it `peekseq`. _Peek_, as in look — a viewer for my Logseq graph that ran in the same pane as Claude.
 
 The name stopped being true almost immediately.
 
