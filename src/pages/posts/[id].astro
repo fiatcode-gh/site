@@ -39,11 +39,6 @@ const { post, content } = Astro.props;
   description={post.data.description}
 >
   <article data-pagefind-body>
-    <TableOfContents
-      variant="mobile"
-      headings={content.headings}
-      postId={post.id}
-    />
     <header class="mb-9">
       <p class="font-mono text-xs text-ink-faint">
         <span class="text-phosphor">$</span> cat posts/{post.id}.md
@@ -89,6 +84,12 @@ const { post, content } = Astro.props;
   </article>
   <TableOfContents
     slot="sidebar"
+    headings={content.headings}
+    postId={post.id}
+  />
+  <TableOfContents
+    slot="overlay"
+    variant="mobile"
     headings={content.headings}
     postId={post.id}
   />
