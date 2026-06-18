@@ -57,7 +57,9 @@ const { title, description, sidebar = true } = Astro.props;
         {
           sidebar && (
             <aside class="reveal py-5 md:py-0" style="--d: 2">
-              <Sidebar />
+              <slot name="sidebar">
+                <Sidebar />
+              </slot>
             </aside>
           )
         }
