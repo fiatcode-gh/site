@@ -3,6 +3,7 @@
 import type { MarkdownHeading } from "astro";
 import { filterHeadings } from "@/lib/toc";
 import TocList from "@/components/TocList.astro";
+import TocBottomSheet from "@/components/TocBottomSheet.astro";
 
 interface Props {
   headings: MarkdownHeading[];
@@ -31,14 +32,7 @@ const label = `grep '^#' ${postId ?? "post"}.md`;
         </ul>
       </nav>
     ) : (
-      <details class="mb-8 border border-line-soft bg-surface-2/40 md:hidden">
-        <summary class="cursor-pointer px-4 py-3 font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">
-          <span class="text-phosphor">$</span> {label}
-        </summary>
-        <ul class="space-y-1.5 border-t border-line-soft px-4 py-3">
-          <TocList items={items} />
-        </ul>
-      </details>
+      <TocBottomSheet items={items} />
     ))
 }
 
@@ -67,13 +61,22 @@ const label = `grep '^#' ${postId ?? "post"}.md`;
     // The current section is the last heading whose top has scrolled past an
     // activation line near the top of the viewport. It stays highlighted while
     // reading body text between that heading and the next.
+    const currentEl = document.querySelector<HTMLElement>("[data-toc-current]");
+
     const update = () => {
       const offset = window.innerHeight * 0.3;
       const entries = targets.map((el) => ({
         id: el.id,
         top: el.getBoundingClientRect().top,
       }));
-      setActive(activeHeadingId(entries, offset));
+      const id = activeHeadingId(entries, offset);
+      setActive(id);
+      if (currentEl) {
+        const el = id ? targets.find((t) => t.id === id) : null;
+        currentEl.textContent = el
+          ? `${el.tagName === "H3" ? "###" : "##"} ${(el.textContent ?? "").trim()}`
+          : "contents";
+      }
     };
 
     let ticking = false;
