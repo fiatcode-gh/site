@@ -1,0 +1,27 @@
+---
+// src/components/TocList.astro
+import type { MarkdownHeading } from "astro";
+
+interface Props {
+  items: MarkdownHeading[];
+}
+
+const { items } = Astro.props;
+---
+
+{
+  items.map((item) => (
+    <li class={item.depth === 3 ? "pl-4" : ""}>
+      <a
+        href={`#${item.slug}`}
+        data-toc-link={item.slug}
+        class="font-mono text-xs text-ink-faint transition-colors hover:text-ink"
+      >
+        <span class="mr-1.5 text-phosphor/50">
+          {item.depth === 3 ? "###" : "##"}
+        </span>
+        {item.text}
+      </a>
+    </li>
+  ))
+}
