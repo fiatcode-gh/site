@@ -1,17 +1,7 @@
-let cache: { quote: string; author: string } | null = null;
+import quotes from "../data/quotes.json";
 
-export async function getQuote() {
-  if (cache) return cache;
+export type Quote = { quote: string; author: string };
 
-  console.log("\nFetching fresh quote...");
-  const response = await fetch("https://quotes-github-readme.vercel.app/api");
-  const svgText = await response.text();
-
-  cache = {
-    quote: svgText.match(/<h3>([\s\S]*?)<\/h3>/)?.[1]?.trim() ?? "",
-    author: svgText.match(/<p>([\s\S]*?)<\/p>/)?.[1]?.trim() ?? "",
-  };
-  console.log("Quote fetched: ", cache);
-
-  return cache;
+export function getQuote(): Quote {
+  return quotes[Math.floor(Math.random() * quotes.length)];
 }
