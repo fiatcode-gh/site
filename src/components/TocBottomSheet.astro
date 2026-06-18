@@ -1,0 +1,104 @@
+---
+// src/components/TocBottomSheet.astro
+import type { MarkdownHeading } from "astro";
+import TocList from "@/components/TocList.astro";
+
+interface Props {
+  items: MarkdownHeading[];
+}
+
+const { items } = Astro.props;
+---
+
+<div
+  data-toc-backdrop
+  hidden
+  class="fixed inset-0 z-30 bg-black/50 md:hidden"
+  aria-hidden="true"
+>
+</div>
+
+<div class="fixed inset-x-0 bottom-0 z-40 flex flex-col md:hidden">
+  <nav
+    id="toc-sheet-panel"
+    aria-label="Table of contents"
+    hidden
+    class="max-h-[60vh] overflow-y-auto border-t border-line bg-surface/95 px-4 py-3 backdrop-blur"
+  >
+    <ul class="space-y-1.5">
+      <TocList items={items} />
+    </ul>
+  </nav>
+  <button
+    type="button"
+    data-toc-toggle
+    aria-expanded="false"
+    aria-controls="toc-sheet-panel"
+    class="flex items-center justify-between gap-3 border-t border-line bg-surface/95 px-4 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] font-mono text-xs text-ink-dim backdrop-blur"
+  >
+    <span class="flex min-w-0 items-center gap-1.5">
+      <span class="text-phosphor">$</span>
+      <span data-toc-current class="truncate">contents</span>
+    </span>
+    <svg
+      data-toc-chevron
+      class="h-4 w-4 shrink-0 text-ink-faint transition-transform"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      stroke-width="2"
+      stroke-linecap="round"
+      stroke-linejoin="round"
+      aria-hidden="true"
+    >
+      <path d="m18 15-6-6-6 6"></path>
+    </svg>
+  </button>
+</div>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>("[data-toc-toggle]");
+  const panel = document.getElementById("toc-sheet-panel");
+  const backdrop = document.querySelector<HTMLElement>("[data-toc-backdrop]");
+  const chevron = document.querySelector<HTMLElement>("[data-toc-chevron]");
+
+  if (toggle && panel && backdrop) {
+    const isOpen = () => toggle.getAttribute("aria-expanded") === "true";
+
+    const open = () => {
+      panel.hidden = false;
+      backdrop.hidden = false;
+      toggle.setAttribute("aria-expanded", "true");
+      chevron?.classList.add("rotate-180");
+      document.documentElement.classList.add("overflow-hidden");
+      panel.querySelector<HTMLAnchorElement>("a")?.focus();
+    };
+
+    const close = () => {
+      panel.hidden = true;
+      backdrop.hidden = true;
+      toggle.setAttribute("aria-expanded", "false");
+      chevron?.classList.remove("rotate-180");
+      document.documentElement.classList.remove("overflow-hidden");
+    };
+
+    toggle.addEventListener("click", () => (isOpen() ? close() : open()));
+
+    backdrop.addEventListener("click", () => {
+      close();
+      toggle.focus();
+    });
+
+    // Tapping a heading link jumps then closes the sheet.
+    panel.addEventListener("click", (e) => {
+      if ((e.target as HTMLElement).closest("a")) close();
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && isOpen()) {
+        close();
+        toggle.focus();
+      }
+    });
+  }
+</script>

@@ -56,13 +56,19 @@ const { title, description, sidebar = true } = Astro.props;
         </section>
         {
           sidebar && (
-            <aside class="reveal py-5 md:py-0" style="--d: 2">
-              <Sidebar />
+            <aside class="reveal py-5 md:py-0 md:self-stretch" style="--d: 2">
+              <slot name="sidebar">
+                <Sidebar />
+              </slot>
             </aside>
           )
         }
       </main>
       <Footer />
     </div>
+    {/* Fixed-position overlays live here, OUTSIDE the .reveal section. The
+        reveal load animation leaves a transform on its element, which would
+        otherwise become the containing block for position:fixed descendants. */}
+    <slot name="overlay" />
   </body>
 </html>

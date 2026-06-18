@@ -8,6 +8,7 @@ import {
 import Layout from "@/layouts/Layout.astro";
 import Tag from "@/components/Tag.astro";
 import Markdown from "@/components/Markdown.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -81,4 +82,15 @@ const { post, content } = Astro.props;
       )
     }
   </article>
+  <TableOfContents
+    slot="sidebar"
+    headings={content.headings}
+    postId={post.id}
+  />
+  <TableOfContents
+    slot="overlay"
+    variant="mobile"
+    headings={content.headings}
+    postId={post.id}
+  />
 </Layout>

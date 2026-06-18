@@ -1,0 +1,96 @@
+---
+// src/components/TableOfContents.astro
+import type { MarkdownHeading } from "astro";
+import { filterHeadings } from "@/lib/toc";
+import TocList from "@/components/TocList.astro";
+import TocBottomSheet from "@/components/TocBottomSheet.astro";
+
+interface Props {
+  headings: MarkdownHeading[];
+  variant?: "sidebar" | "mobile";
+  postId?: string;
+}
+
+const { headings, variant = "sidebar", postId } = Astro.props;
+const items = filterHeadings(headings);
+const show = items.length >= 2;
+const label = `grep '^#' ${postId ?? "post"}.md`;
+---
+
+{
+  show &&
+    (variant === "sidebar" ? (
+      <nav
+        aria-label="Table of contents"
+        class="sticky top-6 hidden md:block"
+      >
+        <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">
+          <span class="text-phosphor">$</span> {label}
+        </p>
+        <ul class="space-y-1.5 border-l-2 border-line-soft pl-4">
+          <TocList items={items} />
+        </ul>
+      </nav>
+    ) : (
+      <TocBottomSheet items={items} />
+    ))
+}
+
+<script>
+  import { activeHeadingId } from "../lib/toc";
+
+  const links = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"),
+  );
+  if (links.length > 0) {
+    const slugs = new Set(links.map((l) => l.dataset.tocLink));
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>("article h2[id], article h3[id]"),
+    ).filter((el) => slugs.has(el.id));
+
+    const setActive = (id: string | null) => {
+      for (const link of links) {
+        const isActive = id !== null && link.dataset.tocLink === id;
+        link.classList.toggle("text-phosphor", isActive);
+        link.classList.toggle("text-ink-faint", !isActive);
+        if (isActive) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      }
+    };
+
+    // The current section is the last heading whose top has scrolled past an
+    // activation line near the top of the viewport. It stays highlighted while
+    // reading body text between that heading and the next.
+    const currentEl = document.querySelector<HTMLElement>("[data-toc-current]");
+
+    const update = () => {
+      const offset = window.innerHeight * 0.3;
+      const entries = targets.map((el) => ({
+        id: el.id,
+        top: el.getBoundingClientRect().top,
+      }));
+      const id = activeHeadingId(entries, offset);
+      setActive(id);
+      if (currentEl) {
+        const el = id ? targets.find((t) => t.id === id) : null;
+        currentEl.textContent = el
+          ? `${el.tagName === "H3" ? "###" : "##"} ${(el.textContent ?? "").trim()}`
+          : "contents";
+      }
+    };
+
+    let ticking = false;
+    const onScroll = () => {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        update();
+        ticking = false;
+      });
+    };
+
+    update();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    window.addEventListener("resize", onScroll, { passive: true });
+  }
+</script>
