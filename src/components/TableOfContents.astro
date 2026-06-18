@@ -2,6 +2,7 @@
 // src/components/TableOfContents.astro
 import type { MarkdownHeading } from "astro";
 import { filterHeadings } from "@/lib/toc";
+import TocList from "@/components/TocList.astro";
 
 interface Props {
   headings: MarkdownHeading[];
@@ -26,20 +27,7 @@ const label = `$ grep '^#' ${postId ?? "post"}.md`;
           <span class="text-phosphor">$</span> {label.replace(/^\$ /, "")}
         </p>
         <ul class="space-y-1.5 border-l-2 border-line-soft pl-4">
-          {items.map((item) => (
-            <li class={item.depth === 3 ? "pl-4" : ""}>
-              <a
-                href={`#${item.slug}`}
-                data-toc-link={item.slug}
-                class="font-mono text-xs text-ink-faint transition-colors hover:text-ink"
-              >
-                <span class="mr-1.5 text-phosphor/50">
-                  {item.depth === 3 ? "###" : "##"}
-                </span>
-                {item.text}
-              </a>
-            </li>
-          ))}
+          <TocList items={items} />
         </ul>
       </nav>
     ) : (
@@ -48,20 +36,7 @@ const label = `$ grep '^#' ${postId ?? "post"}.md`;
           <span class="text-phosphor">$</span> {label.replace(/^\$ /, "")}
         </summary>
         <ul class="space-y-1.5 border-t border-line-soft px-4 py-3">
-          {items.map((item) => (
-            <li class={item.depth === 3 ? "pl-4" : ""}>
-              <a
-                href={`#${item.slug}`}
-                data-toc-link={item.slug}
-                class="font-mono text-xs text-ink-faint transition-colors hover:text-ink"
-              >
-                <span class="mr-1.5 text-phosphor/50">
-                  {item.depth === 3 ? "###" : "##"}
-                </span>
-                {item.text}
-              </a>
-            </li>
-          ))}
+          <TocList items={items} />
         </ul>
       </details>
     ))
