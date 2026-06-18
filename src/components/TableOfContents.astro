@@ -1,0 +1,102 @@
+---
+// src/components/TableOfContents.astro
+import type { MarkdownHeading } from "astro";
+import { filterHeadings } from "@/lib/toc";
+
+interface Props {
+  headings: MarkdownHeading[];
+  variant?: "sidebar" | "mobile";
+  postId?: string;
+}
+
+const { headings, variant = "sidebar", postId } = Astro.props;
+const items = filterHeadings(headings);
+const show = items.length >= 2;
+const label = `$ grep '^#' ${postId ?? "post"}.md`;
+---
+
+{
+  show &&
+    (variant === "sidebar" ? (
+      <nav
+        aria-label="Table of contents"
+        class="sticky top-6 hidden md:block"
+      >
+        <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">
+          <span class="text-phosphor">$</span> {label.replace(/^\$ /, "")}
+        </p>
+        <ul class="space-y-1.5 border-l-2 border-line-soft pl-4">
+          {items.map((item) => (
+            <li class={item.depth === 3 ? "pl-4" : ""}>
+              <a
+                href={`#${item.slug}`}
+                data-toc-link={item.slug}
+                class="font-mono text-xs text-ink-faint transition-colors hover:text-ink"
+              >
+                <span class="mr-1.5 text-phosphor/50">
+                  {item.depth === 3 ? "###" : "##"}
+                </span>
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </nav>
+    ) : (
+      <details class="mb-8 border border-line-soft bg-surface-2/40 md:hidden">
+        <summary class="cursor-pointer px-4 py-3 font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">
+          <span class="text-phosphor">$</span> {label.replace(/^\$ /, "")}
+        </summary>
+        <ul class="space-y-1.5 border-t border-line-soft px-4 py-3">
+          {items.map((item) => (
+            <li class={item.depth === 3 ? "pl-4" : ""}>
+              <a
+                href={`#${item.slug}`}
+                data-toc-link={item.slug}
+                class="font-mono text-xs text-ink-faint transition-colors hover:text-ink"
+              >
+                <span class="mr-1.5 text-phosphor/50">
+                  {item.depth === 3 ? "###" : "##"}
+                </span>
+                {item.text}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </details>
+    ))
+}
+
+<script>
+  const links = Array.from(
+    document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"),
+  );
+  if (links.length > 0) {
+    const slugs = new Set(links.map((l) => l.dataset.tocLink));
+    const targets = Array.from(
+      document.querySelectorAll<HTMLElement>("article h2[id], article h3[id]"),
+    ).filter((el) => slugs.has(el.id));
+
+    const setActive = (id: string) => {
+      for (const link of links) {
+        const isActive = link.dataset.tocLink === id;
+        link.classList.toggle("text-phosphor", isActive);
+        link.classList.toggle("text-ink-faint", !isActive);
+        if (isActive) link.setAttribute("aria-current", "true");
+        else link.removeAttribute("aria-current");
+      }
+    };
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const visible = entries
+          .filter((e) => e.isIntersecting)
+          .sort((a, b) => a.boundingClientRect.top - b.boundingClientRect.top);
+        if (visible.length > 0) setActive(visible[0].target.id);
+      },
+      { rootMargin: "0px 0px -70% 0px", threshold: 0 },
+    );
+
+    for (const t of targets) observer.observe(t);
+  }
+</script>
