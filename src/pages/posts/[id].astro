@@ -8,6 +8,7 @@ import {
 import Layout from "@/layouts/Layout.astro";
 import Tag from "@/components/Tag.astro";
 import Markdown from "@/components/Markdown.astro";
+import TableOfContents from "@/components/TableOfContents.astro";
 
 export async function getStaticPaths() {
   const posts = await getCollection("blog");
@@ -38,6 +39,11 @@ const { post, content } = Astro.props;
   description={post.data.description}
 >
   <article data-pagefind-body>
+    <TableOfContents
+      variant="mobile"
+      headings={content.headings}
+      postId={post.id}
+    />
     <header class="mb-9">
       <p class="font-mono text-xs text-ink-faint">
         <span class="text-phosphor">$</span> cat posts/{post.id}.md
@@ -81,4 +87,9 @@ const { post, content } = Astro.props;
       )
     }
   </article>
+  <TableOfContents
+    slot="sidebar"
+    headings={content.headings}
+    postId={post.id}
+  />
 </Layout>
