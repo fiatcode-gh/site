@@ -23,7 +23,7 @@ So I did the obvious 2026 thing. I cloned the repo, handed the whole thing to Cl
 
 ### Rebuilding something that already works
 
-"It already exists and runs" is usually a good reason *not* to build your own. The honest version of why I did it anyway:
+"It already exists and runs" is usually a good reason _not_ to build your own. The honest version of why I did it anyway:
 
 - The bugs were small but persistent — the kind that erode trust in a tool that's supposed to run silently for days.
 - The UI was generic. For an app whose entire job is to show me a coordinate and a status, generic is a missed opportunity.
@@ -31,7 +31,7 @@ So I did the obvious 2026 thing. I cloned the repo, handed the whole thing to Cl
 
 That last point is the one that changed the math. A year ago, "rebuild the client to my taste" meant reading an unfamiliar codebase end to end before I could change a line. That's a weekend gone before any real work starts.
 
-Feeding an existing codebase to an AI is a different mode than greenfield. There's no blank page to fill — there's a reference implementation that already encodes every protocol detail, every Android permission quirk, every edge case the original authors hit. The AI's first job isn't to invent. It's to *read*, explain the architecture back to me, and then help me decide what to keep.
+Feeding an existing codebase to an AI is a different mode than greenfield. There's no blank page to fill — there's a reference implementation that already encodes every protocol detail, every Android permission quirk, every edge case the original authors hit. The AI's first job isn't to invent. It's to _read_, explain the architecture back to me, and then help me decide what to keep.
 
 That distinction turned out to be the whole story.
 
@@ -41,7 +41,7 @@ That distinction turned out to be the whole story.
 
 Claude read the Traccar client far faster than I could have. Within a session I had a clear map: how it talks to the server, how it requests background location, how the foreground service stays alive. The protocol details — the exact query-string format Traccar expects, the `is_moving` flag, basic-auth headers — came straight across, correct, because they were sitting right there in the original.
 
-That's the gift. The trap is that an AI will faithfully reproduce *everything* — including the parts you wanted to leave behind.
+That's the gift. The trap is that an AI will faithfully reproduce _everything_ — including the parts you wanted to leave behind.
 
 I rebuilt the app with a cleaner split than I'd have managed by hand: a thin Flutter UI shell over a native Kotlin core, organized into `location/`, `network/`, `service/`, and `storage/` modules instead of one monolith. The Dart side talks to Kotlin through a single bridge. But poke around the native code and you'll still find this:
 
@@ -63,7 +63,7 @@ The first working build looked complete. It compiled, it launched, the UI render
 fix: critical bugs preventing location reporting to server
 ```
 
-This is the AI failure mode I've [written about before](/posts/vibe-coding-still-needs-a-craftsman) showing up in the wild. The generated code *looked* correct — it had all the right method names, the right callback shapes, a plausible service lifecycle. It was confident. It was also broken in a way that only surfaces when you actually run it against a real server and watch nothing arrive.
+This is the AI failure mode I've [written about before](/posts/vibe-coding-still-needs-a-craftsman) showing up in the wild. The generated code _looked_ correct — it had all the right method names, the right callback shapes, a plausible service lifecycle. It was confident. It was also broken in a way that only surfaces when you actually run it against a real server and watch nothing arrive.
 
 No test catches that for you when the whole thing is platform channels and a foreground service talking to GPS hardware. You catch it by running it on a real phone, in the real world, and noticing the dot on your map isn't moving.
 
@@ -82,7 +82,7 @@ It's the wrong call here, and there's a comment in the code saying why:
 // (not WorkManager — callbacks lost in separate process)
 ```
 
-WorkManager runs work in a context where the static callbacks this design relies on get lost. The right tool is a plain `AlarmManager` with `ELAPSED_REALTIME_WAKEUP`. That's not a fact you derive from first principles in a prompt — it's a scar from having shipped background Android code before. The AI wrote the implementation; I made the call about *which* implementation, and the comment exists so future-me doesn't "modernize" it back into a bug.
+WorkManager runs work in a context where the static callbacks this design relies on get lost. The right tool is a plain `AlarmManager` with `ELAPSED_REALTIME_WAKEUP`. That's not a fact you derive from first principles in a prompt — it's a scar from having shipped background Android code before. The AI wrote the implementation; I made the call about _which_ implementation, and the comment exists so future-me doesn't "modernize" it back into a bug.
 
 Same story with speed. The GPS chip doesn't always report a speed value, and the original just let that be null. I wanted a real number, so I added a fallback: take two fixes about 2.5 seconds apart and compute speed from the distance over time. Claude wrote that calculator quickly.
 
@@ -100,7 +100,7 @@ fix: remove 24h event log cleanup that caused log loss on service restart
 
 The app keeps a detailed event log — every location send, sync, network change, error, color-coded so I can actually debug what the tracker did overnight. At some point a "clean up logs older than 24h" routine got added. Sensible on its face. Except it ran on service restart, and a background tracker restarts more than you'd think — so the logs I most wanted, the ones from right before something went wrong, were the ones getting wiped.
 
-It's a tidy little parable for AI-assisted work. The cleanup code was reasonable in isolation. It was wrong in the context of how the app actually lives on a device. Reasoning about *running behavior over time* — not just "is this function correct" but "what does this do to the system after three days of real use" — is still the human's job. The AI optimizes the line in front of it. You have to own the runtime.
+It's a tidy little parable for AI-assisted work. The cleanup code was reasonable in isolation. It was wrong in the context of how the app actually lives on a device. Reasoning about _running behavior over time_ — not just "is this function correct" but "what does this do to the system after three days of real use" — is still the human's job. The AI optimizes the line in front of it. You have to own the runtime.
 
 ---
 
