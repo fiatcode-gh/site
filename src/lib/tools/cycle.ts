@@ -146,3 +146,28 @@ export function estimateFertility(
     confidence: stats.cycleCount < 6 ? "low" : "ok",
   };
 }
+
+export function sdmBand(
+  last: Date,
+  stats: CycleStats,
+): { start: Date; end: Date } | null {
+  if (stats.mean < 26 || stats.mean > 32) return null;
+  return { start: addDays(last, 7), end: addDays(last, 18) };
+}
+
+export function anomalies(cycles: Cycle[]): Cycle[] {
+  return cycles.filter((c) => c.days < 21 || c.days > 35);
+}
+
+export function eligibility(stats: CycleStats): {
+  sdmEligible: boolean;
+  regular: boolean;
+  note: string;
+} {
+  const sdmEligible = stats.mean >= 26 && stats.mean <= 32;
+  const regular = stats.longest - stats.shortest <= 7;
+  const note = sdmEligible
+    ? "Cycles fall in the Standard Days Method range (26–32 days)."
+    : "Cycles are outside the Standard Days Method range; estimates are less reliable.";
+  return { sdmEligible, regular, note };
+}

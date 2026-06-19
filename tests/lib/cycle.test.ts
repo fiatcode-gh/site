@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildCycles, computeStats, estimateFertility, parseDates, predictNext } from "../../src/lib/tools/cycle";
+import { buildCycles, computeStats, estimateFertility, parseDates, predictNext, sdmBand, anomalies, eligibility } from "../../src/lib/tools/cycle";
 
 // Helper to convert Date to YYYY-MM-DD string
 const ymd = (date: Date): string => {
@@ -105,5 +105,38 @@ describe("estimateFertility", () => {
     const few = parseDates("2026-01-01\n2026-01-29\n2026-02-26").dates; // 2 cycles
     const f = estimateFertility(few[few.length - 1], computeStats(buildCycles(few)));
     expect(f.confidence).toBe("low");
+  });
+});
+
+describe("sdmBand / anomalies / eligibility", () => {
+  const { dates } = parseDates(
+    "2025-01-01\n2025-01-29\n2025-02-28\n2025-03-26\n2025-04-23",
+  );
+  const cycles = buildCycles(dates); // [28,30,26,28]
+  const stats = computeStats(cycles);
+  const last = dates[dates.length - 1]; // 2025-04-23
+
+  it("returns SDM days 8-19 when mean is in 26-32", () => {
+    const b = sdmBand(last, stats)!;
+    expect(ymd(b.start)).toBe("2025-04-30"); // +7
+    expect(ymd(b.end)).toBe("2025-05-11"); // +18
+  });
+
+  it("returns null SDM band when mean is out of range", () => {
+    const longStats = { ...stats, mean: 40 };
+    expect(sdmBand(last, longStats)).toBeNull();
+  });
+
+  it("flags out-of-range cycles only", () => {
+    const odd = buildCycles(parseDates("2025-01-01\n2025-02-10\n2025-03-10").dates);
+    // 40 days, then 28 days
+    expect(anomalies(odd).map((c) => c.days)).toEqual([40]);
+    expect(anomalies(cycles)).toEqual([]);
+  });
+
+  it("reports eligibility flags", () => {
+    const e = eligibility(stats);
+    expect(e.sdmEligible).toBe(true);
+    expect(e.regular).toBe(true);
   });
 });
