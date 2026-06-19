@@ -1,5 +1,16 @@
 import { describe, expect, it } from "vitest";
-import { buildCycles, computeStats, estimateFertility, parseDates, predictNext, sdmBand, anomalies, eligibility, tagDay, type CalendarContext } from "../../src/lib/tools/cycle";
+import {
+  anomalies,
+  buildCycles,
+  computeStats,
+  eligibility,
+  estimateFertility,
+  parseDates,
+  predictNext,
+  sdmBand,
+  tagDay,
+  type CalendarContext,
+} from "../../src/lib/tools/cycle";
 
 // Helper to convert Date to YYYY-MM-DD string
 const ymd = (date: Date): string => {
@@ -62,10 +73,25 @@ describe("predictNext", () => {
   // Prototype fixture: 19 starts → mean 28.17, shortest 26, longest 30.
   const { dates } = parseDates(
     [
-      "2025-01-14","2025-02-11","2025-03-10","2025-04-08","2025-05-05",
-      "2025-06-03","2025-06-30","2025-07-29","2025-08-26","2025-09-24",
-      "2025-10-23","2025-11-19","2025-12-18","2026-01-15","2026-02-14",
-      "2026-03-13","2026-04-08","2026-05-08","2026-06-05",
+      "2025-01-14",
+      "2025-02-11",
+      "2025-03-10",
+      "2025-04-08",
+      "2025-05-05",
+      "2025-06-03",
+      "2025-06-30",
+      "2025-07-29",
+      "2025-08-26",
+      "2025-09-24",
+      "2025-10-23",
+      "2025-11-19",
+      "2025-12-18",
+      "2026-01-15",
+      "2026-02-14",
+      "2026-03-13",
+      "2026-04-08",
+      "2026-05-08",
+      "2026-06-05",
     ].join("\n"),
   );
   const stats = computeStats(buildCycles(dates));
@@ -82,10 +108,25 @@ describe("predictNext", () => {
 describe("estimateFertility", () => {
   const { dates } = parseDates(
     [
-      "2025-01-14","2025-02-11","2025-03-10","2025-04-08","2025-05-05",
-      "2025-06-03","2025-06-30","2025-07-29","2025-08-26","2025-09-24",
-      "2025-10-23","2025-11-19","2025-12-18","2026-01-15","2026-02-14",
-      "2026-03-13","2026-04-08","2026-05-08","2026-06-05",
+      "2025-01-14",
+      "2025-02-11",
+      "2025-03-10",
+      "2025-04-08",
+      "2025-05-05",
+      "2025-06-03",
+      "2025-06-30",
+      "2025-07-29",
+      "2025-08-26",
+      "2025-09-24",
+      "2025-10-23",
+      "2025-11-19",
+      "2025-12-18",
+      "2026-01-15",
+      "2026-02-14",
+      "2026-03-13",
+      "2026-04-08",
+      "2026-05-08",
+      "2026-06-05",
     ].join("\n"),
   );
   const stats = computeStats(buildCycles(dates));
@@ -103,7 +144,10 @@ describe("estimateFertility", () => {
 
   it("flags low confidence under 6 cycles", () => {
     const few = parseDates("2026-01-01\n2026-01-29\n2026-02-26").dates; // 2 cycles
-    const f = estimateFertility(few[few.length - 1], computeStats(buildCycles(few)));
+    const f = estimateFertility(
+      few[few.length - 1],
+      computeStats(buildCycles(few)),
+    );
     expect(f.confidence).toBe("low");
   });
 });
@@ -128,7 +172,9 @@ describe("sdmBand / anomalies / eligibility", () => {
   });
 
   it("flags out-of-range cycles only", () => {
-    const odd = buildCycles(parseDates("2025-01-01\n2025-02-10\n2025-03-10").dates);
+    const odd = buildCycles(
+      parseDates("2025-01-01\n2025-02-10\n2025-03-10").dates,
+    );
     // 40 days, then 28 days
     expect(anomalies(odd).map((c) => c.days)).toEqual([40]);
     expect(anomalies(cycles)).toEqual([]);
