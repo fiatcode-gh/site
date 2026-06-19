@@ -14,5 +14,5 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()],
   },
-  integrations: [expressiveCode(), pagefind(), sitemap(), svelte()],
+  integrations: [expressiveCode(), pagefind(), sitemap({ filter: (page) => !page.includes("/tools/cycle") }), svelte()],
 });

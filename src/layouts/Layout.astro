@@ -8,9 +8,10 @@ interface Props {
   title: string;
   description: string;
   sidebar?: boolean;
+  noindex?: boolean;
 }
 
-const { title, description, sidebar = true } = Astro.props;
+const { title, description, sidebar = true, noindex = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -27,6 +28,7 @@ const { title, description, sidebar = true } = Astro.props;
     <meta name="fediverse:creator" content="@fiatcode@mastodon.social" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="generator" content={Astro.generator} />
   </head>
   <body class="font-mono text-ink antialiased">
