@@ -22,7 +22,7 @@ You don't _peek_ at a tool that writes back. The name had become a lie. So I ren
 
 ### The rename was the design work
 
-Picking a name forces you to finish a sentence you've been avoiding: _this tool is a ___._ For months I'd dodged it. "It's like Logseq but terminal" is not a sentence — it's a comparison standing in for an identity.
+Picking a name forces you to finish a sentence you've been avoiding: _this tool is a \_\_\_._ For months I'd dodged it. "It's like Logseq but terminal" is not a sentence — it's a comparison standing in for an identity.
 
 `weft` made me finish it.
 
