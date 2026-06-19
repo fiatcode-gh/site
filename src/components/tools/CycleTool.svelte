@@ -98,11 +98,15 @@
       : 0,
   );
 
+  // Encoded by FORM, not hue: with a single-accent palette and partial color
+  // blindness in mind, period/ovulation/fertile must differ by shape and weight,
+  // not shade. Solid block = period; bold ring (a "circled" day) = ovulation;
+  // faint thin ring = fertile; underline = safe.
   const tagClass: Record<string, string> = {
     period: "bg-phosphor text-bg font-bold",
-    ovulation: "bg-phosphor/90 text-bg font-bold ring-1 ring-phosphor",
-    fertile: "border border-phosphor/40 bg-surface-2 text-ink",
-    safe: "text-ink-dim",
+    ovulation: "text-phosphor font-bold ring-2 ring-inset ring-phosphor",
+    fertile: "text-ink ring-1 ring-inset ring-phosphor/40",
+    safe: "text-ink underline decoration-dotted underline-offset-2",
     neutral: "text-ink-faint",
   };
 
@@ -453,9 +457,9 @@
 
         <!-- Legend -->
         <div class="border border-line bg-surface p-4 grid grid-cols-2 gap-2.5">
-          {#each [{ cls: "bg-phosphor", label: "period (current)" }, { cls: "border border-phosphor/40 bg-surface-2", label: "fertile (estimated · probabilistic)" }, { cls: "bg-phosphor/90 ring-1 ring-phosphor", label: "ovulation estimate" }, { cls: "text-ink-dim border border-line", label: "safe days" }] as leg}
+          {#each [{ cls: "bg-phosphor", label: "period (current) — solid" }, { cls: "ring-2 ring-inset ring-phosphor", label: "ovulation estimate — ring" }, { cls: "ring-1 ring-inset ring-phosphor/40", label: "fertile (estimated · probabilistic) — faint ring" }, { cls: "border-b border-dotted border-ink-dim", label: "safe days — underline" }] as leg}
             <div class="flex items-center gap-2">
-              <span class="h-3 w-3 flex-shrink-0 {leg.cls}"></span>
+              <span class="h-4 w-4 flex-shrink-0 {leg.cls}"></span>
               <span class="font-mono text-xs text-ink-faint">{leg.label}</span>
             </div>
           {/each}
