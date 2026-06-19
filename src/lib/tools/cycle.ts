@@ -171,3 +171,29 @@ export function eligibility(stats: CycleStats): {
     : "Cycles are outside the Standard Days Method range; estimates are less reliable.";
   return { sdmEligible, regular, note };
 }
+
+export type DayTag = "period" | "fertile" | "ovulation" | "safe" | "neutral";
+
+export interface CalendarContext {
+  periodStart: Date;
+  periodEnd: Date;
+  fertileStart: Date;
+  fertileEnd: Date;
+  ovulationEstimate: Date;
+  ovulationBandDays: number;
+  nextStart: Date;
+}
+
+const within = (d: Date, a: Date, b: Date) =>
+  d.getTime() >= a.getTime() && d.getTime() <= b.getTime();
+
+export function tagDay(date: Date, ctx: CalendarContext): DayTag {
+  if (within(date, ctx.periodStart, ctx.periodEnd)) return "period";
+  const ovuLo = addDays(ctx.ovulationEstimate, -ctx.ovulationBandDays);
+  const ovuHi = addDays(ctx.ovulationEstimate, ctx.ovulationBandDays);
+  if (within(date, ovuLo, ovuHi)) return "ovulation";
+  if (within(date, ctx.fertileStart, ctx.fertileEnd)) return "fertile";
+  if (within(date, addDays(ctx.periodEnd, 1), addDays(ctx.nextStart, -1)))
+    return "safe";
+  return "neutral";
+}

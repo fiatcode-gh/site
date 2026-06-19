@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildCycles, computeStats, estimateFertility, parseDates, predictNext, sdmBand, anomalies, eligibility } from "../../src/lib/tools/cycle";
+import { buildCycles, computeStats, estimateFertility, parseDates, predictNext, sdmBand, anomalies, eligibility, tagDay, type CalendarContext } from "../../src/lib/tools/cycle";
 
 // Helper to convert Date to YYYY-MM-DD string
 const ymd = (date: Date): string => {
@@ -138,5 +138,28 @@ describe("sdmBand / anomalies / eligibility", () => {
     const e = eligibility(stats);
     expect(e.sdmEligible).toBe(true);
     expect(e.regular).toBe(true);
+  });
+});
+
+describe("tagDay", () => {
+  const ctx: CalendarContext = {
+    periodStart: new Date(2026, 5, 5),
+    periodEnd: new Date(2026, 5, 10),
+    fertileStart: new Date(2026, 5, 13),
+    fertileEnd: new Date(2026, 5, 24),
+    ovulationEstimate: new Date(2026, 5, 19),
+    ovulationBandDays: 2,
+    nextStart: new Date(2026, 6, 3),
+  };
+  const tag = (m: number, d: number) => tagDay(new Date(2026, m, d), ctx);
+
+  it("tags period, ovulation band, fertile, safe, neutral", () => {
+    expect(tag(5, 7)).toBe("period"); // in period
+    expect(tag(5, 19)).toBe("ovulation"); // center
+    expect(tag(5, 18)).toBe("ovulation"); // within +-2
+    expect(tag(5, 15)).toBe("fertile"); // fertile, outside band
+    expect(tag(5, 11)).toBe("safe"); // post-period, pre-fertile
+    expect(tag(5, 28)).toBe("safe"); // post-fertile, pre-next
+    expect(tag(5, 4)).toBe("neutral"); // before this cycle
   });
 });
