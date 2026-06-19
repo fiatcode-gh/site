@@ -297,15 +297,11 @@
         <div class="flex flex-col gap-1.5">
           {#if periodEnd}
             <div
-              class="flex items-center justify-between border border-line bg-surface px-4 py-3 gap-2"
+              class="flex flex-col gap-1 border border-line bg-surface px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <div class="flex items-center gap-2.5 min-w-0">
-                <span class="h-2 w-2 flex-shrink-0 bg-phosphor/60"></span>
-                <span class="font-mono text-sm text-ink-dim truncate">
-                  period ends ~
-                </span>
-              </div>
-              <span class="font-mono text-xs text-ink flex-shrink-0 text-right">
+              <span class="font-mono text-xs text-ink-faint">period ends ~</span
+              >
+              <span class="font-mono text-sm text-ink sm:text-right">
                 {fmtW(periodEnd)}
               </span>
             </div>
@@ -313,15 +309,12 @@
 
           {#if safe1Start && safe1End && safe1Days > 0}
             <div
-              class="flex items-center justify-between border border-line bg-surface px-4 py-3 gap-2"
+              class="flex flex-col gap-1 border border-line bg-surface px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <div class="flex items-center gap-2.5 min-w-0">
-                <span class="h-2 w-2 flex-shrink-0 border border-line"></span>
-                <span class="font-mono text-sm text-ink-dim truncate">
-                  safe zone 1 (post-period)
-                </span>
-              </div>
-              <span class="font-mono text-xs text-ink flex-shrink-0 text-right">
+              <span class="font-mono text-xs text-ink-faint"
+                >safe zone 1 (post-period)</span
+              >
+              <span class="font-mono text-sm text-ink sm:text-right">
                 {fmtS(safe1Start)} – {fmtS(safe1End)} ({safe1Days}d)
               </span>
             </div>
@@ -329,30 +322,23 @@
 
           {#if fertility}
             <div
-              class="flex items-center justify-between border border-phosphor/20 bg-surface px-4 py-3 gap-2"
+              class="flex flex-col gap-1 border border-phosphor/20 bg-surface px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <div class="flex items-center gap-2.5 min-w-0">
-                <span class="h-2 w-2 flex-shrink-0 border border-phosphor/40"
-                ></span>
-                <span class="font-mono text-sm text-ink-dim truncate">
-                  fertile window opens (estimated · probabilistic)
-                </span>
-              </div>
-              <span class="font-mono text-xs text-ink flex-shrink-0 text-right">
+              <span class="font-mono text-xs text-ink-faint"
+                >fertile window opens (estimated · probabilistic)</span
+              >
+              <span class="font-mono text-sm text-ink sm:text-right">
                 {fmtW(fertility.fertileStart)}
               </span>
             </div>
 
             <div
-              class="flex items-center justify-between border border-phosphor/20 bg-surface px-4 py-3 gap-2"
+              class="flex flex-col gap-1 border border-phosphor/20 bg-surface px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <div class="flex items-center gap-2.5 min-w-0">
-                <span class="h-2 w-2 flex-shrink-0 bg-phosphor/80"></span>
-                <span class="font-mono text-sm text-ink-dim truncate">
-                  ovulation estimate
-                </span>
-              </div>
-              <span class="font-mono text-xs text-right flex-shrink-0">
+              <span class="font-mono text-xs text-ink-faint"
+                >ovulation estimate</span
+              >
+              <span class="font-mono text-sm sm:text-right">
                 <span class="text-phosphor">
                   ~{fmtS(fertility.ovulationEstimate)} ±{fertility.ovulationBandDays}
                   days
@@ -365,16 +351,12 @@
             </div>
 
             <div
-              class="flex items-center justify-between border border-phosphor/20 bg-surface px-4 py-3 gap-2"
+              class="flex flex-col gap-1 border border-phosphor/20 bg-surface px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <div class="flex items-center gap-2.5 min-w-0">
-                <span class="h-2 w-2 flex-shrink-0 border border-phosphor/40"
-                ></span>
-                <span class="font-mono text-sm text-ink-dim truncate">
-                  fertile window closes (estimated · probabilistic)
-                </span>
-              </div>
-              <span class="font-mono text-xs text-ink flex-shrink-0 text-right">
+              <span class="font-mono text-xs text-ink-faint"
+                >fertile window closes (estimated · probabilistic)</span
+              >
+              <span class="font-mono text-sm text-ink sm:text-right">
                 {fmtW(fertility.fertileEnd)}
               </span>
             </div>
@@ -382,15 +364,12 @@
 
           {#if safe2Start && safe2End && safe2Days > 0}
             <div
-              class="flex items-center justify-between border border-line bg-surface px-4 py-3 gap-2"
+              class="flex flex-col gap-1 border border-line bg-surface px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <div class="flex items-center gap-2.5 min-w-0">
-                <span class="h-2 w-2 flex-shrink-0 border border-line"></span>
-                <span class="font-mono text-sm text-ink-dim truncate">
-                  safe zone 2 (post-ovulation)
-                </span>
-              </div>
-              <span class="font-mono text-xs text-ink flex-shrink-0 text-right">
+              <span class="font-mono text-xs text-ink-faint"
+                >safe zone 2 (post-ovulation)</span
+              >
+              <span class="font-mono text-sm text-ink sm:text-right">
                 {fmtS(safe2Start)} – {fmtS(safe2End)} ({safe2Days}d)
               </span>
             </div>
@@ -399,16 +378,12 @@
           <!-- SDM cross-check -->
           {#if sdm}
             <div
-              class="flex items-center justify-between border border-line-soft bg-surface-2/40 px-4 py-3 gap-2"
+              class="flex flex-col gap-1 border border-line-soft bg-surface-2/40 px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <div class="flex items-center gap-2.5 min-w-0">
-                <span class="font-mono text-xs text-ink-faint truncate">
-                  Standard Days Method (days 8–19):
-                </span>
-              </div>
-              <span
-                class="font-mono text-xs text-ink-dim flex-shrink-0 text-right"
+              <span class="font-mono text-xs text-ink-faint"
+                >Standard Days Method (days 8–19):</span
               >
+              <span class="font-mono text-xs text-ink-dim sm:text-right">
                 {fmtS(sdm.start)} – {fmtS(sdm.end)}
               </span>
             </div>
