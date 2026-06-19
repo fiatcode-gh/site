@@ -20,10 +20,7 @@ const label = `grep '^#' ${postId ?? "post"}.md`;
 {
   show &&
     (variant === "sidebar" ? (
-      <nav
-        aria-label="Table of contents"
-        class="sticky top-6 hidden md:block"
-      >
+      <nav aria-label="Table of contents" class="sticky top-6 hidden md:block">
         <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">
           <span class="text-phosphor">$</span> {label}
         </p>

@@ -1,5 +1,5 @@
-import { describe, expect, it } from "vitest";
 import type { MarkdownHeading } from "astro";
+import { describe, expect, it } from "vitest";
 import { activeHeadingId, filterHeadings } from "./toc";
 
 const h = (depth: number, slug: string): MarkdownHeading => ({
