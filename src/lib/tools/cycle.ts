@@ -103,3 +103,23 @@ export function computeStats(cycles: Cycle[]): CycleStats {
     distribution,
   };
 }
+
+export function addDays(d: Date, n: number): Date {
+  const x = new Date(d);
+  x.setDate(x.getDate() + n);
+  return x;
+}
+
+export interface Prediction {
+  point: Date;
+  earliest: Date;
+  latest: Date;
+}
+
+export function predictNext(last: Date, stats: CycleStats): Prediction {
+  return {
+    point: addDays(last, Math.round(stats.mean)),
+    earliest: addDays(last, stats.shortest),
+    latest: addDays(last, stats.longest),
+  };
+}
