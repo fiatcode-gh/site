@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { buildCycles, computeStats, parseDates, predictNext } from "../../src/lib/tools/cycle";
+import { buildCycles, computeStats, estimateFertility, parseDates, predictNext } from "../../src/lib/tools/cycle";
 
 // Helper to convert Date to YYYY-MM-DD string
 const ymd = (date: Date): string => {
@@ -76,5 +76,34 @@ describe("predictNext", () => {
     expect(ymd(p.point)).toBe("2026-07-03"); // +round(28.17)=28
     expect(ymd(p.earliest)).toBe("2026-07-01"); // +26
     expect(ymd(p.latest)).toBe("2026-07-05"); // +30
+  });
+});
+
+describe("estimateFertility", () => {
+  const { dates } = parseDates(
+    [
+      "2025-01-14","2025-02-11","2025-03-10","2025-04-08","2025-05-05",
+      "2025-06-03","2025-06-30","2025-07-29","2025-08-26","2025-09-24",
+      "2025-10-23","2025-11-19","2025-12-18","2026-01-15","2026-02-14",
+      "2026-03-13","2026-04-08","2026-05-08","2026-06-05",
+    ].join("\n"),
+  );
+  const stats = computeStats(buildCycles(dates));
+  const last = dates[dates.length - 1]; // 2026-06-05, shortest 26, longest 30, mean~28.17
+
+  it("computes the calendar-rhythm band and banded ovulation", () => {
+    const f = estimateFertility(last, stats);
+    expect(ymd(f.fertileStart)).toBe("2026-06-13"); // +26-18 = +8
+    expect(ymd(f.fertileEnd)).toBe("2026-06-24"); // +30-11 = +19
+    expect(ymd(f.ovulationEstimate)).toBe("2026-06-19"); // +28-14 = +14
+    expect(f.ovulationBandDays).toBe(2); // ceil(stdDev~1.07) floored at 2
+    expect(f.method).toBe("calendar-rhythm");
+    expect(f.confidence).toBe("ok");
+  });
+
+  it("flags low confidence under 6 cycles", () => {
+    const few = parseDates("2026-01-01\n2026-01-29\n2026-02-26").dates; // 2 cycles
+    const f = estimateFertility(few[few.length - 1], computeStats(buildCycles(few)));
+    expect(f.confidence).toBe("low");
   });
 });

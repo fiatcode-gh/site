@@ -123,3 +123,26 @@ export function predictNext(last: Date, stats: CycleStats): Prediction {
     latest: addDays(last, stats.longest),
   };
 }
+
+export interface FertilityEstimate {
+  fertileStart: Date;
+  fertileEnd: Date;
+  ovulationEstimate: Date;
+  ovulationBandDays: number;
+  method: "calendar-rhythm";
+  confidence: "low" | "ok";
+}
+
+export function estimateFertility(
+  last: Date,
+  stats: CycleStats,
+): FertilityEstimate {
+  return {
+    fertileStart: addDays(last, stats.shortest - 18),
+    fertileEnd: addDays(last, stats.longest - 11),
+    ovulationEstimate: addDays(last, Math.round(stats.mean) - 14),
+    ovulationBandDays: Math.max(2, Math.ceil(stats.stdDev)),
+    method: "calendar-rhythm",
+    confidence: stats.cycleCount < 6 ? "low" : "ok",
+  };
+}
