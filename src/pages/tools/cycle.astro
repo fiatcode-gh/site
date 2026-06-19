@@ -1,0 +1,20 @@
+---
+import CycleTool from "@/components/tools/CycleTool.svelte";
+import ToolShell from "@/components/ToolShell.astro";
+import Layout from "@/layouts/Layout.astro";
+
+const name = "Cycle tracker";
+const description =
+  "Private menstrual-cycle analytics — paste your period dates, everything stays in this browser.";
+---
+
+<Layout
+  title={`${name} | fiatcode`}
+  description={description}
+  sidebar={false}
+  noindex={true}
+>
+  <ToolShell name={name} description={description}>
+    <CycleTool client:load />
+  </ToolShell>
+</Layout>
