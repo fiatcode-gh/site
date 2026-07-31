@@ -24,6 +24,7 @@ const { title, description, sidebar = true, noindex = false } = Astro.props;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
+    <script is:inline>document.documentElement.classList.add("js");</script>
     <link rel="me" href="https://mastodon.social/@fiatcode" />
     <meta name="fediverse:creator" content="@fiatcode@mastodon.social" />
     <title>{title}</title>
@@ -44,14 +45,6 @@ const { title, description, sidebar = true, noindex = false } = Astro.props;
           class:list={["reveal relative", sidebar && "md:col-span-3"]}
           style="--d: 1"
         >
-          <!-- active-window top edge: solid phosphor tab + flat rail -->
-          <div
-            class="pointer-events-none absolute inset-x-0 -top-px flex"
-            aria-hidden="true"
-          >
-            <span class="h-px w-24 bg-phosphor/80"></span>
-            <span class="h-px flex-1 bg-line"></span>
-          </div>
           <div class="border border-line-soft bg-surface/70 p-5 sm:p-8">
             <slot />
           </div>
@@ -74,5 +67,27 @@ const { title, description, sidebar = true, noindex = false } = Astro.props;
         otherwise become the containing block for position:fixed descendants. */
     }
     <slot name="overlay" />
+    <script is:inline>
+      (function () {
+        var els = document.querySelectorAll(".reveal-scroll");
+        if (!("IntersectionObserver" in window)) {
+          return;
+        }
+        var io = new IntersectionObserver(
+          function (entries) {
+            entries.forEach(function (entry) {
+              if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                io.unobserve(entry.target);
+              }
+            });
+          },
+          { rootMargin: "0px 0px -8% 0px", threshold: 0.1 },
+        );
+        els.forEach(function (el) {
+          io.observe(el);
+        });
+      })();
+    </script>
   </body>
 </html>
