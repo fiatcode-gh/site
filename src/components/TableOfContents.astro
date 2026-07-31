@@ -8,13 +8,12 @@ import TocBottomSheet from "@/components/TocBottomSheet.astro";
 interface Props {
   headings: MarkdownHeading[];
   variant?: "sidebar" | "mobile";
-  postId?: string;
 }
 
-const { headings, variant = "sidebar", postId } = Astro.props;
+const { headings, variant = "sidebar" } = Astro.props;
 const items = filterHeadings(headings);
 const show = items.length >= 2;
-const label = `grep '^#' ${postId ?? "post"}.md`;
+const label = "on this page";
 ---
 
 {
@@ -22,7 +21,7 @@ const label = `grep '^#' ${postId ?? "post"}.md`;
     (variant === "sidebar" ? (
       <nav aria-label="Table of contents" class="sticky top-6 hidden md:block">
         <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">
-          <span class="text-phosphor">$</span> {label}
+          {label}
         </p>
         <ul class="space-y-1.5 border-l-2 border-line-soft pl-4">
           <TocList items={items} />
@@ -70,9 +69,7 @@ const label = `grep '^#' ${postId ?? "post"}.md`;
       setActive(id);
       if (currentEl) {
         const el = id ? targets.find((t) => t.id === id) : null;
-        currentEl.textContent = el
-          ? `${el.tagName === "H3" ? "###" : "##"} ${(el.textContent ?? "").trim()}`
-          : "contents";
+        currentEl.textContent = el ? (el.textContent ?? "").trim() : "contents";
       }
     };
 
