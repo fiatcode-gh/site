@@ -73,6 +73,9 @@ const { title, description, sidebar = true, noindex = false } = Astro.props;
       (function () {
         var els = document.querySelectorAll(".reveal-scroll");
         if (!("IntersectionObserver" in window)) {
+          els.forEach(function (el) {
+            el.classList.add("is-visible");
+          });
           return;
         }
         var io = new IntersectionObserver(

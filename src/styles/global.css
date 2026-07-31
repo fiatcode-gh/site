@@ -117,8 +117,6 @@
 
   @media (prefers-reduced-motion: reduce) {
     .reveal-scroll {
-      opacity: 1;
-      transform: none;
       transition: none;
     }
   }
