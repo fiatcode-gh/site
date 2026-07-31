@@ -4,11 +4,9 @@
 @import "tailwindcss";
 @plugin "@tailwindcss/typography";
 
-/* ─────────────────────────────────────────────────────────────
-   The Craftsman's Terminal — warm phosphor on warm black.
-   Mono (Fira Code) is the structural chrome; Newsreader serif
-   carries long-form prose. A single amber accent, used sparingly.
-   ───────────────────────────────────────────────────────────── */
+/* Editorial Craftsman — warm phosphor on warm black. Newsreader
+   serif carries display and prose; Fira Code is metadata only.
+   One amber accent, used boldly at type scale. */
 @theme {
   --font-mono: "Fira Code", ui-monospace, monospace;
   --font-serif: "Newsreader Variable", "Newsreader", Georgia, serif;
@@ -34,6 +32,18 @@
   --color-line-soft: oklch(0.27 0.007 70);
 }
 
+@utility text-display {
+  font-size: clamp(2.25rem, 1.5rem + 3vw, 3.75rem);
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+}
+
+@utility text-display-sm {
+  font-size: clamp(1.75rem, 1.35rem + 1.8vw, 2.5rem);
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+}
+
 @layer base {
   html {
     scroll-behavior: smooth;
@@ -43,18 +53,11 @@
   body {
     background-color: var(--color-bg);
     color: var(--color-ink);
-    /* Warm vignette + a faint phosphor glow bleeding from the top */
-    background-image:
-      radial-gradient(
-        120% 80% at 50% -10%,
-        oklch(0.83 0.135 74 / 0.06) 0%,
-        transparent 55%
-      ),
-      radial-gradient(
-        100% 100% at 50% 0%,
-        oklch(0.22 0.01 70) 0%,
-        var(--color-bg) 70%
-      );
+    background-image: radial-gradient(
+      90% 60% at 50% -20%,
+      oklch(0.83 0.135 74 / 0.05) 0%,
+      transparent 60%
+    );
   }
 
   ::selection {
@@ -68,40 +71,6 @@
   }
 }
 
-/* ── Atmosphere: scanlines + grain, fixed, non-interactive ── */
-@layer base {
-  body::before,
-  body::after {
-    content: "";
-    position: fixed;
-    inset: 0;
-    pointer-events: none;
-    z-index: 50;
-    /* Promote to its own compositor layer so the fixed overlay is
-       NOT repainted on every scroll frame (mobile scroll perf). */
-    transform: translateZ(0);
-    will-change: transform;
-  }
-
-  /* Faint CRT scanlines (alpha-composited; no blend mode, no animation) */
-  body::before {
-    background-image: repeating-linear-gradient(
-      0deg,
-      transparent 0,
-      transparent 2px,
-      oklch(0 0 0 / 0.22) 3px,
-      transparent 4px
-    );
-    opacity: 0.35;
-  }
-
-  /* Fractal-noise grain */
-  body::after {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-    opacity: 0.025;
-  }
-}
-
 /* ── Page-load reveal: staggered rise ── */
 @keyframes reveal {
   from {
@@ -111,36 +80,6 @@
   to {
     opacity: 1;
     transform: translateY(0);
-  }
-}
-
-@keyframes wave {
-  0%,
-  100% {
-    transform: rotate(0deg);
-  }
-  20% {
-    transform: rotate(16deg);
-  }
-  40% {
-    transform: rotate(-8deg);
-  }
-  60% {
-    transform: rotate(12deg);
-  }
-  80% {
-    transform: rotate(-4deg);
-  }
-}
-
-@keyframes caret-blink {
-  0%,
-  49% {
-    opacity: 1;
-  }
-  50%,
-  100% {
-    opacity: 0;
   }
 }
 
@@ -158,11 +97,29 @@
     }
   }
 
-  /* Blinking block caret for the terminal motif */
-  .caret::after {
-    content: "▋";
-    margin-left: 0.15em;
-    color: var(--color-phosphor);
-    animation: caret-blink 1.1s step-end infinite;
+  /* Hidden state is scoped under html.js and :not(.is-visible) so it
+     loses to .is-visible and never applies without JavaScript. */
+  html.js .reveal-scroll:not(.is-visible) {
+    opacity: 0;
+    transform: translateY(0.75rem);
+  }
+
+  .reveal-scroll {
+    transition:
+      opacity 0.55s cubic-bezier(0.2, 0.7, 0.2, 1),
+      transform 0.55s cubic-bezier(0.2, 0.7, 0.2, 1);
+  }
+
+  .reveal-scroll.is-visible {
+    opacity: 1;
+    transform: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .reveal-scroll {
+      opacity: 1;
+      transform: none;
+      transition: none;
+    }
   }
 }
