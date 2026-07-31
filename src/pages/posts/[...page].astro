@@ -33,7 +33,7 @@ const { page } = Astro.props;
   <ul>
     {
       page.data.map((post) => (
-        <li>
+        <li class="reveal-scroll">
           <BlogPostEntry
             id={post.id}
             title={post.data.title}
