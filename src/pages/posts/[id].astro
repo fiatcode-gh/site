@@ -75,10 +75,7 @@ const { post, content } = Astro.props;
       )
     }
   </article>
-  <TableOfContents
-    slot="sidebar"
-    headings={content.headings}
-  />
+  <TableOfContents slot="sidebar" headings={content.headings} />
   <TableOfContents
     slot="overlay"
     variant="mobile"

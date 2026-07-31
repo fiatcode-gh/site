@@ -24,7 +24,9 @@ const { title, description, sidebar = true, noindex = false } = Astro.props;
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <script is:inline>document.documentElement.classList.add("js");</script>
+    <script is:inline>
+      document.documentElement.classList.add("js");
+    </script>
     <link rel="me" href="https://mastodon.social/@fiatcode" />
     <meta name="fediverse:creator" content="@fiatcode@mastodon.social" />
     <title>{title}</title>
