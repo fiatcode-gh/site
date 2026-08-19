@@ -13,7 +13,7 @@ tags:
 
 I run fourteen services on a single Netcup VPS — Traefik out front, Authelia, Forgejo, Vaultwarden, Navidrome, a few of my own APIs. For years they ran on Docker Compose. Last week I moved the whole thing to rootless Podman.
 
-The question worth answering isn't whether Podman *can* run my containers — of course it can, it's OCI all the way down. It's whether Podman is actually *better* for deployment, or just a rootless novelty you adopt on principle and quietly regret.
+The question worth answering isn't whether Podman _can_ run my containers — of course it can, it's OCI all the way down. It's whether Podman is actually _better_ for deployment, or just a rootless novelty you adopt on principle and quietly regret.
 
 Having done it, I'll take a position: for deploying long-running services on a box you own, Podman's model is the better one, and Docker's defining feature — the daemon — is the specific thing you're better off without.
 
@@ -43,7 +43,7 @@ Look at what Compose does instead. It reinvents that slice of systemd — its ow
 
 Under quadlets that whole layer is gone. `systemctl --user restart forgejo`. `journalctl --user -u forgejo -f`. The entire stack is one systemd target — a reboot brings all fourteen services back, in dependency order, with zero intervention, because bringing ordered units up at boot is precisely what systemd has done since 2010.
 
-Deployment *is* lifecycle management of long-running processes. Linux already ships an excellent tool for that. Podman lets you use it; Compose asks you to run a second one.
+Deployment _is_ lifecycle management of long-running processes. Linux already ships an excellent tool for that. Podman lets you use it; Compose asks you to run a second one.
 
 ---
 
@@ -61,13 +61,13 @@ There's even an upside where I expected a downside. Rootless container networkin
 
 Now the honest half, because none of this is free.
 
-Docker is *forgiving* in ways you stop noticing until they're gone. It creates missing bind-mount directories for you. It sets friendly in-container defaults — like quietly letting a process bind port 80 as a non-root user inside its own namespace. Its daemon keeps state warm across restarts so half-configured things limp along.
+Docker is _forgiving_ in ways you stop noticing until they're gone. It creates missing bind-mount directories for you. It sets friendly in-container defaults — like quietly letting a process bind port 80 as a non-root user inside its own namespace. Its daemon keeps state warm across restarts so half-configured things limp along.
 
 Podman does none of that. It is explicit to the point of strict:
 
 - Point a bind mount at a directory that doesn't exist and it won't start — `statfs: no such file or directory`, exit 125 — where Docker would have created the directory and moved on.
 - Run an image that binds `:80` as a non-root in-container user and it fails until you grant `net.ipv4.ip_unprivileged_port_start` inside the container yourself. Docker sets that in every container's namespace automatically; Podman makes you ask.
-- Map your host user into a container with `keep-id` and it'll change the container's *default* user out from under an entrypoint that assumed root — I had a service die on its own lockfile until I set `User=0` back explicitly.
+- Map your host user into a container with `keep-id` and it'll change the container's _default_ user out from under an entrypoint that assumed root — I had a service die on its own lockfile until I set `User=0` back explicitly.
 
 Every one of those is Docker doing something implicit that Podman insists you say out loud. Moving over, I hit all of them, and the first week was a steady drip of "why won't this start" — each answer a convenience Docker had been extending that I'd never known to thank it for.
 

@@ -14,8 +14,7 @@ export type RegexResult =
   | { ok: false; error: string };
 
 export type ReplaceResult =
-  | { ok: true; output: string }
-  | { ok: false; error: string };
+  { ok: true; output: string } | { ok: false; error: string };
 
 function errorMessage(err: unknown): string {
   return err instanceof Error ? err.message : String(err);
