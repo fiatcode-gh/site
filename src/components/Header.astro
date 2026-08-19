@@ -1,54 +1,124 @@
 ---
-const links = [
+/**
+ * Sticky nav: one row of cells divided by 1px rules — the logo, three
+ * flexing sections, then `search` locked to 230px.
+ *
+ * That 230px is a real column. The post page's TOC rail is the same
+ * width, so this nav's left rule and the TOC's left rule form one
+ * continuous vertical line down the page. The rule is drawn ONCE — as
+ * border-left on the search cell here, and border-left on the TOC —
+ * never as a border-right on the neighbour, or the two land on adjacent
+ * pixels and read as 2px.
+ *
+ * Nav height is 52px (15px padding top and bottom around a 22px line
+ * box), which is what sets the TOC's sticky offset of 78px (52 + 26).
+ *
+ * Below 900px the nav wraps and `search` takes a full-width row.
+ */
+const sections = [
   { href: "/posts", label: "posts" },
   { href: "/tools", label: "tools" },
   { href: "/tags", label: "tags" },
-  { href: "/search", label: "search" },
 ];
 
 const path = Astro.url.pathname;
-const isActive = (href: string) =>
-  href === "/" ? path === "/" : path.startsWith(href);
+const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
 ---
 
-<header
-  class="reveal flex flex-wrap items-center gap-x-5 gap-y-3 py-7"
-  style="--d: 0"
->
+<nav class="nav" aria-label="Main">
   <a
     href="/"
-    aria-label="Home"
-    class="group inline-flex items-center gap-1.5 text-sm font-medium text-ink-dim transition-colors hover:text-ink"
+    class="logo"
+    aria-current={path === "/" ? "page" : undefined}
+    aria-label="fiatcode.dev — home"
   >
-    <span class="text-phosphor">~</span>
-    <span
-      class="bg-phosphor px-1.5 py-0.5 text-bg transition-colors group-hover:bg-phosphor-deep"
-      >fiatcode</span
-    >
+    fiatcode.dev
   </a>
 
-  <nav aria-label="Main navigation">
-    <ul class="flex flex-wrap items-center gap-x-5 gap-y-2 text-sm">
-      {
-        links.map((link) => (
-          <li class="flex items-center">
-            <span class="text-ink-faint" aria-hidden="true">
-              ./
-            </span>
-            <a
-              href={link.href}
-              class:list={[
-                "transition-colors underline-offset-4 hover:text-phosphor hover:underline",
-                isActive(link.href)
-                  ? "text-phosphor underline"
-                  : "text-ink-dim",
-              ]}
-            >
-              {link.label}
-            </a>
-          </li>
-        ))
-      }
-    </ul>
-  </nav>
-</header>
+  {
+    sections.map((s) => (
+      <a
+        href={s.href}
+        class:list={["section", isActive(s.href) && "is-active"]}
+        aria-current={isActive(s.href) ? "page" : undefined}
+      >
+        {s.label}
+      </a>
+    ))
+  }
+
+  <a
+    href="/search"
+    class:list={["search", isActive("/search") && "is-active"]}
+    aria-current={isActive("/search") ? "page" : undefined}
+  >
+    search
+  </a>
+</nav>
+
+<style>
+  .nav {
+    position: sticky;
+    top: 0;
+    z-index: 10;
+    display: flex;
+    flex-wrap: wrap;
+    background: var(--color-paper);
+    border-bottom: 1px solid var(--color-ink);
+  }
+
+  .nav > a {
+    padding: 15px 16px;
+    font-size: 12px;
+  }
+
+  .nav > a:hover {
+    text-decoration: underline;
+  }
+
+  /* Active section takes the full accent, consistent with the small-target
+     hover tier. */
+  .is-active {
+    background: var(--color-accent);
+  }
+
+  .logo {
+    padding: 15px 22px;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    border-right: 1px solid var(--color-ink);
+  }
+
+  .section {
+    flex: 1;
+    border-right: 1px solid var(--color-ink);
+  }
+
+  /* The search cell owns the rule it shares with `tags`, so `tags` must not
+     also draw one — two 1px borders on adjacent elements render as 2px.
+     Matched by position, not :last-of-type: every cell here is an <a>, so
+     :last-of-type would resolve to `search` and silently match nothing.
+     `search` is the last child, so the final section is second from last. */
+  .nav > a.section:nth-last-child(2) {
+    border-right: 0;
+  }
+
+  .search {
+    width: 230px;
+    flex: none;
+    box-sizing: border-box;
+    border-left: 1px solid var(--color-ink);
+  }
+
+  @media (width < 900px) {
+    .search {
+      width: auto;
+      flex: 1 1 100%;
+      /* On its own row the shared vertical rule is meaningless; it needs a
+         horizontal one instead, or the two rows merge into one block. */
+      border-left: 0;
+      border-top: 1px solid var(--color-ink);
+    }
+  }
+</style>

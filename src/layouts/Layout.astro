@@ -2,16 +2,14 @@
 import "@/styles/global.css";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
-import Sidebar from "@/components/Sidebar.astro";
 
 interface Props {
   title: string;
   description: string;
-  sidebar?: boolean;
   noindex?: boolean;
 }
 
-const { title, description, sidebar = true, noindex = false } = Astro.props;
+const { title, description, noindex = false } = Astro.props;
 ---
 
 <!doctype html>
@@ -19,60 +17,31 @@ const { title, description, sidebar = true, noindex = false } = Astro.props;
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#110F0D" />
+    <meta name="theme-color" content="#faf8f2" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="me" href="https://mastodon.social/@fiatcode" />
     <meta name="fediverse:creator" content="@fiatcode@mastodon.social" />
+    <link
+      rel="alternate"
+      type="application/rss+xml"
+      title="fiatcode.dev"
+      href="/rss.xml"
+    />
     <title>{title}</title>
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex, nofollow" />}
     <meta name="generator" content={Astro.generator} />
   </head>
-  <body class="font-mono text-ink antialiased">
-    <div class="mx-auto flex min-h-screen max-w-5xl flex-col px-4 sm:px-6">
+  <body>
+    <div class="shell">
       <Header />
-      <main
-        class:list={[
-          "grid flex-1 grid-cols-1 items-start gap-px",
-          sidebar && "md:grid-cols-4 md:gap-8",
-        ]}
-      >
-        <section
-          class:list={["reveal relative", sidebar && "md:col-span-3"]}
-          style="--d: 1"
-        >
-          <!-- active-window top edge: solid phosphor tab + flat rail -->
-          <div
-            class="pointer-events-none absolute inset-x-0 -top-px flex"
-            aria-hidden="true"
-          >
-            <span class="h-px w-24 bg-phosphor/80"></span>
-            <span class="h-px flex-1 bg-line"></span>
-          </div>
-          <div class="border border-line-soft bg-surface/70 p-5 sm:p-8">
-            <slot />
-          </div>
-        </section>
-        {
-          sidebar && (
-            <aside class="reveal py-5 md:py-0 md:self-stretch" style="--d: 2">
-              <slot name="sidebar">
-                <Sidebar />
-              </slot>
-            </aside>
-          )
-        }
+      <main>
+        <slot />
       </main>
       <Footer />
     </div>
-    {
-      /* Fixed-position overlays live here, OUTSIDE the .reveal section. The
-        reveal load animation leaves a transform on its element, which would
-        otherwise become the containing block for position:fixed descendants. */
-    }
-    <slot name="overlay" />
   </body>
 </html>

@@ -9,13 +9,16 @@ const h = (depth: number, slug: string): MarkdownHeading => ({
 });
 
 describe("filterHeadings", () => {
-  it("keeps only h2 and h3, dropping h1 and h4+", () => {
-    const input = [h(1, "title"), h(2, "intro"), h(3, "detail"), h(4, "aside")];
-    expect(filterHeadings(input)).toEqual([h(2, "intro"), h(3, "detail")]);
+  // In this blog `##` is the lede — one per post, the thesis sentence —
+  // and `###` are the real sections. The contents list is sections, so h2
+  // is dropped along with h1.
+  it("keeps only h3 and h4, dropping h1 and the h2 lede", () => {
+    const input = [h(1, "title"), h(2, "lede"), h(3, "section"), h(4, "sub")];
+    expect(filterHeadings(input)).toEqual([h(3, "section"), h(4, "sub")]);
   });
 
   it("preserves document order", () => {
-    const input = [h(3, "a"), h(2, "b"), h(3, "c")];
+    const input = [h(3, "a"), h(4, "b"), h(3, "c")];
     expect(filterHeadings(input).map((x) => x.slug)).toEqual(["a", "b", "c"]);
   });
 
@@ -24,7 +27,7 @@ describe("filterHeadings", () => {
   });
 
   it("returns an empty array when nothing qualifies", () => {
-    expect(filterHeadings([h(1, "title"), h(4, "aside")])).toEqual([]);
+    expect(filterHeadings([h(1, "title"), h(2, "lede")])).toEqual([]);
   });
 });
 

@@ -1,37 +1,84 @@
 ---
-// src/components/TableOfContents.astro
-import type { MarkdownHeading } from "astro";
 import { filterHeadings } from "@/lib/toc";
-import TocList from "@/components/TocList.astro";
-import TocBottomSheet from "@/components/TocBottomSheet.astro";
+import type { MarkdownHeading } from "astro";
 
+/**
+ * Sticky contents rail, 230px wide — the same column as the nav's
+ * `search` cell, so this rail's left rule continues the nav's left rule
+ * as one unbroken vertical line.
+ *
+ * The rule is drawn here as border-left and NOT as a border-right on the
+ * article, or the two would land on adjacent pixels and read as 2px.
+ *
+ * top:78px = the 52px nav plus the 26px gutter, so the rails never touch
+ * when scrolled. Hidden below 900px.
+ */
 interface Props {
   headings: MarkdownHeading[];
-  variant?: "sidebar" | "mobile";
-  postId?: string;
 }
 
-const { headings, variant = "sidebar", postId } = Astro.props;
+const { headings } = Astro.props;
 const items = filterHeadings(headings);
-const show = items.length >= 2;
-const label = `grep '^#' ${postId ?? "post"}.md`;
 ---
 
 {
-  show &&
-    (variant === "sidebar" ? (
-      <nav aria-label="Table of contents" class="sticky top-6 hidden md:block">
-        <p class="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-ink-faint">
-          <span class="text-phosphor">$</span> {label}
-        </p>
-        <ul class="space-y-1.5 border-l-2 border-line-soft pl-4">
-          <TocList items={items} />
-        </ul>
-      </nav>
-    ) : (
-      <TocBottomSheet items={items} />
-    ))
+  items.length >= 2 && (
+    <nav class="toc" aria-label="Contents">
+      <p class="label mb-3 text-ink-55">Contents</p>
+      {items.map((item) => (
+        <a
+          href={`#${item.slug}`}
+          data-toc-link={item.slug}
+          class:list={["toc-link", item.depth === 4 && "toc-sub"]}
+        >
+          {item.text}
+        </a>
+      ))}
+    </nav>
+  )
 }
+
+<style>
+  .toc {
+    position: sticky;
+    top: 78px;
+    align-self: start;
+    box-sizing: border-box;
+    padding: 36px 20px 36px 26px;
+    border-left: 1px solid var(--color-ink);
+  }
+
+  .toc-link {
+    display: block;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.5;
+    border-top: 1px solid var(--color-rule);
+    color: var(--color-ink-62);
+  }
+
+  .toc-link:hover {
+    background: var(--color-accent);
+    color: var(--color-ink);
+  }
+
+  .toc-sub {
+    padding-left: 14px;
+  }
+
+  /* The reader's current section. Set by the script below, which also
+     mirrors it into aria-current for assistive tech. */
+  .toc-link[aria-current] {
+    color: var(--color-ink);
+    font-weight: 600;
+  }
+
+  @media (width < 900px) {
+    .toc {
+      display: none;
+    }
+  }
+</style>
 
 <script>
   import { activeHeadingId } from "../lib/toc";
@@ -39,41 +86,33 @@ const label = `grep '^#' ${postId ?? "post"}.md`;
   const links = Array.from(
     document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"),
   );
+
   if (links.length > 0) {
     const slugs = new Set(links.map((l) => l.dataset.tocLink));
     const targets = Array.from(
-      document.querySelectorAll<HTMLElement>("article h2[id], article h3[id]"),
+      document.querySelectorAll<HTMLElement>("article h3[id], article h4[id]"),
     ).filter((el) => slugs.has(el.id));
 
     const setActive = (id: string | null) => {
       for (const link of links) {
-        const isActive = id !== null && link.dataset.tocLink === id;
-        link.classList.toggle("text-phosphor", isActive);
-        link.classList.toggle("text-ink-faint", !isActive);
-        if (isActive) link.setAttribute("aria-current", "true");
-        else link.removeAttribute("aria-current");
+        if (id !== null && link.dataset.tocLink === id) {
+          link.setAttribute("aria-current", "true");
+        } else {
+          link.removeAttribute("aria-current");
+        }
       }
     };
 
-    // The current section is the last heading whose top has scrolled past an
-    // activation line near the top of the viewport. It stays highlighted while
-    // reading body text between that heading and the next.
-    const currentEl = document.querySelector<HTMLElement>("[data-toc-current]");
-
+    // The current section is the last heading whose top has scrolled past
+    // an activation line near the top of the viewport. It stays current
+    // while reading the body text below it.
     const update = () => {
       const offset = window.innerHeight * 0.3;
       const entries = targets.map((el) => ({
         id: el.id,
         top: el.getBoundingClientRect().top,
       }));
-      const id = activeHeadingId(entries, offset);
-      setActive(id);
-      if (currentEl) {
-        const el = id ? targets.find((t) => t.id === id) : null;
-        currentEl.textContent = el
-          ? `${el.tagName === "H3" ? "###" : "##"} ${(el.textContent ?? "").trim()}`
-          : "contents";
-      }
+      setActive(activeHeadingId(entries, offset));
     };
 
     let ticking = false;

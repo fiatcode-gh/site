@@ -1,21 +1,19 @@
 ---
-import type { PaginateFunction, Page } from "astro";
-import { getCollection } from "astro:content";
+import PageHeader from "@/components/PageHeader.astro";
+import PostRow from "@/components/PostRow.astro";
 import Layout from "@/layouts/Layout.astro";
-import BlogPostEntry from "@/components/BlogPostEntry.astro";
-import PageTitle from "@/components/PageTitle.astro";
-import type { CollectionEntry } from "astro:content";
-import Pagination from "@/components/Pagination.astro";
+import type { Page, PaginateFunction } from "astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 export async function getStaticPaths({
   paginate,
 }: {
   paginate: PaginateFunction;
 }) {
-  const posts = await getCollection("blog");
-  const filteredPosts = posts.filter((post) => !post.data.draft);
-  filteredPosts.sort((a, b) => b.data.date.getTime() - a.data.date.getTime());
-  return paginate(filteredPosts, { pageSize: 10 });
+  const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
+  return paginate(posts, { pageSize: 10 });
 }
 
 interface Props {
@@ -29,24 +27,46 @@ const { page } = Astro.props;
   title="Posts | fiatcode"
   description="Read the latest blog posts by fiatcode"
 >
-  <PageTitle title="Posts" />
-  <ul>
+  <PageHeader title="Posts">
+    <div class="label-meta flex items-baseline gap-4" slot="aside">
+      <a href="/rss.xml" class="chip hover-accent">rss</a>
+      <span>
+        {page.total} posts &middot; page {page.currentPage} of {page.lastPage}
+      </span>
+    </div>
+  </PageHeader>
+
+  {page.data.map((post) => <PostRow post={post} />)}
+
+  <!--
+    Pager. The counter carries no side rules, so the prev and next cells
+    can each own one edge without any pair of borders stacking.
+  -->
+  <nav class="band flex" aria-label="Pagination">
     {
-      page.data.map((post) => (
-        <li>
-          <BlogPostEntry
-            id={post.id}
-            title={post.data.title}
-            date={post.data.date}
-            description={post.data.description}
-          />
-        </li>
-      ))
+      page.url.prev && (
+        <a
+          href={page.url.prev}
+          rel="prev"
+          class="hover-tint border-r border-ink px-[26px] py-4 text-[12.5px] font-semibold"
+        >
+          &larr; prev
+        </a>
+      )
     }
-  </ul>
-  <Pagination
-    currentPage={page.currentPage}
-    lastPage={page.lastPage}
-    getPageUrl={(page) => (page === 1 ? `/posts/` : `/posts/${page}/`)}
-  />
+    <span class="flex-1 px-[26px] py-4 text-xs text-ink-55">
+      {page.currentPage} / {page.lastPage}
+    </span>
+    {
+      page.url.next && (
+        <a
+          href={page.url.next}
+          rel="next"
+          class="hover-tint border-l border-ink px-[26px] py-4 text-[12.5px] font-semibold"
+        >
+          next &rarr;
+        </a>
+      )
+    }
+  </nav>
 </Layout>

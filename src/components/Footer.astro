@@ -1,14 +1,51 @@
 ---
+import { getQuote } from "@/lib/quote";
+
+/**
+ * Footer, on every screen: the fortune as a pull quote, then a link
+ * strip, then the copyright row.
+ *
+ * No email address anywhere — it would just be scraped.
+ */
+const { quote, author } = getQuote();
 const year = new Date().getFullYear();
+
+const links = [
+  { href: "/rss.xml", label: "rss" },
+  { href: "https://github.com/fiatcode", label: "github" },
+  { href: "https://git.fiatcode.dev/fiatcode", label: "forgejo" },
+];
 ---
 
-<footer class="mt-12 border-t border-line-soft py-7 text-xs text-ink-faint">
-  <div class="flex flex-wrap items-center gap-x-2 gap-y-1">
-    <span class="text-phosphor">$</span>
-    <span>echo</span>
-    <span class="text-ink-dim">
-      &copy; {year} fiatcode &mdash; built with Astro, no trackers.
-    </span>
+<footer>
+  <div
+    class="band flex flex-wrap items-end justify-between gap-x-[30px] gap-y-4 p-[26px]"
+  >
+    <blockquote
+      class="display m-0 max-w-[52ch] text-[26px] italic leading-[1.3]"
+    >
+      &ldquo;{quote}&rdquo;
+    </blockquote>
+    <p class="label-meta flex-none not-italic">&mdash; {author}</p>
   </div>
-  <p class="mt-1.5">Crafted, not generated. All rights reserved.</p>
+
+  <div class="ruled-flex band">
+    {
+      links.map((l) => (
+        <a
+          href={l.href}
+          class="cell hover-accent min-w-[120px] flex-1 px-[26px] py-[14px] text-xs"
+        >
+          {l.label} &rarr;
+        </a>
+      ))
+    }
+  </div>
+
+  <div
+    class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-[26px] py-4 text-[11px]"
+  >
+    <span>&copy; {year} fiatcode &mdash; built with Astro, no trackers.</span>
+    <span>Crafted, not generated.</span>
+  </div>
 </footer>

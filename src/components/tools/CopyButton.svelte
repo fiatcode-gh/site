@@ -20,12 +20,7 @@
   onDestroy(() => clearTimeout(timer));
 </script>
 
-<button
-  type="button"
-  onclick={copy}
-  disabled={text === ""}
-  class="border border-line bg-surface-2 px-3 py-1.5 font-mono text-xs text-ink-dim transition-colors hover:border-phosphor/60 hover:text-phosphor disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:border-line disabled:hover:text-ink-dim"
->
+<button type="button" onclick={copy} disabled={text === ""} class="tool-btn">
   {status === "copied"
     ? "copied ✓"
     : status === "failed"

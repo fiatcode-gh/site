@@ -1,60 +1,49 @@
 ---
-import { getCollection, type CollectionEntry } from "astro:content";
-import BlogPostEntry from "@/components/BlogPostEntry.astro";
+import PageHeader from "@/components/PageHeader.astro";
+import PostRow from "@/components/PostRow.astro";
 import Layout from "@/layouts/Layout.astro";
-import PageTitle from "@/components/PageTitle.astro";
-import EmptyState from "@/components/EmptyState.astro";
+import { getCollection, type CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
-  const posts = await getCollection("blog");
-  const tags = new Set<string>();
+  const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  );
 
-  posts.forEach((post) => {
-    if (post.data.tags && !post.data.draft) {
-      post.data.tags.forEach((tag: string) => tags.add(tag));
-    }
-  });
+  const tags = new Set(posts.flatMap((post) => post.data.tags ?? []));
 
-  return Array.from(tags).map((name) => {
-    const filteredPosts = posts.filter(
-      (post) => post.data.tags && post.data.tags.includes(name),
-    );
-    return {
-      params: { name },
-      props: { filteredPosts },
-    };
-  });
+  return [...tags].map((name) => ({
+    params: { name },
+    props: { tagged: posts.filter((post) => post.data.tags?.includes(name)) },
+  }));
 }
 
 interface Props {
-  filteredPosts: CollectionEntry<"blog">[];
+  tagged: CollectionEntry<"blog">[];
 }
 
 const { name } = Astro.params;
-const { filteredPosts } = Astro.props;
+const { tagged } = Astro.props;
 ---
 
 <Layout
-  title={`Posts tagged with "${name}" | fiatcode`}
-  description={`Browse blog posts tagged with "${name}" by fiatcode`}
+  title={`#${name} | fiatcode`}
+  description={`Blog posts tagged ${name} by fiatcode`}
 >
-  <PageTitle title={`Posts tagged with "${name}"`} />
-  {
-    filteredPosts.length > 0 ? (
-      <ul class="space-y-4">
-        {filteredPosts.map((post) => (
-          <li>
-            <BlogPostEntry
-              id={post.id}
-              title={post.data.title}
-              date={post.data.date}
-              description={post.data.description}
-            />
-          </li>
-        ))}
-      </ul>
-    ) : (
-      <EmptyState message={`No posts found with the tag "${name}".`} />
-    )
-  }
+  <PageHeader title={`#${name}`}>
+    <span class="label-meta" slot="aside">
+      {tagged.length}
+      {tagged.length === 1 ? "post" : "posts"}
+    </span>
+  </PageHeader>
+
+  {tagged.map((post) => <PostRow post={post} />)}
+
+  <div class="band flex">
+    <a
+      href="/tags"
+      class="hover-tint px-[26px] py-4 text-[12.5px] font-semibold"
+    >
+      &larr; all tags
+    </a>
+  </div>
 </Layout>

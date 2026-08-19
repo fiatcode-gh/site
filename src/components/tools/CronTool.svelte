@@ -23,7 +23,7 @@
 
 <div class="flex flex-col gap-5">
   <div class="flex flex-col gap-2">
-    <label for="cron-input" class="font-mono text-xs text-ink-faint">
+    <label for="cron-input" class="font-mono text-xs text-ink-55">
       cron expression (minute hour day-of-month month day-of-week)
     </label>
     <input
@@ -31,53 +31,53 @@
       bind:value={expression}
       placeholder="*/15 9-17 * * 1-5"
       spellcheck="false"
-      class="w-full border border-line bg-bg/40 p-3 font-mono text-sm text-ink placeholder:text-ink-faint"
+      class="w-full border border-rule bg-code p-3 font-mono text-sm text-ink placeholder:text-ink-55"
     />
   </div>
 
   {#if result === null}
-    <p class="font-mono text-xs text-ink-faint"># …</p>
+    <p class="font-mono text-xs text-ink-55">…</p>
   {:else if !result.ok}
     {#if expression.trim() !== ""}
-      <p aria-live="polite" class="font-mono text-xs text-phosphor-deep">
-        # {result.error}
+      <p aria-live="polite" class="font-mono text-xs text-ink">
+        {result.error}
       </p>
     {:else}
-      <p class="font-mono text-xs text-ink-faint">
-        # type an expression to explain it
+      <p class="font-mono text-xs text-ink-55">
+        type an expression to explain it
       </p>
     {/if}
   {:else}
     {#if result.description}
-      <div class="border border-line-soft bg-surface-2/40 p-4">
-        <p class="font-serif text-lg text-ink">{result.description}</p>
+      <div class="border border-rule bg-code p-4">
+        <p class="text-lg text-ink">{result.description}</p>
       </div>
     {:else}
-      <p class="font-mono text-xs text-ink-faint">
-        # no plain-language description available for this syntax
+      <p class="font-mono text-xs text-ink-55">
+        no plain-language description available for this syntax
       </p>
     {/if}
 
     {#if result.nextRuns}
       <div class="flex flex-col gap-2">
-        <h2 class="font-mono text-xs text-ink-faint">
+        <h2 class="font-mono text-xs text-ink-55">
           next {result.nextRuns.length} runs — computed in your browser's timezone:
-          <span class="text-phosphor">{timeZone}</span>
+          <span class="text-ink">{timeZone}</span>
         </h2>
         <ol
-          class="flex flex-col divide-y divide-line-soft border border-line-soft bg-bg/40 font-mono text-sm"
+          class="flex flex-col divide-y divide-rule border border-rule bg-code font-mono text-sm"
         >
           {#each result.nextRuns as run, i (run.getTime())}
             <li class="flex items-baseline gap-3 px-3 py-2">
-              <span class="text-ink-faint">{i + 1}.</span>
+              <span class="text-ink-55">{i + 1}.</span>
               <span class="text-ink">{fmt.format(run)}</span>
             </li>
           {/each}
         </ol>
       </div>
     {:else}
-      <p class="font-mono text-xs text-ink-faint">
-        # next-run times unavailable for this expression
+      <p class="font-mono text-xs text-ink-55">
+        next-run times unavailable for this expression
       </p>
     {/if}
   {/if}

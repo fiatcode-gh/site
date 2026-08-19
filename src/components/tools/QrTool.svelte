@@ -59,24 +59,23 @@
 
 <div class="flex flex-col gap-5">
   <div class="flex flex-col gap-2">
-    <label for="qr-text" class="font-mono text-xs text-ink-faint"
-      >text / URL</label
+    <label for="qr-text" class="font-mono text-xs text-ink-55">text / URL</label
     >
     <textarea
       id="qr-text"
       bind:value={text}
       placeholder="https://…"
       spellcheck="false"
-      class="min-h-20 w-full resize-y border border-line bg-bg/40 p-3 font-mono text-sm text-ink placeholder:text-ink-faint"
+      class="min-h-20 w-full resize-y border border-rule bg-code p-3 font-mono text-sm text-ink placeholder:text-ink-55"
     ></textarea>
   </div>
 
   <div class="flex flex-wrap items-center gap-4">
-    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-dim">
+    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
       error correction
       <select
         bind:value={ecc}
-        class="border border-line bg-surface-2 px-2 py-1 font-mono text-xs text-ink-dim"
+        class="border border-rule bg-code px-2 py-1 font-mono text-xs text-ink-62"
       >
         <option value="L">L (7%)</option>
         <option value="M">M (15%)</option>
@@ -84,53 +83,58 @@
         <option value="H">H (30%)</option>
       </select>
     </label>
-    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-dim">
+    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
       margin
       <input
         type="number"
         bind:value={border}
         min="0"
         max="10"
-        class="w-16 border border-line bg-bg/40 px-2 py-1 font-mono text-xs text-ink"
+        class="w-16 border border-rule bg-code px-2 py-1 font-mono text-xs text-ink"
       />
     </label>
-    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-dim">
+    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
       PNG scale
       <input
         type="number"
         bind:value={scale}
         min="4"
         max="40"
-        class="w-16 border border-line bg-bg/40 px-2 py-1 font-mono text-xs text-ink"
+        class="w-16 border border-rule bg-code px-2 py-1 font-mono text-xs text-ink"
       />
-      <span class="text-ink-faint">px/module</span>
+      <span class="text-ink-55">px/module</span>
     </label>
   </div>
 
   {#if view === null}
-    <p class="font-mono text-xs text-ink-faint"># type something to encode</p>
+    <p class="font-mono text-xs text-ink-55">type something to encode</p>
   {:else if view.error}
-    <p aria-live="polite" class="font-mono text-xs text-phosphor-deep">
-      # {view.error}
-    </p>
+    <p aria-live="polite" class="font-mono text-xs text-ink">{view.error}</p>
   {:else}
     <div class="flex flex-col items-start gap-4 sm:flex-row">
-      <!-- White backing panel keeps the code scannable on the dark theme -->
-      <div class="w-full max-w-64 bg-white p-2 [&_svg]:h-auto [&_svg]:w-full">
+      <!--
+        Stays pure white rather than paper: the quiet zone around a QR code
+        is what scanners key on, so it wants maximum contrast, not the
+        surrounding surface colour. The 1px --rule hairline is the same
+        border every other output surface and prose image carries.
+      -->
+      <div
+        class="w-full max-w-64 border border-rule bg-white p-2 [&_svg]:h-auto [&_svg]:w-full"
+      >
         {@html view.svg}
       </div>
       <div class="flex flex-col gap-2">
         <button
           type="button"
           onclick={downloadSvg}
-          class="border border-line bg-surface-2 px-3 py-1.5 font-mono text-xs text-ink-dim transition-colors hover:border-phosphor/60 hover:text-phosphor"
+          class="border border-rule bg-code px-3 py-1.5 font-mono text-xs text-ink-62 transition-colors hover:border-ink hover:text-ink"
         >
           download SVG
         </button>
         <button
           type="button"
           onclick={downloadPng}
-          class="border border-line bg-surface-2 px-3 py-1.5 font-mono text-xs text-ink-dim transition-colors hover:border-phosphor/60 hover:text-phosphor"
+          class="border border-rule bg-code px-3 py-1.5 font-mono text-xs text-ink-62 transition-colors hover:border-ink hover:text-ink"
         >
           download PNG
         </button>

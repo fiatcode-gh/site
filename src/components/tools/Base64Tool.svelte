@@ -12,6 +12,7 @@
   let fileBase64 = $state("");
   let fileDataUri = $state("");
   let fileError = $state("");
+  let fileInput: HTMLInputElement | undefined = $state();
 
   const result = $derived.by(() => {
     if (input === "") return { output: "", error: "" };
@@ -47,107 +48,91 @@
   }
 </script>
 
-<div class="flex flex-col gap-5">
-  <fieldset class="flex flex-wrap items-center gap-4">
-    <legend class="sr-only">Mode</legend>
-    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-dim">
-      <input
-        type="radio"
-        bind:group={mode}
-        value="encode"
-        class="accent-(--color-phosphor)"
-      />
-      encode
-    </label>
-    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-dim">
-      <input
-        type="radio"
-        bind:group={mode}
-        value="decode"
-        class="accent-(--color-phosphor)"
-      />
-      decode
-    </label>
-    {#if mode === "encode"}
-      <label class="flex items-center gap-1.5 font-mono text-xs text-ink-dim">
-        <input
-          type="checkbox"
-          bind:checked={urlSafe}
-          class="accent-(--color-phosphor)"
-        />
-        url-safe
-      </label>
-    {/if}
-  </fieldset>
+<!-- Mode strip. url-safe is a toggle, not a mode, so it reports pressed state. -->
+<div class="ruled-flex band">
+  <button
+    type="button"
+    class="mode"
+    data-active={mode === "encode" ? "" : undefined}
+    aria-pressed={mode === "encode"}
+    onclick={() => (mode = "encode")}
+  >
+    encode
+  </button>
+  <button
+    type="button"
+    class="mode"
+    data-active={mode === "decode" ? "" : undefined}
+    aria-pressed={mode === "decode"}
+    onclick={() => (mode = "decode")}
+  >
+    decode
+  </button>
+  <button
+    type="button"
+    class="mode"
+    data-active={urlSafe ? "" : undefined}
+    aria-pressed={urlSafe}
+    disabled={mode === "decode"}
+    onclick={() => (urlSafe = !urlSafe)}
+  >
+    url-safe
+  </button>
+  <button type="button" class="mode" onclick={() => fileInput?.click()}>
+    from file…
+  </button>
+</div>
 
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
-    <div class="flex flex-col gap-2">
-      <!-- min-h-8 matches the output header (CopyButton height) so both textareas align -->
-      <div class="flex min-h-8 items-center">
-        <label for="b64-input" class="font-mono text-xs text-ink-faint">
-          {mode === "encode" ? "text" : "base64"}
-        </label>
-      </div>
-      <textarea
-        id="b64-input"
-        bind:value={input}
-        placeholder={mode === "encode"
-          ? "type or paste text…"
-          : "paste base64…"}
-        class="min-h-40 w-full resize-y border border-line bg-bg/40 p-3 font-mono text-sm text-ink placeholder:text-ink-faint"
-      ></textarea>
+<div class="ruled band grid-cols-2 max-[619px]:grid-cols-1">
+  <div class="cell px-[26px] py-4">
+    <div class="pane-head">
+      <label for="b64-input">{mode === "encode" ? "Input" : "Base64"}</label>
+      <span class="text-ink-55">{input.length} chars</span>
     </div>
-    <div class="flex flex-col gap-2">
-      <div class="flex min-h-8 items-center justify-between">
-        <label for="b64-output" class="font-mono text-xs text-ink-faint">
-          {mode === "encode" ? "base64" : "text"}
-        </label>
-        <CopyButton text={result.output} />
-      </div>
-      <textarea
-        id="b64-output"
-        readonly
-        value={result.output}
-        placeholder="output appears here…"
-        class="min-h-40 w-full resize-y border border-line bg-bg/40 p-3 font-mono text-sm text-ink placeholder:text-ink-faint"
-      ></textarea>
-      {#if result.error}
-        <p aria-live="polite" class="font-mono text-xs text-phosphor-deep">
-          # {result.error}
-        </p>
-      {/if}
-    </div>
+    <textarea
+      id="b64-input"
+      bind:value={input}
+      spellcheck="false"
+      placeholder={mode === "encode" ? "type or paste text…" : "paste base64…"}
+      class="pane min-h-[200px]"></textarea>
   </div>
 
-  <div class="border-t border-line-soft pt-5">
-    <label for="b64-file" class="font-mono text-xs text-ink-faint">
-      file → base64 (processed locally, never uploaded)
-    </label>
-    <input
-      id="b64-file"
-      type="file"
-      onchange={onFileChange}
-      class="mt-2 block w-full font-mono text-xs text-ink-dim file:mr-3 file:border file:border-line file:bg-surface-2 file:px-3 file:py-1.5 file:font-mono file:text-xs file:text-ink-dim"
-    />
-    {#if fileError}
-      <p aria-live="polite" class="mt-2 font-mono text-xs text-phosphor-deep">
-        # {fileError}
-      </p>
-    {/if}
-    {#if fileBase64}
-      <div class="mt-3 flex flex-col gap-2">
-        <div class="flex flex-wrap items-center gap-2">
-          <span class="font-mono text-xs text-ink-dim">{fileName}</span>
-          <CopyButton text={fileBase64} label="copy base64" />
-          <CopyButton text={fileDataUri} label="copy data URI" />
-        </div>
-        <textarea
-          readonly
-          value={fileBase64}
-          aria-label="file as base64"
-          class="min-h-24 w-full resize-y border border-line bg-bg/40 p-3 font-mono text-xs text-ink"
-        ></textarea>
-      </div>
+  <div class="cell px-[26px] py-4">
+    <div class="pane-head">
+      <span>Output</span>
+      <CopyButton text={result.output} />
+    </div>
+    <div class="pane-out">{result.output}</div>
+    {#if result.error}
+      <p aria-live="polite" class="tool-error mt-3">{result.error}</p>
     {/if}
   </div>
 </div>
+
+<!-- File input is driven by the `from file…` mode button above. -->
+<input
+  bind:this={fileInput}
+  id="b64-file"
+  type="file"
+  onchange={onFileChange}
+  class="sr-only"
+  aria-label="Encode a file as base64, processed locally"
+/>
+
+{#if fileError || fileBase64}
+  <div class="band px-[26px] py-4">
+    {#if fileError}
+      <p aria-live="polite" class="tool-error">{fileError}</p>
+    {/if}
+    {#if fileBase64}
+      <div class="pane-head">
+        <span>{fileName}</span>
+        <span class="flex gap-2">
+          <CopyButton text={fileBase64} label="copy base64" />
+          <CopyButton text={fileDataUri} label="copy data URI" />
+        </span>
+      </div>
+      <div class="pane-out min-h-24">{fileBase64}</div>
+    {/if}
+  </div>
+{/if}

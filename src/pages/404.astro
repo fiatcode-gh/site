@@ -1,0 +1,39 @@
+---
+import Layout from "@/layouts/Layout.astro";
+---
+
+<Layout title="Not found | fiatcode" description="That page does not exist.">
+  <div class="band px-[26px] py-[90px]">
+    <p class="label-meta mb-6">Error 404 &middot; not found</p>
+    <h1 class="not-found display mb-[22px] leading-[0.9] tracking-[-0.03em]">
+      This page <span class="hl">doesn't</span> exist
+    </h1>
+    <p class="max-w-[56ch] leading-[1.7]">
+      The URL is wrong, the post moved, or I broke a link. Nothing was logged
+      &mdash; there's no tracker here to log it.
+    </p>
+    <div class="btn-group mt-8">
+      <a href="/" class="btn btn-solid">go home</a>
+      <a href="/search" class="btn hover-tint">search the posts</a>
+    </div>
+  </div>
+</Layout>
+
+<style>
+  /* 110 / 70 / 46 — the one place type goes bigger than the home hero. */
+  .not-found {
+    font-size: 110px;
+  }
+
+  @media (width < 900px) {
+    .not-found {
+      font-size: 70px;
+    }
+  }
+
+  @media (width < 620px) {
+    .not-found {
+      font-size: 46px;
+    }
+  }
+</style>

@@ -1,32 +1,50 @@
 ---
-import { getCollection } from "astro:content";
+import PageHeader from "@/components/PageHeader.astro";
 import Layout from "@/layouts/Layout.astro";
-import PageTitle from "@/components/PageTitle.astro";
-import Tag from "@/components/Tag.astro";
+import { getCollection } from "astro:content";
 
-const posts = await getCollection("blog");
-const filteredPosts = posts.filter((post) => !post.data.draft);
-const tagsMap = new Map<string, number>();
-filteredPosts.forEach((post) => {
-  post.data.tags?.forEach((tag) => {
-    const currentCount = tagsMap.get(tag) || 0;
-    tagsMap.set(tag, currentCount + 1);
-  });
-});
-const tags = Array.from(tagsMap.entries()).sort((a, b) =>
-  a[0].localeCompare(b[0]),
+const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+const counts = new Map<string, number>();
+for (const post of posts) {
+  for (const tag of post.data.tags ?? []) {
+    counts.set(tag, (counts.get(tag) ?? 0) + 1);
+  }
+}
+
+// Ordered by post count descending — the ordering is what carries the
+// frequency signal, so the cells stay typographically identical.
+// Alphabetical within a count so the grid is stable between builds.
+const tags = [...counts.entries()].sort(
+  ([aName, aCount], [bName, bCount]) =>
+    bCount - aCount || aName.localeCompare(bName),
 );
 ---
 
-<Layout title="Tags | fiatcode" description="Browse blog posts by tags">
-  <PageTitle title="Tags" />
-  <ul class="flex flex-wrap gap-4 mt-8">
+<Layout title="Tags | fiatcode" description="Browse blog posts by tag">
+  <PageHeader
+    title="Tags"
+    lead={`${tags.length} tags across ${posts.length} posts, ordered by how much I write about them.`}
+  />
+
+  <!--
+    Every cell is identical: 15px, weight 500, paper background. No size,
+    weight or background escalation by frequency — the sort order says it,
+    and escalating type would say it twice (and unreadably, at 1 post).
+  -->
+  <div
+    class="ruled band grid-cols-5 max-[899px]:grid-cols-3 max-[619px]:grid-cols-2"
+  >
     {
-      tags?.map(([tag, count]) => (
-        <li class="mb-4">
-          <Tag name={tag} count={count} />
-        </li>
+      tags.map(([tag, count]) => (
+        <a
+          href={`/tags/${tag}/`}
+          class="cell hover-accent flex items-baseline justify-between gap-2.5 px-[18px] py-5"
+        >
+          <span class="text-[15px] font-medium tracking-[-0.01em]">{tag}</span>
+          <span class="text-xs text-ink-55">{count}</span>
+        </a>
       ))
     }
-  </ul>
+  </div>
 </Layout>
