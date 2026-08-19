@@ -193,7 +193,7 @@ class WeatherApiErrorModel {
 
 `core/domain` contains _use case_ base class. If you unfamiliar with a _use case_ (also called _unit-of-work_), it's a **single-purpose** class that has a method `execute/call` to do particular function in your app. We'll find out how it works in several sections ahead.
 
-In this class we use [fpdart](https://pub.dev/packages/fpdart)'s `Either` class. In [Functional Programming](), `Either` means a function that will return a `Right` value for positive/success scenario, or `Left` when it fails. You can read about it in the previous links.
+In this class we use [fpdart](https://pub.dev/packages/fpdart)'s `Either` class. In [Functional Programming](<>), `Either` means a function that will return a `Right` value for positive/success scenario, or `Left` when it fails. You can read about it in the previous links.
 
 I'll try to explain briefly, `use_case.dart` below has 2 generics. `Type` is a return type when the _use case_ is succesfully executed, and `Params` contains parameters that are required to execute the _use case_. Then in `call` method it has return type of `Either<Failure, Type>`. It means this method will returns `Type` if success, and `Failure` when things got ugly.
 

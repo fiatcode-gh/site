@@ -20,7 +20,13 @@ npm run format     # Prettier across entire codebase
 
 ## Architecture
 
-- **Framework**: Astro 5 with Tailwind CSS v4 (Vite plugin)
+- **Framework**: Astro 7 with Tailwind CSS v4 (Vite plugin)
+- **Markdown processor**: pinned to `unified()` in `astro.config.mjs`. Astro 7 defaults to
+  Sätteri; the posts and Expressive Code both rely on the remark/rehype pipeline, so the
+  pin keeps rendering unchanged. Porting to Sätteri is a separate job.
+- **`compressHTML: true`**: also pinned. Astro 7 defaults to `'jsx'`, which strips
+  whitespace between adjacent elements — that collapses the footer's `$ echo` row and the
+  nav's `./` prefixes. Markup written from scratch can space explicitly and drop the pin.
 - **Content**: Astro Content Collections — markdown files in `src/content/blog/`
 - **Schema**: `src/content.config.ts` — posts require `title`, `description`, `date`; optional `draft`, `tags`
 - **Build output**: `dist/` (gitignored). Never commit built files.

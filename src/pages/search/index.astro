@@ -1,15 +1,15 @@
 ---
 import PageTitle from "@/components/PageTitle.astro";
 import Layout from "@/layouts/Layout.astro";
-import Search from "astro-pagefind/components/Search";
+import Search from "astro-pagefind/components/Search.astro";
 ---
 
 <Layout title="Search | fiatcode" description="Search posts on fiatcode.dev">
   <PageTitle title="Search" />
   <Search
-    id="search"
+    instance="search"
     className="pagefind-ui"
-    uiOptions={{
+    searchboxOptions={{
       showImages: false,
       translations: {
         placeholder: "Search posts...",
