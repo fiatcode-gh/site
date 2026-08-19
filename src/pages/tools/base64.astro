@@ -7,12 +7,10 @@ import { tools } from "@/lib/tools/registry";
 const tool = tools.find((t) => t.slug === "base64")!;
 ---
 
-<Layout
-  title={`${tool.name} | fiatcode`}
-  description={tool.description}
-  sidebar={false}
->
-  <ToolShell name={tool.name} description={tool.description}>
+<Layout title={`${tool.name} | fiatcode`} description={tool.description}>
+  <!-- bleed: the island lays out its own mode strip and pane grid, and each
+       of those cells carries the 26px gutter itself. -->
+  <ToolShell slug={tool.slug} description={tool.description} bleed>
     <!-- client:load (not visible): file drops must work the instant the page shows -->
     <Base64Tool client:load />
   </ToolShell>

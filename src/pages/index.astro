@@ -1,8 +1,123 @@
 ---
-import Intro from "@/components/Intro.astro";
+import PostRow from "@/components/PostRow.astro";
 import Layout from "@/layouts/Layout.astro";
+import { tools } from "@/lib/tools/registry";
+import { getCollection } from "astro:content";
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const latest = posts.slice(0, 3);
+
+const cards = [
+  {
+    label: "Currently",
+    body: 'Local startup where <strong>"full-stack"</strong> means Flutter, Spring, and React Router — sometimes all in the same day.',
+  },
+  {
+    label: "The Craftsman's Way",
+    body: "Quality is not negotiable. Clean Architecture, TDD, and DDD aren't just buzzwords here; they're how I try to keep my sanity intact.",
+  },
+  {
+    label: "This site",
+    body: "Built with Astro, because life's too short for slow websites. No trackers.",
+  },
+];
 ---
 
-<Layout title="fiatcode" description="Welcome to my personal website">
-  <Intro />
+<Layout
+  title="fiatcode"
+  description="Cross-platform developer, Linux native, craftsman at heart. Writing about building apps, self-hosting, and software craftsmanship."
+>
+  <!-- Hero -->
+  <div class="band px-[26px] pb-12 pt-16">
+    <p class="label-meta mb-7">
+      Cross-platform developer &middot; Linux native &middot; Craftsman at heart
+    </p>
+    <h1 class="hero-title display mb-7 max-w-[16ch] leading-[0.94]">
+      Hi, I'm <span class="hl">fiatcode</span>
+    </h1>
+    <p class="mb-4 max-w-[66ch] leading-[1.7] text-pretty">
+      I write about building apps, learning new tech, and the occasional
+      existential crisis that comes with debugging production code. This is
+      where I share what I'm working on, what I'm learning, and thoughts that
+      don't fit in a commit message.
+    </p>
+    <p class="max-w-[66ch] leading-[1.7] text-pretty">
+      Stick around if you're into cross-platform dev, software craftsmanship, or
+      just want to see someone figure things out in public.
+    </p>
+    <div class="btn-group mt-[34px]">
+      <a href="/posts" class="btn btn-solid">read the posts &rarr;</a>
+      <a href="/tags" class="btn hover-tint">browse by tag</a>
+    </div>
+  </div>
+
+  <!-- Three-up -->
+  <div class="ruled band grid-cols-3 max-[899px]:grid-cols-1">
+    {
+      cards.map((c) => (
+        <div class="cell px-[26px] py-[22px]">
+          <p class="label mb-2.5">{c.label}</p>
+          <p class="text-[13px] leading-[1.65]" set:html={c.body} />
+        </div>
+      ))
+    }
+  </div>
+
+  <!-- Latest posts -->
+  <div class="label band flex justify-between px-[26px] py-3">
+    <span>Latest posts</span>
+    <a href="/posts" class="hover:underline">all {posts.length} &rarr;</a>
+  </div>
+  {latest.map((post) => <PostRow post={post} />)}
+
+  <!-- Tool strip -->
+  <div class="band flex max-[899px]:flex-col">
+    <div
+      class="w-[170px] flex-none border-r border-ink px-[26px] py-[18px] max-[899px]:w-auto max-[899px]:border-b max-[899px]:border-r-0"
+    >
+      <p class="label">Tools</p>
+      <p class="mt-2 text-[11px] leading-[1.5] text-ink-55">
+        All client-side. No uploads.
+      </p>
+    </div>
+    <div
+      class="ruled flex-1 grid-cols-4 max-[899px]:grid-cols-3 max-[619px]:grid-cols-2"
+    >
+      {
+        tools.map((t) => (
+          <a
+            href={`/tools/${t.slug}`}
+            class="cell hover-tint px-4 py-3.5 no-underline"
+          >
+            <span class="mb-1 block text-[13.5px] font-bold">{t.slug}</span>
+            <span class="block text-[11.5px] leading-[1.45] text-ink-62">
+              {t.short}
+            </span>
+          </a>
+        ))
+      }
+    </div>
+  </div>
 </Layout>
+
+<style>
+  /* 92 / 64 / 44 across the two container breakpoints. */
+  .hero-title {
+    font-size: 92px;
+  }
+
+  @media (width < 900px) {
+    .hero-title {
+      font-size: 64px;
+    }
+  }
+
+  @media (width < 620px) {
+    .hero-title {
+      font-size: 44px;
+    }
+  }
+</style>

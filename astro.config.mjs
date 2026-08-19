@@ -3,7 +3,6 @@ import tailwindcss from "@tailwindcss/vite";
 import { defineConfig } from "astro/config";
 
 import expressiveCode from "astro-expressive-code";
-import pagefind from "astro-pagefind";
 
 import { unified } from "@astrojs/markdown-remark";
 import sitemap from "@astrojs/sitemap";
@@ -12,11 +11,12 @@ import svelte from "@astrojs/svelte";
 // https://astro.build/config
 export default defineConfig({
   site: "https://fiatcode.dev",
-  // Astro 7 changed the default to 'jsx', which drops whitespace *between*
-  // adjacent elements. The current markup relies on those gaps (the footer's
-  // "$ echo ..." row and the nav's "./" prefixes collapse without them), so
-  // pin the v6 behaviour to keep this upgrade rendering-neutral. Markup written
-  // from scratch can use explicit spacing and drop this.
+  // Astro 7's default is 'jsx', which strips whitespace *between* adjacent
+  // elements. Keep the HTML-aware compression instead: prose here routinely
+  // sets an inline <span class="hl"> next to running text, and Prettier is
+  // free to reflow that onto its own line. Under 'jsx' the reflow silently
+  // deletes the space ("file input.Nothing leaves this tab."), which no test
+  // catches and reading does not reveal.
   compressHTML: true,
   markdown: {
     // Astro 7 defaults to the Sätteri processor. The blog's posts and
@@ -29,7 +29,6 @@ export default defineConfig({
   },
   integrations: [
     expressiveCode(),
-    pagefind(),
     sitemap({ filter: (page) => !page.includes("/tools/cycle") }),
     svelte(),
   ],

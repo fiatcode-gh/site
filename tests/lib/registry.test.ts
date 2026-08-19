@@ -37,4 +37,13 @@ describe("tools registry", () => {
       expect(tool.description.length).toBeLessThanOrEqual(90);
     }
   });
+
+  // The home page's tool strip is four columns wide inside the 1100px
+  // column, so it needs a much shorter line than the /tools cards.
+  it("every tool has a short label that fits the home strip", () => {
+    for (const tool of tools) {
+      expect(tool.short.length).toBeGreaterThan(0);
+      expect(tool.short.length).toBeLessThanOrEqual(40);
+    }
+  });
 });

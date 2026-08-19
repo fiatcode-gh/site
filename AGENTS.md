@@ -24,9 +24,12 @@ npm run format     # Prettier across entire codebase
 - **Markdown processor**: pinned to `unified()` in `astro.config.mjs`. Astro 7 defaults to
   Sätteri; the posts and Expressive Code both rely on the remark/rehype pipeline, so the
   pin keeps rendering unchanged. Porting to Sätteri is a separate job.
-- **`compressHTML: true`**: also pinned. Astro 7 defaults to `'jsx'`, which strips
-  whitespace between adjacent elements — that collapses the footer's `$ echo` row and the
-  nav's `./` prefixes. Markup written from scratch can space explicitly and drop the pin.
+- **`compressHTML: true`**: also pinned, and meant to stay. Astro 7 defaults to
+  `'jsx'`, which strips whitespace between adjacent elements. Prose here routinely puts
+  an inline `<span class="hl">` next to running text, and Prettier may reflow that onto
+  its own line; under `'jsx'` the reflow silently eats the space
+  (`file input.Nothing leaves this tab.`). No test catches it and reading does not
+  reveal it, so keep the HTML-aware compression.
 - **Content**: Astro Content Collections — markdown files in `src/content/blog/`
 - **Schema**: `src/content.config.ts` — posts require `title`, `description`, `date`; optional `draft`, `tags`
 - **Build output**: `dist/` (gitignored). Never commit built files.
@@ -113,10 +116,35 @@ Blog posts live in `src/content/blog/`. Frontmatter must match the schema in `sr
 
 ## Styling
 
-- Tailwind v4 via `@tailwindcss/vite`. Global styles in `src/styles/global.css`.
-- Custom theme: Fira Code font, neutral-900 background, neutral-300 text.
-- Expressive Code (`ec.config.mjs`) — code blocks use `dark-plus` theme, no border radius, transparent shadows.
-- Pagefind integration provides search index built at `npm run build`.
+Brutalist / raw-HTML: paper stock, hairline black rules, everything on one grid.
+No rounded corners, no shadows, no gradients. Light only — there is no dark theme.
+
+- Tailwind v4 via `@tailwindcss/vite`. All tokens and primitives in `src/styles/global.css`.
+- Type: IBM Plex Mono for body and UI; Instrument Serif for display (H1 and the
+  fortune pull quote only). Article prose is mono, 14.5px / 1.8, 68ch.
+- Expressive Code (`ec.config.mjs`) — `vitesse-light`, square corners, 1px hairline
+  borders, `#f1ede2` code surface, IBM Plex Mono.
+- Search is a client-side filter over title/description/tags (`src/lib/search.ts`),
+  with the index inlined into `/search`. Pagefind was removed.
+
+### Rules that are easy to break
+
+- **Every rule is exactly 1px, and two borders must never land on adjacent
+  elements** — that renders as 2px and is the most visible failure mode. Grids draw
+  their rules with a 1px `gap` over a `--color-rule` background (`.ruled`), so cells
+  themselves carry no border. When two neighbours share an edge, exactly one draws it.
+- **Ink alphas are a closed scale**: `.62` secondary body, `.55` meta (4.68:1 on
+  paper — the AA floor), `.25` hairlines, and `.4` for decorative separators ONLY.
+  Do not introduce intermediate values; when collapsing, round toward the ink.
+- **The accent is a background, never a text colour.** At `oklch(0.9 …)` it is
+  1.17:1 against paper. Large surfaces hover to `--color-tint`, small targets to
+  full `--color-accent`.
+- **Encode state by shape, position, or value — not hue.** The cycle tracker's day
+  types and the tools' error states both follow this.
+- Two breakpoints only: 900px and 620px.
+- Heading convention drives prose styling: `##` is the lede (styled as the
+  accent-ruled lead block) and `###` are sections (the 22px heading). The contents
+  rail lists h3/h4, never the lede.
 
 ---
 
@@ -155,12 +183,15 @@ Do not change without understanding fingerprinting behavior.
 
 ## Important Constraints
 
-- **No test suite** — no `vitest`, `jest`, or similar configured.
-- **No CI/CD** — no GitHub Actions workflows in repo.
+- **Tests** — `vitest`, run with `npm test`. 119 tests over the tool libs, the TOC
+  helpers and the search filter. There is no component or visual test layer.
+- **CI** — Forgejo Actions (`.forgejo/workflows/build.yml`) builds and publishes the
+  container image on push to `main`. It does NOT run tests or check formatting, so
+  both are on you before pushing.
 - **No ESLint** — only Prettier for formatting.
 - **Single package** — not a monorepo; all code lives under `src/`.
 - **Node version** — Docker uses Node 24; local dev should match (nvm recommended).
-- **Generated files** — `.astro/` directory is generated; never edit files there.
+- **Generated files** — `.astro/` is generated; never edit files there.
 - **Content assets** — images in `public/images/`; reference with absolute paths like `/images/piko-1.webp`.
 
 ---
@@ -193,7 +224,7 @@ Edit `src/styles/global.css` — `@theme` block and `@layer base` utilities.
 ## Gotchas
 
 - **Port conflict**: Astro dev defaults to port 4321. Change via `npm run dev -- --port <n>` if needed.
-- **Content cache**: Astro caches content collections in `.astro/data-store.json` (large, gitignored). Delete if content changes aren't reflected.
+- **Content cache**: Astro caches rendered content in **`node_modules/.astro`** as well as `.astro/`. Clearing only `.astro/` is not enough — a stale `node_modules/.astro` will keep serving previously highlighted code blocks, so a code-theme change appears to do nothing. Delete both.
 - **Image paths**: In markdown, use absolute paths starting with `/` (e.g., `![alt](/images/file.webp)`). Relative paths break in production.
 - **Date format**: Use ISO 8601 with timezone offset (e.g., `2024-03-18T14:16:19+07:00`). Astro's date parser is strict.
 - **Draft posts**: Set `draft: true` to exclude from builds. `draft` field is optional in schema but recommended for clarity.

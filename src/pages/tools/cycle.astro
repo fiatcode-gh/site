@@ -3,18 +3,17 @@ import CycleTool from "@/components/tools/CycleTool.svelte";
 import ToolShell from "@/components/ToolShell.astro";
 import Layout from "@/layouts/Layout.astro";
 
+// Deliberately absent from the tool registry so it never appears on the
+// /tools hub — see the noindex below and the sitemap filter in astro.config.
+// That also means registry-wide edits skip this page, so keep it in step by hand.
+const slug = "cycle";
 const name = "Cycle tracker";
 const description =
   "Private menstrual-cycle analytics — paste your period dates, everything stays in this browser.";
 ---
 
-<Layout
-  title={`${name} | fiatcode`}
-  description={description}
-  sidebar={false}
-  noindex={true}
->
-  <ToolShell name={name} description={description}>
+<Layout title={`${name} | fiatcode`} description={description} noindex={true}>
+  <ToolShell slug={slug} description={description}>
     <CycleTool client:load />
   </ToolShell>
 </Layout>

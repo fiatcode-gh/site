@@ -28,41 +28,41 @@
   <div class="flex flex-wrap items-center gap-4">
     <fieldset class="flex items-center gap-4">
       <legend class="sr-only">Identifier type</legend>
-      <label class="flex items-center gap-1.5 font-mono text-xs text-ink-dim">
+      <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
         <input
           type="radio"
           bind:group={kind}
           value="uuid"
           onchange={generate}
-          class="accent-(--color-phosphor)"
+          class="accent-(--color-ink)"
         />
         UUID v4
       </label>
-      <label class="flex items-center gap-1.5 font-mono text-xs text-ink-dim">
+      <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
         <input
           type="radio"
           bind:group={kind}
           value="ulid"
           onchange={generate}
-          class="accent-(--color-phosphor)"
+          class="accent-(--color-ink)"
         />
         ULID
       </label>
     </fieldset>
-    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-dim">
+    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
       count
       <input
         type="number"
         bind:value={count}
         min="1"
         max="1000"
-        class="w-20 border border-line bg-bg/40 px-2 py-1 font-mono text-xs text-ink"
+        class="w-20 border border-rule bg-code px-2 py-1 font-mono text-xs text-ink"
       />
     </label>
     <button
       type="button"
       onclick={generate}
-      class="border border-line bg-surface-2 px-3 py-1.5 font-mono text-xs text-ink-dim transition-colors hover:border-phosphor/60 hover:text-phosphor"
+      class="border border-rule bg-code px-3 py-1.5 font-mono text-xs text-ink-62 transition-colors hover:border-ink hover:text-ink"
     >
       generate
     </button>
@@ -70,15 +70,11 @@
   </div>
 
   {#if error}
-    <p aria-live="polite" class="font-mono text-xs text-phosphor-deep">
-      # {error}
-    </p>
+    <p aria-live="polite" class="font-mono text-xs text-ink">{error}</p>
   {/if}
 
   {#if ids.length > 0}
-    <ul
-      class="flex flex-col divide-y divide-line-soft border border-line-soft bg-bg/40"
-    >
+    <ul class="flex flex-col divide-y divide-rule border border-rule bg-code">
       {#each ids as id (id)}
         <li class="flex items-center justify-between gap-3 px-3 py-2">
           <code class="font-mono text-sm break-all text-ink">{id}</code>

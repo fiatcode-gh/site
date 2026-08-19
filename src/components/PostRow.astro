@@ -1,0 +1,42 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+/**
+ * One post as a date-left row. Shared by the home page, /posts, /search
+ * and the per-tag listings so the row reads identically everywhere.
+ *
+ * Below 620px the date column is dropped and the row stacks (see
+ * .post-row in global.css).
+ */
+interface Props {
+  post: CollectionEntry<"blog">;
+  /** Slightly tighter type for the search results list. */
+  compact?: boolean;
+}
+
+const { post, compact = false } = Astro.props;
+
+const date = post.data.date.toLocaleDateString("en-US", {
+  month: "short",
+  day: "2-digit",
+  year: "numeric",
+});
+---
+
+<a
+  href={`/posts/${post.id}/`}
+  class:list={["post-row hover-tint", compact && "py-[18px]"]}
+>
+  <span class="pt-1 text-[11.5px]">{date}</span>
+  <span>
+    <span
+      class:list={[
+        "mb-1.5 block font-semibold tracking-[-0.01em]",
+        compact ? "text-base" : "text-[17px]",
+      ]}>{post.data.title}</span
+    >
+    <span class="block text-[12.5px] leading-[1.55] text-ink-62"
+      >{post.data.description}</span
+    >
+  </span>
+</a>

@@ -115,14 +115,12 @@
     ondragleave={() => (dragging = false)}
     ondrop={onDrop}
     class={`block cursor-pointer border border-dashed p-10 text-center transition-colors ${
-      dragging
-        ? "border-phosphor bg-phosphor-soft"
-        : "border-line bg-bg/40 hover:border-phosphor/60"
+      dragging ? "border-ink bg-accent" : "border-rule bg-code hover:border-ink"
     }`}
   >
-    <span class="font-mono text-sm text-ink-dim">
-      <span class="text-phosphor" aria-hidden="true">$</span> drop an image here,
-      or click to choose
+    <span class="font-mono text-sm text-ink-62">
+      <span class="text-ink" aria-hidden="true">$</span> drop an image here, or click
+      to choose
     </span>
     <input
       id="exif-file"
@@ -134,31 +132,27 @@
   </label>
 
   {#if error}
-    <p aria-live="polite" class="font-mono text-xs text-phosphor-deep">
-      # {error}
-    </p>
+    <p aria-live="polite" class="font-mono text-xs text-ink">{error}</p>
   {/if}
   {#if busy}
-    <p class="font-mono text-xs text-ink-faint"># processing…</p>
+    <p class="font-mono text-xs text-ink-55">processing…</p>
   {/if}
 
   {#if original && !busy && cleanedUrl}
     <div class="flex flex-col gap-2">
-      <h2 class="font-mono text-xs text-ink-faint">
+      <h2 class="font-mono text-xs text-ink-55">
         metadata found: {fields.length} field{fields.length === 1 ? "" : "s"}
       </h2>
       {#if fields.length > 0}
-        <div class="max-h-64 overflow-auto border border-line-soft">
+        <div class="max-h-64 overflow-auto border border-rule">
           <table class="w-full font-mono text-xs">
-            <tbody class="divide-y divide-line-soft">
+            <tbody class="divide-y divide-rule">
               {#each fields as field (field.name)}
                 <tr>
-                  <td
-                    class="px-3 py-1.5 align-top whitespace-nowrap text-phosphor"
-                  >
+                  <td class="px-3 py-1.5 align-top whitespace-nowrap text-ink">
                     {field.name}
                   </td>
-                  <td class="px-3 py-1.5 align-top break-all text-ink-dim">
+                  <td class="px-3 py-1.5 align-top break-all text-ink-62">
                     {field.description}
                   </td>
                 </tr>
@@ -167,15 +161,15 @@
           </table>
         </div>
       {:else}
-        <p class="font-mono text-xs text-ink-faint">
-          # no readable metadata — the re-encoded copy is still guaranteed clean
+        <p class="font-mono text-xs text-ink-55">
+          no readable metadata — the re-encoded copy is still guaranteed clean
         </p>
       {/if}
     </div>
 
-    <div class="flex flex-col gap-3 border-t border-line-soft pt-5">
+    <div class="flex flex-col gap-3 border-t border-rule pt-5">
       {#if lossy}
-        <label class="flex items-center gap-3 font-mono text-xs text-ink-dim">
+        <label class="flex items-center gap-3 font-mono text-xs text-ink-62">
           quality
           <input
             type="range"
@@ -184,12 +178,12 @@
             step="0.01"
             bind:value={quality}
             onchange={onQualityChange}
-            class="accent-(--color-phosphor)"
+            class="accent-(--color-ink)"
           />
           <span class="text-ink">{quality.toFixed(2)}</span>
         </label>
-        <p class="font-mono text-xs text-ink-faint">
-          # {mime === "image/jpeg" ? "JPEG" : "WebP"} re-encoding is lossy — quality
+        <p class="font-mono text-xs text-ink-55">
+          {mime === "image/jpeg" ? "JPEG" : "WebP"} re-encoding is lossy — quality
           is kept high by default
         </p>
       {/if}
@@ -197,11 +191,11 @@
         <a
           href={cleanedUrl}
           download={cleanedName}
-          class="border border-phosphor/60 bg-phosphor-soft px-3 py-1.5 font-mono text-xs text-phosphor transition-colors hover:bg-phosphor hover:text-bg"
+          class="border border-ink bg-accent px-3 py-1.5 font-mono text-xs text-ink transition-colors hover:bg-tint"
         >
           download {cleanedName}
         </a>
-        <span class="font-mono text-xs text-ink-faint">
+        <span class="font-mono text-xs text-ink-55">
           {formatBytes(original.size)} → {formatBytes(cleanedSize)}
         </span>
       </div>

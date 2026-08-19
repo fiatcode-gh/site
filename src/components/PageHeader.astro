@@ -1,0 +1,47 @@
+---
+/**
+ * Section header: display H1 on the left, optional meta on the right,
+ * closed by a structural rule. Used by /posts, /tools, /tags and /search.
+ *
+ * H1 steps 64 / 48 / 38 across the two breakpoints.
+ */
+interface Props {
+  title: string;
+  /** Optional lead paragraph below the title. */
+  lead?: string;
+}
+
+const { title, lead } = Astro.props;
+const hasAside = Astro.slots.has("aside");
+---
+
+<div
+  class:list={[
+    "band px-[26px] pb-6 pt-11",
+    hasAside && "flex flex-wrap items-end justify-between gap-4",
+  ]}
+>
+  <h1 class:list={["page-title display leading-none", lead && "mb-3.5"]}>
+    {title}
+  </h1>
+  {lead && <p class="max-w-[62ch] text-sm leading-[1.65]" set:html={lead} />}
+  {hasAside && <slot name="aside" />}
+</div>
+
+<style>
+  .page-title {
+    font-size: 64px;
+  }
+
+  @media (width < 900px) {
+    .page-title {
+      font-size: 48px;
+    }
+  }
+
+  @media (width < 620px) {
+    .page-title {
+      font-size: 38px;
+    }
+  }
+</style>

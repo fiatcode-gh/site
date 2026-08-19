@@ -1,25 +1,98 @@
 ---
-import PageTitle from "@/components/PageTitle.astro";
-
+/**
+ * Chrome around a tool island: the breadcrumb, the title block, then the
+ * island itself, closed by the no-network note and a related post.
+ *
+ * The island supplies its own mode strip and panes — this component owns
+ * everything outside it.
+ */
 interface Props {
-  name: string;
+  slug: string;
+  /** Lowercase slug is the display name here, matching the /tools cards. */
   description: string;
+  /**
+   * Opt out of the shared 26px gutter. For islands that lay out their own
+   * full-width bands — a mode strip, a pane grid — where the gutter belongs
+   * to each cell rather than to the block, and wrapping would double it.
+   */
+  bleed?: boolean;
+  relatedTitle?: string;
+  relatedHref?: string;
 }
 
-const { name, description } = Astro.props;
+const {
+  slug,
+  description,
+  bleed = false,
+  relatedTitle = "Eight Privacy-First Browser Tools, Zero Network Requests",
+  relatedHref = "/posts/eight-privacy-first-browser-tools/",
+} = Astro.props;
+
+// TypeScript types the prop as required, but Astro does not enforce that at
+// runtime: a caller passing the wrong prop name builds fine and ships an empty
+// <h1> and a bare "/tools/" breadcrumb. Fail the build instead.
+if (!slug) {
+  throw new Error(
+    "ToolShell requires `slug` — it renders the H1 and the breadcrumb.",
+  );
+}
 ---
 
-<PageTitle title={name} />
-<p class="mb-2 font-mono text-sm text-ink-dim">{description}</p>
-<p class="mb-8 font-mono text-xs text-ink-faint">
-  <span class="text-phosphor" aria-hidden="true">#</span> runs entirely in your browser
-  — nothing is uploaded
-</p>
-<slot />
-<p class="mt-10 font-mono text-sm">
-  <a
-    href="/tools"
-    class="text-ink-dim underline-offset-4 transition-colors hover:text-phosphor hover:underline"
-    ><span class="text-ink-faint" aria-hidden="true">$</span> cd ..</a
-  >
-</p>
+<div class="band flex justify-between px-[26px] py-[11px] text-[11px]">
+  <a href="/tools" class="hover:underline">&larr; all tools</a>
+  <span class="text-ink-55">/tools/{slug}</span>
+</div>
+
+<div class="band px-[26px] pb-6 pt-11">
+  <h1 class="tool-title display mb-3 leading-none">{slug}</h1>
+  <p class="max-w-[62ch] text-sm leading-[1.65]">
+    {description}
+    <span class="hl">Nothing leaves this tab.</span>
+  </p>
+</div>
+
+{
+  /*
+   * The closing rule lives on whichever element ends the tool body, because
+   * the row below draws no border-top — two borders on adjacent elements
+   * would render as 2px. A bleeding island's own last band carries it.
+   */
+}
+{
+  bleed ? (
+    <slot />
+  ) : (
+    <div class="band p-[26px]">
+      <slot />
+    </div>
+  )
+}
+
+<div class="ruled band grid-cols-2 max-[619px]:grid-cols-1">
+  <p class="cell px-[26px] py-[18px] text-[12.5px] leading-[1.65]">
+    Runs entirely in your browser. Open the network tab and watch nothing
+    happen.
+  </p>
+  <a href={relatedHref} class="cell hover-tint block px-[26px] py-[18px]">
+    <span class="label mb-1.5 block text-ink-55">Related post</span>
+    <span class="text-sm font-semibold">{relatedTitle}</span>
+  </a>
+</div>
+
+<style>
+  .tool-title {
+    font-size: 64px;
+  }
+
+  @media (width < 900px) {
+    .tool-title {
+      font-size: 48px;
+    }
+  }
+
+  @media (width < 620px) {
+    .tool-title {
+      font-size: 38px;
+    }
+  }
+</style>
