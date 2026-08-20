@@ -88,6 +88,13 @@ const sourceUrl = `https://git.fiatcode.dev/fiatcode/site/src/branch/main/src/co
   </div>
 
   <!--
+    Below 900px the rail has nowhere to go, so the contents move into a
+    collapsed band here in normal flow. Rendered as a sibling above the grid
+    because the rail has to be a grid child; CSS shows exactly one of them.
+  -->
+  {hasToc && <TableOfContents headings={content.headings} variant="band" />}
+
+  <!--
     Article and contents rail. The rail draws the shared vertical rule
     (border-left), so the article must not draw a border-right.
   -->
