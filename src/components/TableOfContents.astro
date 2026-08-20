@@ -3,51 +3,68 @@ import { filterHeadings } from "@/lib/toc";
 import type { MarkdownHeading } from "astro";
 
 /**
- * Sticky contents rail, 230px wide — the same column as the nav's
- * `search` cell, so this rail's left rule continues the nav's left rule
- * as one unbroken vertical line.
+ * A post's contents list, in two forms — the post page renders both and CSS
+ * picks one, because they cannot be the same DOM node: the rail has to be a
+ * grid child in the second column, the band a sibling above the grid.
  *
- * The rule is drawn here as border-left and NOT as a border-right on the
- * article, or the two would land on adjacent pixels and read as 2px.
+ * `rail` (>= 900px) — sticky, 230px wide, the same column as the nav's
+ * `search` cell, so this rail's left rule continues the nav's left rule as one
+ * unbroken vertical line. The rule is drawn ONCE, here as border-left, and not
+ * as a border-right on the article, or the two land on adjacent pixels and
+ * read as 2px. top:78px = the 52px nav plus the 26px gutter, so the rails
+ * never touch when scrolled.
  *
- * top:78px = the 52px nav plus the 26px gutter, so the rails never touch
- * when scrolled. Hidden below 900px.
+ * `band` (< 900px) — the rail has nowhere to go at that width, and the spec
+ * hides it without saying what replaces it. A native <details> band in normal
+ * flow keeps the list reachable with no JavaScript, no fixed positioning and
+ * no overlay, so it stays on the grid like every other band.
  */
 interface Props {
   headings: MarkdownHeading[];
+  variant?: "rail" | "band";
 }
 
-const { headings } = Astro.props;
+const { headings, variant = "rail" } = Astro.props;
 const items = filterHeadings(headings);
 ---
 
 {
-  items.length >= 2 && (
-    <nav class="toc" aria-label="Contents">
-      <p class="label mb-3 text-ink-55">Contents</p>
-      {items.map((item) => (
-        <a
-          href={`#${item.slug}`}
-          data-toc-link={item.slug}
-          class:list={["toc-link", item.depth === 4 && "toc-sub"]}
-        >
-          {item.text}
-        </a>
-      ))}
-    </nav>
-  )
+  items.length >= 2 &&
+    (variant === "rail" ? (
+      <nav class="toc" aria-label="Contents">
+        <p class="label mb-3 text-ink-55">Contents</p>
+        {items.map((item) => (
+          <a
+            href={`#${item.slug}`}
+            data-toc-link={item.slug}
+            class:list={["toc-link", item.depth === 4 && "toc-sub"]}
+          >
+            {item.text}
+          </a>
+        ))}
+      </nav>
+    ) : (
+      <details class="toc-band band">
+        <summary class="label">Contents</summary>
+        <nav aria-label="Contents">
+          {items.map((item) => (
+            <a
+              href={`#${item.slug}`}
+              class:list={["toc-link", item.depth === 4 && "toc-sub"]}
+            >
+              {item.text}
+            </a>
+          ))}
+        </nav>
+      </details>
+    ))
 }
 
 <style>
-  .toc {
-    position: sticky;
-    top: 78px;
-    align-self: start;
-    box-sizing: border-box;
-    padding: 36px 20px 36px 26px;
-    border-left: 1px solid var(--color-ink);
-  }
+  /* ── Shared link ─────────────────────────────────────────── */
 
+  /* The border-top is also what divides the summary from the first link in
+     the band, so neither the summary nor the band draws a bottom rule. */
   .toc-link {
     display: block;
     padding: 6px 0;
@@ -66,11 +83,22 @@ const items = filterHeadings(headings);
     padding-left: 14px;
   }
 
-  /* The reader's current section. Set by the script below, which also
-     mirrors it into aria-current for assistive tech. */
+  /* The reader's current section, set by the script below, which also mirrors
+     it into aria-current for assistive tech. */
   .toc-link[aria-current] {
     color: var(--color-ink);
     font-weight: 600;
+  }
+
+  /* ── Rail, >= 900px ──────────────────────────────────────── */
+
+  .toc {
+    position: sticky;
+    top: 78px;
+    align-self: start;
+    box-sizing: border-box;
+    padding: 36px 20px 36px 26px;
+    border-left: 1px solid var(--color-ink);
   }
 
   @media (width < 900px) {
@@ -78,11 +106,58 @@ const items = filterHeadings(headings);
       display: none;
     }
   }
+
+  /* ── Band, < 900px ───────────────────────────────────────── */
+
+  .toc-band {
+    display: none;
+  }
+
+  .toc-band > summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 14px 26px;
+    cursor: pointer;
+    /* Drop the default disclosure triangle; the +/- below replaces it. */
+    list-style: none;
+  }
+
+  .toc-band > summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .toc-band > summary::after {
+    content: "+";
+    font-size: 14px;
+    line-height: 1;
+  }
+
+  .toc-band[open] > summary::after {
+    content: "−";
+  }
+
+  .toc-band > summary:hover {
+    background: var(--color-tint);
+  }
+
+  /* The gutter lives on the links so each one's hover fills the full width. */
+  .toc-band nav {
+    padding: 0 26px 14px;
+  }
+
+  @media (width < 900px) {
+    .toc-band {
+      display: block;
+    }
+  }
 </style>
 
 <script>
   import { activeHeadingId } from "../lib/toc";
 
+  // Only the rail is scroll-spied. The band's copies carry no data-toc-link,
+  // so a collapsed band cannot pull the highlight off the visible rail.
   const links = Array.from(
     document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"),
   );
@@ -103,9 +178,9 @@ const items = filterHeadings(headings);
       }
     };
 
-    // The current section is the last heading whose top has scrolled past
-    // an activation line near the top of the viewport. It stays current
-    // while reading the body text below it.
+    // The current section is the last heading whose top has scrolled past an
+    // activation line near the top of the viewport. It stays current while
+    // reading the body text below it.
     const update = () => {
       const offset = window.innerHeight * 0.3;
       const entries = targets.map((el) => ({
