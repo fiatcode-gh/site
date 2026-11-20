@@ -13,11 +13,11 @@ tags:
 
 [Logseq](https://github.com/logseq/logseq) is my second brain. Every project I'm thinking about, every note worth keeping, every AI-generated session summary I want to revisit — it's all in there. And for a long time, that worked fine, because Logseq was something I opened in its own window.
 
-Then I started writing more code with [Claude Code](https://github.com/anthropics/claude-code) and [OpenCode](https://github.com/opencode-ai/opencode) in the terminal, full-screen. And I started teaching my AI to write back to Logseq on its own — `journal-update` after a session to log what shipped, `find-todo` to surface open work across the graph, the whole [`ai-stack`](https://git.fiatcode.dev/fiatcode/ai-stack) plugin doing its thing. The AI was _actively_ writing to my second brain. And to read what it just wrote, I had to alt-tab to an Electron app — heavy, slow to focus, hungry for RAM.
+Then I started writing more code with [Claude Code](https://github.com/anthropics/claude-code) and [OpenCode](https://github.com/opencode-ai/opencode) in the terminal, full-screen. And I started teaching my AI to write back to Logseq on its own — `journal-update` after a session to log what shipped, `find-todo` to surface open work across the graph, the whole [`ai-stack`](https://github.com/fiatcode-gh/ai-stack) plugin doing its thing. The AI was _actively_ writing to my second brain. And to read what it just wrote, I had to alt-tab to an Electron app — heavy, slow to focus, hungry for RAM.
 
 The seam was the problem. Two things that should have been one thing — my work surface and my knowledge store — were living in different windows, on different toolchains, in different mental contexts. Every time I alt-tabbed, I paid a tax.
 
-So I built a TUI for it. It's called [peekseq](https://git.fiatcode.dev/fiatcode/peekseq).
+So I built a TUI for it. It's called [peekseq](https://github.com/fiatcode-gh/weft).
 
 ---
 
