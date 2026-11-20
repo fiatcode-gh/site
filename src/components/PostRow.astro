@@ -1,42 +1,37 @@
 ---
+import TagList from "@/components/TagList.astro";
+import { isoDate } from "@/lib/posts";
 import type { CollectionEntry } from "astro:content";
+import type { HTMLAttributes } from "astro/types";
 
 /**
- * One post as a date-left row. Shared by the home page, /posts, /search
- * and the per-tag listings so the row reads identically everywhere.
+ * One post as a list item: ISO date left, then the title (the link), the
+ * description and the tags. Shared by the home page, /posts, /search and
+ * the tag pages, so every caller wraps rows in `<ol class="postlist">`.
  *
- * Below 620px the date column is dropped and the row stacks (see
- * .post-row in global.css).
+ * Below 620px the date column folds above the title (see .postlist in
+ * global.css). Extra attributes land on the <li>; /search uses that to tag
+ * each row for its filter.
  */
-interface Props {
+interface Props extends HTMLAttributes<"li"> {
   post: CollectionEntry<"blog">;
-  /** Slightly tighter type for the search results list. */
-  compact?: boolean;
+  /** h2 under a page h1, h3 under a section h2 (the home page). */
+  level?: 2 | 3;
 }
 
-const { post, compact = false } = Astro.props;
-
-const date = post.data.date.toLocaleDateString("en-US", {
-  month: "short",
-  day: "2-digit",
-  year: "numeric",
-});
+const { post, level = 2, ...attrs } = Astro.props;
+const Heading = level === 3 ? "h3" : "h2";
 ---
 
-<a
-  href={`/posts/${post.id}/`}
-  class:list={["post-row hover-tint", compact && "py-[18px]"]}
->
-  <span class="pt-1 text-[11.5px]">{date}</span>
-  <span>
-    <span
-      class:list={[
-        "mb-1.5 block font-semibold tracking-[-0.01em]",
-        compact ? "text-base" : "text-[17px]",
-      ]}>{post.data.title}</span
-    >
-    <span class="block text-[12.5px] leading-[1.55] text-ink-62"
-      >{post.data.description}</span
-    >
-  </span>
-</a>
+<li {...attrs}>
+  <time datetime={post.data.date.toISOString()}>
+    {isoDate(post.data.date)}
+  </time>
+  <div>
+    <Heading class="post-title">
+      <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+    </Heading>
+    <p>{post.data.description}</p>
+    <TagList tags={post.data.tags ?? []} />
+  </div>
+</li>

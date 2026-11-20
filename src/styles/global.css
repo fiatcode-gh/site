@@ -1,541 +1,906 @@
-/* IBM Plex Mono carries body and UI; Instrument Serif is display only
-   (H1 and the fortune pull quote). Latin subsets only — the site is English. */
-@import "@fontsource/ibm-plex-mono/latin-400.css";
-@import "@fontsource/ibm-plex-mono/latin-400-italic.css";
-@import "@fontsource/ibm-plex-mono/latin-500.css";
-@import "@fontsource/ibm-plex-mono/latin-600.css";
-@import "@fontsource/ibm-plex-mono/latin-700.css";
-@import "@fontsource/instrument-serif/latin-400.css";
-@import "@fontsource/instrument-serif/latin-400-italic.css";
+/* JetBrains Mono carries the chrome, meta and code; IBM Plex Sans carries
+   prose and long text. Latin subsets only — the site is English. */
+@import "@fontsource/jetbrains-mono/latin-400.css";
+@import "@fontsource/jetbrains-mono/latin-400-italic.css";
+@import "@fontsource/jetbrains-mono/latin-500.css";
+@import "@fontsource/jetbrains-mono/latin-600.css";
+@import "@fontsource/jetbrains-mono/latin-700.css";
+@import "@fontsource/ibm-plex-sans/latin-400.css";
+@import "@fontsource/ibm-plex-sans/latin-400-italic.css";
+@import "@fontsource/ibm-plex-sans/latin-500.css";
+@import "@fontsource/ibm-plex-sans/latin-600.css";
 @import "tailwindcss";
 
 /* ─────────────────────────────────────────────────────────────
-   Brutalist / raw-HTML. Paper stock, hairline black rules,
-   everything on one grid. No rounded corners, no shadows, no
-   gradients. Every rule is exactly 1px, and two borders never
-   land on adjacent elements — grids draw their rules with a 1px
-   gap over a --color-rule background instead (see .ruled).
+   Workspace: the site reads like a modern code editor. Mono for
+   chrome, sans for prose. Light and dark are both designed; the
+   system colour scheme picks one (dark values in the media query
+   below). Three syntax colours, each with one meaning:
+     fn  (function)  what you can follow or call: links, focus rings,
+                     tool names, the blockquote bar, the hero name
+     str (string)    data: tags, the "runs locally" dot, YAML values
+     kw  (keyword)   structure markers: section numbers, the thesis
+                     label, list markers, YAML keys, the search
+                     prompt, the ƒ glyph, the tool-error bar
+   --active (the open-tab / current-row bar) is fn in light, kw in dark.
+   `static` emits every token even when no utility uses it — the
+   component CSS reads most of them through var().
    ───────────────────────────────────────────────────────────── */
-@theme {
-  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
-  --font-display: "Instrument Serif", Georgia, serif;
-  --font-default: var(--font-mono);
+@theme static {
+  --font-mono:
+    "JetBrains Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+  --font-sans:
+    "IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
 
-  --color-paper: #faf8f2; /* page surface */
-  --color-desk: #e4e1d8; /* body, outside the 1100px column */
-  --color-ink: #000; /* text, all rules */
-  --color-code: #f1ede2; /* inline code, code blocks, tool panes */
+  /* Surfaces — light: white buffer, cool grey chrome. */
+  --color-surface: #ffffff; /* the editor buffer: page background */
+  --color-chrome: #f2f4f7; /* title bar, explorer, tab strips */
+  --color-raised: #f6f8fa; /* panes, inputs, code */
+  --color-hover: #eaeef3;
+  --color-select: #dce9fa; /* current item */
+  --color-mark: #fde4b8; /* find-match highlight: regex hits, .hl */
+  --color-lede: #fdf4ee; /* the // thesis block */
+  --color-quote: #eef5fd;
 
-  /* Non-structural hairlines and every grid gap. */
-  --color-rule: rgb(0 0 0 / 0.25);
+  /* Lines */
+  --color-line: #dde2e8;
+  --color-line-strong: #c4ccd6;
 
-  /* A closed text scale, measured against --paper: .62 is 6.10:1 for
-     secondary body, .55 is 4.68:1 for meta — just over the 4.5 AA floor.
-     .4 (2.82:1) is for decorative separators ONLY and fails AA for text.
-     Do not add intermediate values; when collapsing, round toward the ink.
-     On --code-bg the same alphas give 5.88 and 4.56, so both still pass. */
-  --color-ink-62: rgb(0 0 0 / 0.62);
-  --color-ink-55: rgb(0 0 0 / 0.55);
-  --color-ink-40: rgb(0 0 0 / 0.4);
+  /* Text. Contrast on surface / chrome: fg 15.8 / 14.4, muted 7.6 / 6.9,
+     faint 5.3 / 4.8. Faint is the floor for text — never put it on
+     --select (4.3). Gutter is 3.7: decorative, aria-hidden glyphs ONLY. */
+  --color-fg: #1d232b;
+  --color-muted: #4b5563;
+  --color-faint: #636c79;
+  --color-gutter: #7d8692;
 
-  /* Acid-yellow highlighter: active nav, small-target hover. */
-  --color-accent: oklch(0.9 0.19 105);
-  /* Large-surface hover — accent lightened, chroma x 0.38. Literal value
-     so the utility exists; re-derived from --color-accent below. */
-  --color-tint: oklch(0.97 0.072 105);
+  /* Syntax colours, all >= 4.8 on every surface above. */
+  --color-fn: #0b5cbf;
+  --color-str: #2a7317;
+  --color-kw: #ad420a;
+  /* Active tab / current-item bar: blue in light, amber in dark. */
+  --color-active: #0b5cbf;
 
-  --text-label: 0.65625rem; /* 10.5px section labels */
-  --text-meta: 0.6875rem; /* 11px meta rows */
-  --text-body: 0.90625rem; /* 14.5px body copy */
-  --text-desc: 0.78125rem; /* 12.5px list descriptions */
+  /* Status bar */
+  --color-status: #0b5cbf;
+  --color-status-fg: #ffffff;
+  --color-status-seg: #08488f;
+  --color-status-seg-fg: #ffffff;
 }
 
 @layer base {
-  /* Re-derive the hover tint from the accent so retheming stays a
-     one-variable change. Browsers without relative-colour support drop
-     this declaration and keep the literal from @theme above. */
-  :root {
-    --color-tint: oklch(
-      from var(--color-accent) clamp(0, calc(l + 0.11), 0.97) calc(c * 0.38) h
-    );
+  /* Dark — graphite editor, chrome darker than the buffer, amber markers.
+     Contrast on surface / chrome: fg 12.5 / 13.3, muted 7.6 / 8.0,
+     faint 5.8 / 6.1; syntax colours >= 8.2. */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --color-surface: #17191e;
+      --color-chrome: #111317;
+      --color-raised: #1d2027;
+      --color-hover: #232731;
+      --color-select: #1e3049;
+      --color-mark: #4d3815;
+      --color-lede: #1f1f22;
+      --color-quote: #1a2230;
+      --color-line: #2a2e37;
+      --color-line-strong: #3a404c;
+      --color-fg: #d6dae1;
+      --color-muted: #a3abb8;
+      --color-faint: #8b94a4;
+      --color-gutter: #6b7385;
+      --color-fn: #74b6ff;
+      --color-str: #a5d68f;
+      --color-kw: #f2a55e;
+      --color-active: #f2a55e;
+      --color-status: #111317;
+      --color-status-fg: #a3abb8;
+      --color-status-seg: #74b6ff;
+      --color-status-seg-fg: #0e1218;
+    }
   }
-}
 
-@layer base {
   html {
-    scroll-behavior: smooth;
-    /* Anchored headings clear the 52px sticky nav plus the 26px gutter. */
-    scroll-padding-top: 78px;
+    color-scheme: light dark;
+    -webkit-text-size-adjust: 100%;
+    scroll-padding-top: 24px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
   }
 
   body {
-    background: var(--color-desk);
-    color: var(--color-ink);
-    font-family: var(--font-mono);
-    font-size: var(--text-body);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    background: var(--color-surface);
+    color: var(--color-fg);
+    font: 400 1.0625rem/1.7 var(--font-sans);
     -webkit-font-smoothing: antialiased;
   }
 
-  /* Links are plain ink; affordance comes from underline or background. */
   a {
-    color: inherit;
-    text-decoration: none;
+    color: var(--color-fn);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 0.2em;
   }
 
-  /* Every affordance was hover-only before, which left keyboard users
-     with nothing. Inset so the outline never adds an apparent 2nd border. */
-  a:focus-visible,
-  button:focus-visible,
-  input:focus-visible,
-  textarea:focus-visible,
-  select:focus-visible,
-  summary:focus-visible,
-  [tabindex]:focus-visible {
-    outline: 2px solid var(--color-ink);
-    outline-offset: -2px;
+  a:hover {
+    text-decoration-thickness: 2px;
   }
 
-  input,
-  textarea,
-  button,
-  select {
-    font: inherit;
-    color: inherit;
+  :focus-visible {
+    outline: 2px solid var(--color-fn);
+    outline-offset: 2px;
   }
 
   ::selection {
-    background: var(--color-accent);
-    color: var(--color-ink);
+    background: var(--color-select);
+    color: var(--color-fg);
   }
 
   ::placeholder {
-    color: var(--color-ink-55);
-  }
-
-  @media (prefers-reduced-motion: reduce) {
-    html {
-      scroll-behavior: auto;
-    }
+    color: var(--color-faint);
   }
 }
 
 @layer components {
-  /* ── Structure ───────────────────────────────────────────── */
+  /* ── Type ────────────────────────────────────────────────── */
 
-  /* The 1100px column, ruled against the desk on both sides. */
-  .shell {
-    max-width: 1100px;
-    margin-inline: auto;
-    min-height: 100vh;
-    background: var(--color-paper);
-    border-inline: 1px solid var(--color-ink);
+  /* A code comment: the meta line above a heading. */
+  .comment {
+    margin: 0 0 14px;
+    font: 400 0.8125rem/1.5 var(--font-mono);
+    color: var(--color-faint);
   }
 
-  /* 26px page gutter — everywhere, no exceptions. */
-  .gutter {
-    padding-inline: 26px;
+  /* Inline find-match highlight. Sits inside running text, so keep the
+     span on the same line as its neighbours (see compressHTML in AGENTS.md). */
+  .hl {
+    padding: 0 0.2em;
+    border-radius: 3px;
+    background: var(--color-mark);
+    color: var(--color-fg);
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
   }
 
-  /* A block that closes with a full-width structural rule. */
-  .band {
-    border-bottom: 1px solid var(--color-ink);
+  /* ── Page header: comment, h1, lead ─────────────────────── */
+
+  .page-head {
+    margin-bottom: 40px;
   }
 
-  /* Hairline grid: cells sit on a --color-rule field and the 1px gap
-     *is* the rule. Never give the cells their own borders — that is what
-     produces the 2px seams the design forbids. */
+  .page-head-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 12px 24px;
+  }
+
+  .page-title {
+    margin: 0;
+    font-size: clamp(2rem, 4.2vw, 2.75rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .page-lead {
+    max-width: 62ch;
+    margin: 16px 0 0;
+    font-size: 1.125rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+
+  /* Meta on the right of a page title: counts, rss. */
+  .page-aside {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
+    font: 400 0.8125rem/1.5 var(--font-mono);
+    color: var(--color-faint);
+  }
+
+  /* ── Section head: h2 + path + link ─────────────────────── */
+
+  .section {
+    margin-top: 72px;
+  }
+
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 8px 16px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .section-head h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.2;
+    letter-spacing: -0.015em;
+  }
+
+  .section-head .path {
+    margin-left: 10px;
+    font: 400 0.8125rem/1 var(--font-mono);
+    color: var(--color-faint);
+    letter-spacing: 0;
+  }
+
+  .more-link {
+    padding: 8px 0;
+    font: 500 0.8125rem/1 var(--font-mono);
+    text-decoration: none;
+  }
+
+  .more-link:hover {
+    text-decoration: underline;
+  }
+
+  /* ── Split: an editor pane with its own tab ─────────────── */
+
+  .split {
+    overflow: hidden;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    background: var(--color-raised);
+  }
+
+  .split-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-right: 14px;
+    border-bottom: 1px solid var(--color-line);
+    background: var(--color-chrome);
+    font: 400 0.75rem/1 var(--font-mono);
+    color: var(--color-faint);
+  }
+
+  .split-tab {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: -1px;
+    padding: 10px 16px;
+    border-right: 1px solid var(--color-line);
+    background: var(--color-raised);
+    color: var(--color-fg);
+    box-shadow: inset 0 2px 0 var(--color-active);
+  }
+
+  /* File-type glyph in front of a file name. */
+  .ico {
+    flex: none;
+    width: 18px;
+    font: 600 0.625rem/1 var(--font-mono);
+    letter-spacing: -0.02em;
+    text-align: center;
+  }
+
+  .ico-md {
+    color: var(--color-fn);
+  }
+
+  .ico-fn {
+    color: var(--color-kw);
+  }
+
+  .ico-tag {
+    color: var(--color-str);
+  }
+
+  /* ── Post list ──────────────────────────────────────────── */
+
+  .postlist > li {
+    display: grid;
+    grid-template-columns: 8rem minmax(0, 1fr);
+    gap: 4px 24px;
+    margin: 0 -16px;
+    padding: 22px 16px;
+    border-radius: 8px;
+    /* The row rule, inset to the text column so the hover fill can run
+       to the rounded edge without the rule following it. */
+    background: linear-gradient(var(--color-line), var(--color-line)) no-repeat
+      16px 100% / calc(100% - 32px) 1px;
+  }
+
+  .postlist > li:hover {
+    background-color: var(--color-raised);
+  }
+
+  .postlist time {
+    font: 400 0.8125rem/1.9 var(--font-mono);
+    color: var(--color-faint);
+  }
+
+  .postlist .post-title {
+    margin: 0 0 6px;
+    font-size: 1.25rem;
+    font-weight: 600;
+    line-height: 1.35;
+    letter-spacing: -0.01em;
+  }
+
+  .postlist .post-title a {
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .postlist .post-title a:hover {
+    color: var(--color-fn);
+    text-decoration: underline;
+  }
+
+  .postlist p {
+    max-width: 66ch;
+    margin: 0 0 10px;
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  /* ── Tags: string tokens ────────────────────────────────── */
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+  }
+
+  .tags a {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px 8px;
+    border-radius: 5px;
+    background: color-mix(in srgb, var(--color-str) 9%, transparent);
+    font: 400 0.75rem/1.5 var(--font-mono);
+    color: var(--color-str);
+    text-decoration: none;
+  }
+
+  .tags a::before {
+    content: "#";
+    content: "#" / "";
+    margin-right: 1px;
+    opacity: 0.7;
+  }
+
+  .tags a:hover {
+    background: color-mix(in srgb, var(--color-str) 18%, transparent);
+  }
+
+  /* ── Tool list: function tokens ─────────────────────────── */
+
+  .fn-list {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0 32px;
+    margin-top: 8px;
+  }
+
+  .fn-list li {
+    border-bottom: 1px solid var(--color-line);
+  }
+
+  .fn-list a {
+    display: grid;
+    grid-template-columns: 9.5rem minmax(0, 1fr);
+    align-items: baseline;
+    gap: 12px;
+    margin: 0 -14px;
+    padding: 14px;
+    border-radius: 6px;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .fn-list a:hover {
+    background: var(--color-raised);
+    color: var(--color-fg);
+  }
+
+  .fn-name {
+    font: 500 0.9375rem/1.5 var(--font-mono);
+    color: var(--color-fn);
+    overflow-wrap: anywhere;
+  }
+
+  .fn-name::after {
+    content: "()";
+    content: "()" / "";
+    color: var(--color-faint);
+  }
+
+  .fn-desc {
+    font-size: 0.9375rem;
+    line-height: 1.5;
+  }
+
+  /* "Runs in your browser": a green dot and a mono note. */
+  .local-note {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font: 400 0.75rem/1.4 var(--font-mono);
+    color: var(--color-muted);
+  }
+
+  .local-note::before {
+    content: "";
+    flex: none;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--color-str);
+  }
+
+  /* ── Small controls ─────────────────────────────────────── */
+
+  /* Bordered mono target: rss, search suggestions, pagination. */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 6px;
+    background: var(--color-surface);
+    font: 500 0.8125rem/1 var(--font-mono);
+    color: var(--color-fg);
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .chip:hover {
+    background: var(--color-hover);
+  }
+
+  /* The lead action: filled, the one place --fn is a background. */
+  .chip-primary {
+    border-color: var(--color-fn);
+    background: var(--color-fn);
+    color: var(--color-surface);
+  }
+
+  .chip-primary:hover {
+    background: var(--color-fn);
+    text-decoration: underline;
+  }
+
+  /* ── Tool primitives ────────────────────────────────────── */
+
+  /* Hairline grid: cells sit on a --line field and the 1px gap is the
+     rule, so cells never draw borders of their own. */
   .ruled {
     display: grid;
     gap: 1px;
-    background: var(--color-rule);
+    background: var(--color-line);
   }
 
   .ruled-flex {
     display: flex;
     flex-wrap: wrap;
     gap: 1px;
-    background: var(--color-rule);
+    background: var(--color-line);
   }
 
   .cell {
-    background: var(--color-paper);
+    background: var(--color-surface);
   }
 
-  /* ── Type ────────────────────────────────────────────────── */
-
-  .label {
-    font-size: var(--text-label);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+  /* A block that closes with a full-width rule. */
+  .band {
+    border-bottom: 1px solid var(--color-line);
   }
 
-  .label-meta {
-    font-size: var(--text-meta);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
-  .display {
-    font-family: var(--font-display);
-    font-weight: 400;
-    letter-spacing: -0.02em;
-  }
-
-  /* Acid highlighter behind display text. The box-shadow spreads the
-     block past the glyph box so it reads as a marker stroke. */
-  .hl {
-    background: var(--color-accent);
-    box-shadow: 0 0 0 5px var(--color-accent);
-  }
-
-  /* ── Interaction ─────────────────────────────────────────── */
-
-  /* Large surfaces (post rows, tool cards, wide buttons) get --tint.
-     Full accent across a 1100px row floods the page. */
-  .hover-tint:hover {
-    background: var(--color-tint);
-  }
-
-  /* Small targets (tag cells, #tag chips, icon links) get full accent —
-     too small to register a hit at tint saturation. */
-  .hover-accent:hover {
-    background: var(--color-accent);
-  }
-
-  /* ── Controls ────────────────────────────────────────────── */
-
-  /* Bordered button pair; the lead action is inverted to solid ink. */
-  .btn-group {
-    display: flex;
-    width: fit-content;
-    border: 1px solid var(--color-ink);
-  }
-
-  /* Divider between siblings only, so the group's own border is never doubled. */
-  .btn-group > * + * {
-    border-left: 1px solid var(--color-ink);
-  }
-
-  .btn {
-    padding: 13px 24px;
-    font-size: 0.78125rem; /* 12.5px */
-  }
-
-  .btn-solid {
-    background: var(--color-ink);
-    color: var(--color-paper);
-    font-weight: 600;
-  }
-
-  /* Small bordered target: tag chips, try-chips, rss. */
-  .chip {
-    padding: 5px 10px;
-    border: 1px solid var(--color-ink);
-    font-size: 0.71875rem; /* 11.5px */
-  }
-
-  /* Input/output surface for the tools and code samples. */
+  /* Input surface. */
   .pane {
     box-sizing: border-box;
     width: 100%;
-    border: 1px solid var(--color-rule);
-    background: var(--color-code);
     padding: 12px;
-    font-size: 0.8125rem; /* 13px */
-    line-height: 1.7;
+    border: 1px solid var(--color-line);
+    background: var(--color-raised);
+    font: 400 0.8125rem/1.7 var(--font-mono);
+    color: var(--color-fg);
     resize: vertical;
-    outline: 0;
   }
 
-  /* ── Tools ───────────────────────────────────────────────── */
+  .pane:focus-visible {
+    outline-offset: -2px;
+  }
 
-  /* Mode strip: full-width buttons in a hairline row, the active one on
-     accent. Buttons carry no border of their own — the 1px grid gap is
-     the rule. */
+  /* Read-only output surface — same box as .pane, not a form control. */
+  .pane-out {
+    box-sizing: border-box;
+    width: 100%;
+    min-height: 200px;
+    padding: 12px;
+    border: 1px solid var(--color-line);
+    background: var(--color-raised);
+    font: 400 0.8125rem/1.7 var(--font-mono);
+    word-break: break-all;
+    white-space: pre-wrap;
+  }
+
+  /* Label row above a pane: label left, count or action right. */
+  .pane-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 32px;
+    margin-bottom: 10px;
+    font: 500 0.75rem/1.4 var(--font-mono);
+    color: var(--color-muted);
+  }
+
+  /* Mode strip: editor tabs. The active one is the open buffer — surface
+     background, a top bar and heavier weight, so it never relies on hue. */
   .mode {
     flex: 1;
     min-width: 110px;
+    min-height: 44px;
+    padding: 0 18px;
     border: 0;
-    background: var(--color-paper);
-    padding: 12px 18px;
-    font-size: 12px;
+    background: var(--color-chrome);
+    font: 400 0.8125rem/1 var(--font-mono);
+    color: var(--color-muted);
     text-align: left;
     cursor: pointer;
   }
 
   .mode:hover {
-    background: var(--color-tint);
+    background: var(--color-hover);
+    color: var(--color-fg);
   }
 
   .mode[data-active] {
-    background: var(--color-accent);
+    background: var(--color-surface);
+    color: var(--color-fg);
+    font-weight: 600;
+    box-shadow: inset 0 2px 0 var(--color-active);
   }
 
   .mode:disabled {
-    color: var(--color-ink-55);
+    color: var(--color-faint);
     cursor: default;
   }
 
   .mode:disabled:hover {
-    background: var(--color-paper);
+    background: var(--color-chrome);
   }
 
-  /* Header row above a pane: label left, count or action right. */
-  .pane-head {
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-    gap: 12px;
-    margin-bottom: 12px;
-    font-size: var(--text-label);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
+  .mode:focus-visible {
+    outline-offset: -2px;
   }
 
-  /* Read-only output surface — same box as .pane, but not a form control. */
-  .pane-out {
-    box-sizing: border-box;
-    width: 100%;
-    min-height: 200px;
-    border: 1px solid var(--color-rule);
-    background: var(--color-code);
-    padding: 12px;
-    font-size: 0.8125rem; /* 13px */
-    line-height: 1.7;
-    word-break: break-all;
-    white-space: pre-wrap;
-  }
-
-  /* Errors and warnings are encoded by weight and an accent bar on the
-     left, never by hue alone — the palette is monochrome and hue would be
-     the only signal otherwise. */
+  /* Errors carry a bar and weight, never hue alone. */
   .tool-error {
-    border-left: 4px solid var(--color-accent);
     padding-left: 10px;
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--color-ink);
+    border-left: 3px solid var(--color-kw);
+    font: 600 0.75rem/1.5 var(--font-mono);
+    color: var(--color-fg);
   }
 
-  .tool-note {
-    font-size: 12px;
-    line-height: 1.6;
-    color: var(--color-ink-55);
-  }
-
-  /* Small square action button (copy, generate, download). */
+  /* Small action button: copy, generate, download. */
   .tool-btn {
-    border: 1px solid var(--color-ink);
-    background: transparent;
-    padding: 6px 12px;
-    font-size: 11.5px;
+    min-height: 32px;
+    padding: 0 12px;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 6px;
+    background: var(--color-surface);
+    font: 500 0.75rem/1 var(--font-mono);
+    color: var(--color-fg);
     cursor: pointer;
   }
 
   .tool-btn:hover {
-    background: var(--color-accent);
+    background: var(--color-hover);
   }
 
   .tool-btn:disabled {
-    color: var(--color-ink-55);
-    border-color: var(--color-rule);
+    border-color: var(--color-line);
+    color: var(--color-faint);
     cursor: default;
   }
 
   .tool-btn:disabled:hover {
-    background: transparent;
+    background: var(--color-surface);
   }
 
-  /* ── Post rows ───────────────────────────────────────────── */
-
-  /* Date column left, title + description right. Below 620px the date
-     column is dropped and the row stacks. */
-  .post-row {
-    display: grid;
-    grid-template-columns: 100px 1fr;
-    gap: 24px;
-    padding: 20px 26px;
-    border-bottom: 1px solid var(--color-rule);
-  }
-
-  .post-row:last-child {
-    border-bottom: 0;
+  @media (prefers-reduced-motion: no-preference) {
+    .postlist > li,
+    .fn-list a,
+    .tags a,
+    .chip,
+    .mode,
+    .tool-btn {
+      transition:
+        background-color 120ms ease,
+        color 120ms ease;
+    }
   }
 
   @media (width < 620px) {
-    .post-row {
-      grid-template-columns: 1fr;
-      gap: 6px;
+    .section {
+      margin-top: 56px;
+    }
+
+    .more-link {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+    }
+
+    .postlist > li {
+      grid-template-columns: minmax(0, 1fr);
+      padding: 20px 16px;
+    }
+
+    /* The title is the row's only big target; give it 40px of height. */
+    .postlist .post-title a {
+      display: block;
+      margin: -7px 0;
+      padding: 7px 0;
+    }
+
+    .tags a {
+      min-height: 40px;
+      padding: 0 12px;
+    }
+
+    .fn-list {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .fn-list a {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2px;
+      min-height: 48px;
+    }
+
+    .chip,
+    .tool-btn {
+      min-height: 40px;
     }
   }
 }
 
 /* ─────────────────────────────────────────────────────────────
-   Article prose. Written out rather than driven by a typography
-   plugin because the scale is short and deliberate.
-
-   Heading mapping follows this blog's convention (see AGENTS.md):
-   `##` is the lede — one per post, the thesis sentence — so h2 is
-   the accent-ruled lead block, not a section title. `###` are the
-   real sections and carry the 22px heading. `####` steps down.
+   Article prose. Heading mapping follows this blog's convention
+   (see AGENTS.md): `##` is the lede — one per post, the thesis —
+   so h2 is the "// thesis" block, not a section title. `###` are
+   the real sections, numbered 01, 02… by a counter. `####` steps
+   down, unnumbered.
    ───────────────────────────────────────────────────────────── */
 @layer components {
-  .prose-brut {
-    font-size: var(--text-body);
-    line-height: 1.8;
+  .prose {
+    font-size: 1.0625rem;
+    line-height: 1.75;
+    counter-reset: sec;
   }
 
-  .prose-brut > * {
+  .prose > * {
     max-width: 68ch;
   }
 
-  .prose-brut p {
-    margin: 0 0 20px;
+  .prose p {
+    margin: 0 0 1.3em;
   }
 
   /* The lede. */
-  .prose-brut h2 {
-    margin: 0 0 32px;
-    max-width: 60ch;
-    border-left: 4px solid var(--color-accent);
-    padding-left: 18px;
-    font-size: 1.0625rem; /* 17px */
-    font-weight: 600;
-    line-height: 1.5;
+  .prose h2 {
+    margin: 8px 0 2.25rem;
+    padding: 20px 24px 22px 26px;
+    border-left: 3px solid var(--color-kw);
+    border-radius: 0 10px 10px 0;
+    background: var(--color-lede);
+    font-size: 1.3125rem;
+    font-weight: 500;
+    line-height: 1.55;
+    letter-spacing: -0.005em;
   }
 
-  /* Section heading. */
-  .prose-brut h3 {
-    margin: 34px 0 16px;
-    font-size: 1.375rem; /* 22px */
-    font-weight: 700;
-    letter-spacing: -0.01em;
-    line-height: 1.25;
-  }
-
-  .prose-brut h4 {
-    margin: 28px 0 12px;
-    font-size: 1rem; /* 16px */
-    font-weight: 700;
-    letter-spacing: -0.01em;
-  }
-
-  .prose-brut a {
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    text-underline-offset: 3px;
-  }
-
-  .prose-brut a:hover {
-    background: var(--color-accent);
-  }
-
-  .prose-brut strong {
-    font-weight: 700;
-  }
-
-  .prose-brut ul,
-  .prose-brut ol {
-    margin: 0 0 20px;
-    padding-left: 22px;
-  }
-
-  .prose-brut ul {
-    list-style: none;
-    padding-left: 0;
-  }
-
-  /* Square marker, drawn as text so it inherits ink and never needs an image. */
-  .prose-brut ul > li {
-    padding-left: 22px;
-    position: relative;
-  }
-
-  .prose-brut ul > li::before {
-    content: "▪";
-    position: absolute;
-    left: 4px;
-    color: var(--color-ink-55);
-  }
-
-  .prose-brut li {
+  .prose h2::before {
+    content: "// thesis";
+    content: "// thesis" / "";
+    display: block;
     margin-bottom: 8px;
+    font: 500 0.75rem/1 var(--font-mono);
+    color: var(--color-kw);
+    letter-spacing: 0.02em;
   }
 
-  /* Nested lists tighten up and lose the bottom gap. */
-  .prose-brut li > ul,
-  .prose-brut li > ol {
-    margin: 8px 0 0;
+  .prose h3 {
+    counter-increment: sec;
+    margin: 0 0 0.7em;
+    font-size: 1.5rem;
+    font-weight: 600;
+    line-height: 1.3;
+    letter-spacing: -0.015em;
   }
 
-  .prose-brut ol {
+  /* Inline-block, not a flex row: a heading with inline code would turn
+     every text run into its own flex item. */
+  .prose h3::before {
+    content: counter(sec, decimal-leading-zero);
+    content: counter(sec, decimal-leading-zero) / "";
+    display: inline-block;
+    margin-right: 14px;
+    font: 500 0.875rem/1 var(--font-mono);
+    color: var(--color-kw);
+    vertical-align: 0.2em;
+  }
+
+  .prose h4 {
+    margin: 1.75em 0 0.6em;
+    font-size: 1.125rem;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  .prose hr {
+    position: relative;
+    max-width: 68ch;
+    height: 1px;
+    margin: 3.25rem 0;
+    border: 0;
+    background: var(--color-line);
+    overflow: visible;
+  }
+
+  .prose hr::after {
+    content: "---";
+    content: "---" / "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    padding: 0 12px;
+    transform: translate(-50%, -50%);
+    background: var(--color-surface);
+    font: 400 0.75rem/1 var(--font-mono);
+    color: var(--color-gutter);
+    letter-spacing: 0.15em;
+  }
+
+  .prose em {
+    font-style: italic;
+  }
+
+  .prose strong {
+    font-weight: 600;
+  }
+
+  .prose :not(pre) > code {
+    padding: 0.15em 0.4em;
+    border: 1px solid var(--color-line);
+    border-radius: 5px;
+    background: var(--color-raised);
+    font: 400 0.85em/1 var(--font-mono);
+    color: var(--color-fg);
+    overflow-wrap: anywhere;
+  }
+
+  .prose ul,
+  .prose ol {
+    margin: 0 0 1.5em;
+    padding-left: 1.4em;
+  }
+
+  .prose ul {
+    list-style: disc;
+  }
+
+  .prose ol {
     list-style: decimal;
   }
 
-  .prose-brut ol > li::marker {
-    color: var(--color-ink-55);
+  .prose li {
+    margin: 0 0 0.75em;
+    padding-left: 0.3em;
   }
 
-  /* Inline code. Border is --rule, not ink, so a run of code inside a
-     paragraph does not read as a row of boxes. */
-  .prose-brut :not(pre) > code {
-    background: var(--color-code);
-    border: 1px solid var(--color-rule);
-    padding: 1px 5px;
-    font-size: 0.8125rem; /* 13px */
+  .prose li > ul,
+  .prose li > ol {
+    margin: 0.75em 0 0;
   }
 
-  .prose-brut blockquote {
-    margin: 0 0 20px;
-    border-left: 4px solid var(--color-rule);
-    padding-left: 18px;
-    color: var(--color-ink-62);
+  .prose li::marker {
+    color: var(--color-kw);
+    font-family: var(--font-mono);
+    font-size: 0.85em;
   }
 
-  .prose-brut blockquote p:last-child {
+  .prose ul > li::marker {
+    content: "—  ";
+  }
+
+  .prose blockquote {
+    margin: 2rem 0;
+    padding: 18px 24px;
+    border-left: 3px solid var(--color-fn);
+    border-radius: 0 10px 10px 0;
+    background: var(--color-quote);
+    font-size: 1.1875rem;
+    line-height: 1.6;
+  }
+
+  .prose blockquote p:last-child {
     margin-bottom: 0;
   }
 
-  /* Section break: a full-strength rule, the one place ink crosses the column. */
-  .prose-brut hr {
-    max-width: none;
-    height: 1px;
-    border: 0;
-    background: var(--color-ink);
-    margin: 34px 0;
-  }
-
-  .prose-brut img {
+  .prose img {
     display: block;
     max-width: 100%;
     height: auto;
-    border: 1px solid var(--color-rule);
+    margin: 0 0 1.3em;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
   }
 
   /* Tables scroll inside their own box rather than widening the page. */
-  .prose-brut table {
-    width: 100%;
+  .prose table {
+    display: block;
+    width: max-content;
+    max-width: 100%;
+    margin: 0 0 1.5em;
+    overflow-x: auto;
     border-collapse: collapse;
-    font-size: 0.8125rem; /* 13px */
-    margin: 0 0 20px;
+    font-size: 0.9375rem;
   }
 
-  .prose-brut th,
-  .prose-brut td {
-    border: 1px solid var(--color-rule);
+  .prose th,
+  .prose td {
     padding: 8px 12px;
+    border: 1px solid var(--color-line);
     text-align: left;
     vertical-align: top;
   }
 
-  .prose-brut th {
-    font-weight: 700;
-    background: var(--color-code);
+  .prose th {
+    background: var(--color-raised);
+    font-weight: 600;
   }
 
-  /* Expressive Code blocks: let them use the full measure. */
-  .prose-brut .expressive-code {
+  /* Expressive Code blocks use the full measure. */
+  .prose .expressive-code {
     max-width: none;
-    margin: 0 0 20px;
+    margin: 1.75rem 0 2rem;
+  }
+
+  @media (width < 620px) {
+    .prose h2 {
+      padding: 18px 18px 18px 20px;
+      font-size: 1.1875rem;
+    }
+
+    .prose h3 {
+      font-size: 1.3125rem;
+    }
+  }
+}
+
+/* Expressive Code animates its copy button and "Copied!" tooltip with no
+   reduced-motion query. Its CSS is unlayered, so this override is too, and
+   :root lifts it above EC's (0,2,1) selectors whatever the load order. */
+@media (prefers-reduced-motion: reduce) {
+  :root .expressive-code .copy * {
+    transition-duration: 0s;
   }
 }

@@ -2,7 +2,7 @@ export interface ToolEntry {
   slug: string;
   name: string;
   description: string;
-  /** Condensed line for the home page's four-column tool strip. */
+  /** Condensed line for the home page's two-column tool list. */
   short: string;
 }
 

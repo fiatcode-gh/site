@@ -41,89 +41,90 @@
 </script>
 
 <div class="flex flex-col gap-5">
-  <p class="font-mono text-xs text-ink-55">
-    <span class="text-ink" aria-hidden="true">#</span> runs on the main thread — extremely
+  <p class="font-mono text-xs text-faint">
+    <span class="text-fg" aria-hidden="true">#</span> runs on the main thread — extremely
     backtrack-heavy patterns on large input can stall this tab (input capped at 100k
     chars)
   </p>
 
   <div class="flex flex-col gap-2">
-    <label for="re-pattern" class="font-mono text-xs text-ink-55">pattern</label
-    >
+    <label for="re-pattern" class="font-mono text-xs text-faint">pattern</label>
+    <!-- The box shows focus for the input inside it, like the search box. -->
     <div
-      class="flex items-center gap-0 border border-rule bg-code font-mono text-sm"
+      class="flex items-center gap-0 border border-line bg-raised font-mono text-sm focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-fn"
     >
-      <span class="pl-3 text-ink-55" aria-hidden="true">/</span>
+      <span class="pl-3 text-faint" aria-hidden="true">/</span>
       <input
         id="re-pattern"
         bind:value={pattern}
         placeholder="(?<word>\w+)"
         spellcheck="false"
-        class="min-w-0 flex-1 bg-transparent p-3 pl-1 text-ink placeholder:text-ink-55 focus:outline-none"
+        class="min-w-0 flex-1 bg-transparent p-3 pl-1 text-fg placeholder:text-faint focus:outline-none"
       />
-      <span class="pr-3 text-ink-55" aria-hidden="true">/{flagString}</span>
+      <span class="pr-3 text-faint" aria-hidden="true">/{flagString}</span>
     </div>
   </div>
 
   <fieldset class="flex flex-wrap items-center gap-4">
     <legend class="sr-only">Flags</legend>
     {#each Object.keys(flags) as flag (flag)}
-      <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
+      <label
+        class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+      >
         <input
           type="checkbox"
           bind:checked={flags[flag]}
-          class="accent-(--color-ink)"
+          class="accent-(--color-fn)"
         />
         {flag}
-        <span class="text-ink-55">({FLAG_NAMES[flag]})</span>
+        <span class="text-faint">({FLAG_NAMES[flag]})</span>
       </label>
     {/each}
   </fieldset>
 
   <div class="flex flex-col gap-2">
-    <label for="re-input" class="font-mono text-xs text-ink-55"
-      >test input</label
+    <label for="re-input" class="font-mono text-xs text-faint">test input</label
     >
     <textarea
       id="re-input"
       bind:value={input}
       placeholder="paste text to test against…"
       spellcheck="false"
-      class="min-h-32 w-full resize-y border border-rule bg-code p-3 font-mono text-sm text-ink placeholder:text-ink-55"
+      class="min-h-32 w-full resize-y border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
     ></textarea>
   </div>
 
   {#if !result.ok}
-    <p aria-live="polite" class="font-mono text-xs text-ink">{result.error}</p>
+    <p aria-live="polite" class="font-mono text-xs text-fg">{result.error}</p>
   {:else if input !== ""}
     <div class="flex flex-col gap-2">
-      <h2 class="font-mono text-xs text-ink-55">
+      <h2 class="font-mono text-xs text-faint">
         matches: {result.matches.length}{result.truncated
           ? " (truncated at 1000)"
           : ""}
       </h2>
       <pre
-        class="max-h-64 overflow-auto border border-rule bg-code p-3 font-mono text-sm whitespace-pre-wrap text-ink-62">{#each segs as seg, i (i)}{#if seg.hit}<mark
-              class="bg-accent text-ink">{seg.text}</mark
+        class="max-h-64 overflow-auto border border-line bg-raised p-3 font-mono text-sm whitespace-pre-wrap text-muted">{#each segs as seg, i (i)}{#if seg.hit}<mark
+              class="bg-mark text-fg">{seg.text}</mark
             >{:else}{seg.text}{/if}{/each}</pre>
     </div>
 
     {#if result.matches.length > 0 && result.matches.some((m) => m.groups.length > 0 || m.named)}
       <div class="flex flex-col gap-2">
-        <h2 class="font-mono text-xs text-ink-55">capture groups</h2>
+        <h2 class="font-mono text-xs text-faint">capture groups</h2>
         <ul
-          class="flex max-h-64 flex-col gap-1 overflow-auto border border-rule bg-code p-3 font-mono text-xs"
+          class="flex max-h-64 flex-col gap-1 overflow-auto border border-line bg-raised p-3 font-mono text-xs"
         >
           {#each result.matches.slice(0, 50) as m, i (i)}
-            <li class="text-ink-62">
-              <span class="text-ink-55">[{i}]</span>
+            <li class="text-muted">
+              <span class="text-faint">[{i}]</span>
               "{m.text}"
               {#each m.groups as g, gi (gi)}
-                <span class="text-ink-55">${gi + 1}=</span>{g ?? "∅"}
+                <span class="text-faint">${gi + 1}=</span>{g ?? "∅"}
               {/each}
               {#if m.named}
                 {#each Object.entries(m.named) as [name, value] (name)}
-                  <span class="text-ink">{name}=</span>{value ?? "∅"}
+                  <span class="text-fg">{name}=</span>{value ?? "∅"}
                 {/each}
               {/if}
             </li>
@@ -133,8 +134,8 @@
     {/if}
   {/if}
 
-  <div class="flex flex-col gap-2 border-t border-rule pt-5">
-    <label for="re-replace" class="font-mono text-xs text-ink-55">
+  <div class="flex flex-col gap-2 border-t border-line pt-5">
+    <label for="re-replace" class="font-mono text-xs text-faint">
       replace with (optional — supports $1, $&lt;name&gt;)
     </label>
     <input
@@ -142,18 +143,18 @@
       bind:value={replacement}
       placeholder="[$1]"
       spellcheck="false"
-      class="w-full border border-rule bg-code p-3 font-mono text-sm text-ink placeholder:text-ink-55"
+      class="w-full border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
     />
     {#if replaced}
       {#if replaced.ok}
         <div class="flex items-center justify-between">
-          <span class="font-mono text-xs text-ink-55">result</span>
+          <span class="font-mono text-xs text-faint">result</span>
           <CopyButton text={replaced.output} />
         </div>
         <pre
-          class="max-h-48 overflow-auto border border-rule bg-code p-3 font-mono text-sm whitespace-pre-wrap text-ink">{replaced.output}</pre>
+          class="max-h-48 overflow-auto border border-line bg-raised p-3 font-mono text-sm whitespace-pre-wrap text-fg">{replaced.output}</pre>
       {:else}
-        <p aria-live="polite" class="font-mono text-xs text-ink">
+        <p aria-live="polite" class="font-mono text-xs text-fg">
           {replaced.error}
         </p>
       {/if}

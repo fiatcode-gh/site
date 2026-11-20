@@ -1,7 +1,8 @@
 ---
 import TableOfContents from "@/components/TableOfContents.astro";
+import TagList from "@/components/TagList.astro";
 import Layout from "@/layouts/Layout.astro";
-import { filterHeadings } from "@/lib/toc";
+import { isoDate, newestFirst } from "@/lib/posts";
 import {
   getCollection,
   render,
@@ -11,7 +12,7 @@ import {
 
 export async function getStaticPaths() {
   const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+    newestFirst,
   );
 
   return Promise.all(
@@ -37,158 +38,251 @@ interface Props {
 
 const { post, content, newer, older } = Astro.props;
 
-const longDate = post.data.date.toLocaleDateString("en-US", {
-  year: "numeric",
-  month: "long",
-  day: "numeric",
-});
+const date = isoDate(post.data.date);
+const tags = post.data.tags ?? [];
 
 // ~200 words per minute, rounded up, floor of 1.
 const words = post.body?.trim().split(/\s+/).length ?? 0;
 const readTime = Math.max(1, Math.round(words / 200));
 
-const hasToc = filterHeadings(content.headings).length >= 2;
-const sourceUrl = `https://git.fiatcode.dev/fiatcode/site/src/branch/main/src/content/blog/${post.id}.md`;
+const file = `${post.id}.md`;
+const sourceUrl = `https://github.com/fiatcode-gh/site/blob/main/src/content/blog/${file}`;
 ---
 
 <Layout
   title={`${post.data.title} | fiatcode`}
   description={post.data.description}
+  crumbs={[
+    { label: "posts", href: "/posts/" },
+    { label: date.slice(0, 4) },
+    { label: file },
+  ]}
 >
-  <!-- File-path breadcrumb -->
-  <div class="band flex justify-between px-[26px] py-[11px] text-[11px]">
-    <a href="/posts" class="hover:underline">&larr; all posts</a>
-    <span class="text-ink-55">posts/{post.id}.md</span>
-  </div>
-
-  <!-- Title block -->
-  <div class="band px-[26px] pb-7 pt-13">
-    <div class="label-meta mb-[22px] flex flex-wrap gap-3.5">
-      <time datetime={post.data.date.toISOString()}>{longDate}</time>
-      <span class="text-ink-40" aria-hidden="true">&middot;</span>
-      <span>{readTime} min read</span>
-    </div>
-    <h1 class="post-title display mb-5 max-w-[24ch] leading-[1.02]">
-      {post.data.title}
-    </h1>
-    <p class="max-w-[72ch] text-[15px] leading-[1.65] text-ink-62">
-      {post.data.description}
-    </p>
-    {
-      post.data.tags && post.data.tags.length > 0 && (
-        <div class="mt-6 flex flex-wrap gap-2">
-          {post.data.tags.map((tag) => (
-            <a href={`/tags/${tag}/`} class="chip hover-accent">
-              #{tag}
-            </a>
-          ))}
-        </div>
-      )
-    }
-  </div>
-
-  <!--
-    Below 900px the rail has nowhere to go, so the contents move into a
-    collapsed band here in normal flow. Rendered as a sibling above the grid
-    because the rail has to be a grid child; CSS shows exactly one of them.
-  -->
-  {hasToc && <TableOfContents headings={content.headings} variant="band" />}
-
-  <!--
-    Article and contents rail. The rail draws the shared vertical rule
-    (border-left), so the article must not draw a border-right.
-  -->
-  <div class:list={["grid", hasToc && "post-grid"]}>
-    <div class="px-[26px] pb-11 pt-9">
-      <article class="prose-brut">
-        <content.Content />
-      </article>
-
-      <div class="mt-8 flex flex-wrap gap-2.5 border-t border-ink pt-5">
-        <a href="#top" class="chip hover-accent px-4 py-2.5 text-xs">
-          &uarr; back to top
-        </a>
-        <a href="/posts" class="chip hover-accent px-4 py-2.5 text-xs">
-          all posts
-        </a>
-        <a
-          href={sourceUrl}
-          class="chip hover-accent px-4 py-2.5 text-xs"
-          rel="noopener"
-        >
-          source on Forgejo
-        </a>
+  <article class="post">
+    <header class="post-head">
+      <h1>{post.data.title}</h1>
+      <div class="meta">
+        <time datetime={post.data.date.toISOString()}>{date}</time>
+        <span class="sep" aria-hidden="true">&middot;</span>
+        <span>{readTime} min read</span>
+        <TagList tags={tags} />
       </div>
+    </header>
+
+    <TableOfContents headings={content.headings} variant="mobile" />
+
+    <div class="prose">
+      <content.Content />
     </div>
 
-    {hasToc && <TableOfContents headings={content.headings} />}
-  </div>
+    <p class="comment source">
+      // source: <a href={sourceUrl} rel="noopener">src/content/blog/{file}</a>
+    </p>
 
-  <!--
-    Previous / next. The pair sits in a hairline grid so the divider
-    between the two cells is the 1px gap, not a border on either one.
-  -->
-  {
-    (newer || older) && (
-      <nav
-        class="ruled band border-t border-ink min-[620px]:grid-cols-2"
-        aria-label="Adjacent posts"
-      >
-        {older && (
-          <a
-            href={`/posts/${older.id}/`}
-            rel="prev"
-            class="cell hover-tint px-[26px] py-5"
-          >
-            <span class="label mb-2 block text-ink-55">&larr; Previous</span>
-            <span class="text-[15px] font-semibold">{older.data.title}</span>
+    <nav class="pager" aria-label="Previous and next post">
+      {
+        older ? (
+          <a href={`/posts/${older.id}/`} rel="prev">
+            <span class="dir">&larr; previous</span>
+            <span class="ttl">{older.data.title}</span>
           </a>
-        )}
-        {newer && (
-          <a
-            href={`/posts/${newer.id}/`}
-            rel="next"
-            class:list={[
-              "cell hover-tint px-[26px] py-5",
-              // Only align right when it is the second of a pair.
-              older && "min-[620px]:text-right",
-            ]}
-          >
-            <span class="label mb-2 block text-ink-55">Next &rarr;</span>
-            <span class="text-[15px] font-semibold">{newer.data.title}</span>
+        ) : (
+          <div class="edge">
+            <span class="dir">&larr; previous</span>
+            <span class="ttl">This is the first post.</span>
+          </div>
+        )
+      }
+      {
+        newer ? (
+          <a href={`/posts/${newer.id}/`} rel="next" class="next">
+            <span class="dir">next &rarr;</span>
+            <span class="ttl">{newer.data.title}</span>
           </a>
-        )}
-      </nav>
-    )
-  }
+        ) : (
+          <div class="edge next">
+            <span class="dir">next &rarr;</span>
+            <span class="ttl">You're on the latest post.</span>
+          </div>
+        )
+      }
+    </nav>
+  </article>
+
+  <aside class="post-rail" slot="outline" aria-label="Outline">
+    <div class="post-rail-inner">
+      <p class="post-rail-title">Outline</p>
+      <TableOfContents headings={content.headings} />
+      <dl class="facts">
+        <dt>date</dt>
+        <dd>{date}</dd>
+        <dt>read</dt>
+        <dd>~{readTime} min</dd>
+        <dt>tags</dt>
+        <dd>{tags.length}</dd>
+      </dl>
+    </div>
+  </aside>
 </Layout>
 
 <style>
-  /* 1fr + the 230px contents column; collapses below 900px where the
-     rail is hidden. */
-  .post-grid {
-    grid-template-columns: 1fr 230px;
+  .post {
+    max-width: 72ch;
   }
 
-  @media (width < 900px) {
-    .post-grid {
-      grid-template-columns: 1fr;
+  .post-head h1 {
+    max-width: 24ch;
+    margin: 0 0 20px;
+    font-size: clamp(2rem, 4.2vw, 2.875rem);
+    font-weight: 600;
+    line-height: 1.12;
+    letter-spacing: -0.025em;
+    text-wrap: balance;
+  }
+
+  .meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 10px 18px;
+    padding-bottom: 28px;
+    font: 400 0.8125rem/1.5 var(--font-mono);
+    color: var(--color-faint);
+  }
+
+  .sep {
+    color: var(--color-gutter);
+  }
+
+  .source {
+    max-width: 68ch;
+    margin-top: 40px;
+    overflow-wrap: anywhere;
+  }
+
+  .pager {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    max-width: 68ch;
+    margin-top: 40px;
+    padding-top: 28px;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .pager > * {
+    display: block;
+    padding: 16px 18px;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .pager a:hover {
+    border-color: var(--color-line-strong);
+    background: var(--color-raised);
+  }
+
+  .pager .next {
+    text-align: right;
+  }
+
+  .dir {
+    display: block;
+    margin-bottom: 6px;
+    font: 500 0.75rem/1.2 var(--font-mono);
+    color: var(--color-faint);
+  }
+
+  .pager a .dir {
+    color: var(--color-fn);
+  }
+
+  .ttl {
+    font-weight: 600;
+    line-height: 1.4;
+  }
+
+  /* No neighbour that way: a dashed placeholder, so the pair keeps its
+     shape and says why there is no link. */
+  .pager .edge {
+    border-style: dashed;
+    color: var(--color-muted);
+  }
+
+  .edge .ttl {
+    font-weight: 400;
+  }
+
+  /* ── Outline rail ────────────────────────────────────────── */
+
+  /* Not `.outline`: that is a Tailwind utility (outline-style/width), and a
+     component class with a utility's name picks up its declarations. */
+  .post-rail {
+    padding: 56px 20px 40px 0;
+    border-left: 1px solid var(--color-line);
+    font-family: var(--font-mono);
+  }
+
+  .post-rail-inner {
+    position: sticky;
+    top: 24px;
+  }
+
+  .post-rail-title {
+    margin: 0 0 12px;
+    padding-left: 20px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  .facts {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 6px 14px;
+    margin: 28px 0 0 20px;
+    padding: 14px 0 0;
+    border-top: 1px solid var(--color-line);
+    font-size: 0.75rem;
+    color: var(--color-faint);
+  }
+
+  .facts dd {
+    margin: 0;
+    color: var(--color-muted);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .pager > * {
+      transition:
+        background-color 120ms ease,
+        border-color 120ms ease;
     }
   }
 
-  .post-title {
-    font-size: 62px;
-  }
-
   @media (width < 900px) {
-    .post-title {
-      font-size: 44px;
+    .post-rail {
+      display: none;
     }
   }
 
   @media (width < 620px) {
-    .post-title {
-      font-size: 32px;
+    .source a {
+      display: inline-flex;
+      align-items: center;
+      min-height: 40px;
+    }
+
+    .pager {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .pager .next {
+      text-align: left;
     }
   }
 </style>

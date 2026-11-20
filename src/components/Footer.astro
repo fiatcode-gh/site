@@ -2,50 +2,227 @@
 import { getQuote } from "@/lib/quote";
 
 /**
- * Footer, on every screen: the fortune as a pull quote, then a link
- * strip, then the copyright row.
+ * Footer as the editor's bottom panel and status bar. The panel carries the
+ * links and the copyright; the status bar carries the branch, the tracker
+ * count, and the fortune quote as its status message.
  *
  * No email address anywhere — it would just be scraped.
  */
 const { quote, author } = getQuote();
 const year = new Date().getFullYear();
-
-const links = [
-  { href: "/rss.xml", label: "rss" },
-  { href: "https://github.com/fiatcode", label: "github" },
-  { href: "https://git.fiatcode.dev/fiatcode", label: "forgejo" },
-];
 ---
 
-<footer>
-  <div
-    class="band flex flex-wrap items-end justify-between gap-x-[30px] gap-y-4 p-[26px]"
-  >
-    <blockquote
-      class="display m-0 max-w-[52ch] text-[26px] italic leading-[1.3]"
-    >
-      &ldquo;{quote}&rdquo;
-    </blockquote>
-    <p class="label-meta flex-none not-italic">&mdash; {author}</p>
-  </div>
-
-  <div class="ruled-flex band">
-    {
-      links.map((l) => (
-        <a
-          href={l.href}
-          class="cell hover-accent min-w-[120px] flex-1 px-[26px] py-[14px] text-xs"
-        >
-          {l.label} &rarr;
+<footer class="site-foot">
+  <div class="foot-panel">
+    <ul class="foot-links">
+      <li>
+        <a href="/rss.xml">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.6"
+            aria-hidden="true"
+          >
+            <path d="M3 3a10 10 0 0 1 10 10M3 7.5A5.5 5.5 0 0 1 8.5 13"></path>
+            <circle cx="3.75" cy="12.25" r="1" fill="currentColor" stroke="none"
+            ></circle>
+          </svg>
+          rss
         </a>
-      ))
-    }
+      </li>
+      <li>
+        <a href="https://github.com/fiatcode">
+          <svg viewBox="0 0 16 16" fill="currentColor" aria-hidden="true">
+            <path
+              d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"
+            ></path>
+          </svg>
+          github
+        </a>
+      </li>
+      <li>
+        <a href="https://mastodon.social/@fiatcode" rel="me">
+          <svg
+            viewBox="0 0 16 16"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.5"
+            aria-hidden="true"
+          >
+            <path
+              d="M13.6 9.4c-.2 1-1.7 2-3.4 2.2-.9.1-1.8.2-2.7.2-1.5-.1-2.7-.4-2.7-.4v.4c.2 1.6 1.6 1.7 2.9 1.8 1.3 0 2.5-.3 2.5-.3l.1 1.2s-.9.5-2.5.6c-.9 0-2-.1-3.3-.4C1.7 14 1.3 11.4 1.2 8.7V5.3c0-2.7 1.8-3.5 1.8-3.5C3.9 1.4 5.4 1.2 7 1.2h.1c1.6 0 3.1.2 4 .6 0 0 1.8.8 1.8 3.5 0 0 0 2-.3 3.4Z"
+            ></path>
+          </svg>
+          mastodon
+        </a>
+      </li>
+    </ul>
+    <small>&copy; {year} fiatcode &mdash; built with Astro, no trackers.</small>
   </div>
 
-  <div
-    class="flex flex-wrap items-center justify-between gap-x-4 gap-y-2 px-[26px] py-4 text-[11px]"
-  >
-    <span>&copy; {year} fiatcode &mdash; built with Astro, no trackers.</span>
-    <span>Crafted, not generated.</span>
+  <div class="statusbar">
+    <span class="branch">
+      <svg
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.6"
+        aria-hidden="true"
+      >
+        <circle cx="4.5" cy="3.5" r="1.5"></circle>
+        <circle cx="4.5" cy="12.5" r="1.5"></circle>
+        <circle cx="11.5" cy="5.5" r="1.5"></circle>
+        <path d="M4.5 5v6M11.5 7c0 3-7 2-7 4"></path>
+      </svg>
+      main
+    </span>
+    <span>
+      <svg
+        viewBox="0 0 16 16"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.7"
+        aria-hidden="true"
+      >
+        <path d="m3 8.5 3 3 7-7"></path>
+      </svg>
+      0 trackers
+    </span>
+    <figure class="msg">
+      <blockquote>&ldquo;{quote}&rdquo;</blockquote>
+      <figcaption>&mdash; {author}</figcaption>
+    </figure>
+    <span class="right">
+      <span>UTF-8</span>
+      <span>LF</span>
+      <span>Astro</span>
+    </span>
   </div>
 </footer>
+
+<style>
+  .site-foot {
+    margin-top: auto;
+    font-family: var(--font-mono);
+  }
+
+  .foot-panel {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 24px;
+    padding: 10px 24px;
+    border-top: 1px solid var(--color-line);
+    background: var(--color-chrome);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  .foot-links {
+    display: flex;
+    gap: 4px;
+  }
+
+  .foot-links a {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 32px;
+    padding: 0 10px;
+    border-radius: 6px;
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .foot-links a:hover {
+    background: var(--color-hover);
+  }
+
+  .foot-links svg {
+    width: 14px;
+    height: 14px;
+    color: var(--color-faint);
+  }
+
+  small {
+    font-size: inherit;
+  }
+
+  .statusbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    min-height: 30px;
+    border-top: 1px solid var(--color-line);
+    background: var(--color-status);
+    font-size: 0.75rem;
+    line-height: 1.4;
+    color: var(--color-status-fg);
+  }
+
+  .statusbar > * {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 12px;
+  }
+
+  .statusbar svg {
+    flex: none;
+    width: 13px;
+    height: 13px;
+  }
+
+  /* Scoped under .statusbar so they outrank `.statusbar > *` above. */
+  .statusbar .branch {
+    background: var(--color-status-seg);
+    font-weight: 600;
+    color: var(--color-status-seg-fg);
+  }
+
+  .statusbar .msg {
+    flex: 1;
+    flex-wrap: wrap;
+    gap: 0 0.6em;
+    min-width: 0;
+    margin: 0;
+  }
+
+  .msg blockquote {
+    margin: 0;
+  }
+
+  .statusbar .right {
+    gap: 18px;
+    margin-left: auto;
+  }
+
+  @media (width < 620px) {
+    .foot-panel {
+      padding: 12px 18px;
+    }
+
+    .foot-links a {
+      min-height: 44px;
+    }
+
+    .statusbar > * {
+      padding: 8px 18px;
+    }
+
+    /* The quote takes its own full-width row under the segments. */
+    .statusbar .msg {
+      order: 3;
+      flex-basis: 100%;
+      padding: 10px 18px;
+      border-top: 1px solid
+        color-mix(in srgb, var(--color-status-fg) 18%, transparent);
+    }
+
+    .statusbar .right {
+      margin-left: 0;
+    }
+  }
+</style>

@@ -1,6 +1,8 @@
 ---
+import PageHeader from "@/components/PageHeader.astro";
 import PostRow from "@/components/PostRow.astro";
 import Layout from "@/layouts/Layout.astro";
+import { newestFirst } from "@/lib/posts";
 import type { SearchDoc } from "@/lib/search";
 import { getCollection } from "astro:content";
 
@@ -18,7 +20,7 @@ import { getCollection } from "astro:content";
  * endpoint if the archive ever grows into the hundreds.
  */
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  newestFirst,
 );
 
 const index: SearchDoc[] = posts.map((post) => ({
@@ -35,53 +37,40 @@ const tryChips = ["podman", "flutter", "linux", "ai"];
   title="Search | fiatcode"
   description="Search posts on fiatcode.dev — runs entirely in your browser"
 >
-  <div class="band px-[26px] pb-[26px] pt-11">
-    <h1 class="search-title display mb-[22px] leading-none">Search</h1>
-
-    <!-- The bordered box is the control; the slash and count sit inside it. -->
-    <div class="flex border border-ink">
-      <span class="py-3.5 pl-4 pr-3.5 text-sm text-ink-55" aria-hidden="true">
-        /
-      </span>
+  <PageHeader title="Search" comment="runs in your browser · nothing is sent">
+    <!-- The bordered box is the control; the prompt and count sit inside it. -->
+    <div class="search-box">
+      <span class="prompt" aria-hidden="true">/</span>
       <label class="sr-only" for="q">Search posts</label>
       <input
         id="q"
         type="search"
         autocomplete="off"
         placeholder="podman, flutter, tdd…"
-        class="min-w-0 flex-1 border-0 bg-transparent py-3.5 text-[15px] outline-0"
         data-search-input
       />
-      <span
-        class="label-meta flex flex-none items-center gap-1.5 border-l border-ink bg-accent px-4 py-3.5 tracking-[0.1em]"
-        aria-live="polite"
-        data-count
-      >
+      <span class="found" aria-live="polite" data-count>
         {posts.length} found
       </span>
     </div>
 
-    <div class="mt-3.5 flex flex-wrap gap-2">
-      <span class="label-meta py-1.5 tracking-[0.1em] text-ink-55">Try</span>
+    <div class="try">
+      <span class="try-label">try</span>
       {
         tryChips.map((t) => (
-          <button type="button" class="chip hover-tint" data-try={t}>
+          <button type="button" class="chip" data-try={t}>
             {t}
           </button>
         ))
       }
     </div>
-  </div>
+  </PageHeader>
 
-  {
-    posts.map((post) => (
-      <div data-post-row={post.id}>
-        <PostRow post={post} compact />
-      </div>
-    ))
-  }
+  <ol class="postlist">
+    {posts.map((post) => <PostRow post={post} data-post-row={post.id} />)}
+  </ol>
 
-  <p class="band hidden px-[26px] py-10 text-sm text-ink-62" data-empty>
+  <p class="empty hidden" data-empty>
     No posts match. Everything is indexed locally &mdash; no query leaves your
     browser.
   </p>
@@ -95,20 +84,71 @@ const tryChips = ["podman", "flutter", "linux", "ai"];
 </Layout>
 
 <style>
-  .search-title {
-    font-size: 64px;
+  .search-box {
+    display: flex;
+    align-items: stretch;
+    margin-top: 24px;
+    border: 1px solid var(--color-line-strong);
+    border-radius: 8px;
+    background: var(--color-raised);
+    font-family: var(--font-mono);
   }
 
-  @media (width < 900px) {
-    .search-title {
-      font-size: 48px;
-    }
+  /* The box shows focus for the input inside it. */
+  .search-box:focus-within {
+    outline: 2px solid var(--color-fn);
+    outline-offset: 2px;
   }
 
-  @media (width < 620px) {
-    .search-title {
-      font-size: 38px;
-    }
+  .search-box input:focus-visible {
+    outline: 0;
+  }
+
+  .prompt {
+    display: flex;
+    align-items: center;
+    padding: 0 10px 0 16px;
+    font-size: 0.9375rem;
+    color: var(--color-kw);
+  }
+
+  input {
+    flex: 1;
+    min-width: 0;
+    min-height: 48px;
+    border: 0;
+    background: transparent;
+    font-size: 0.9375rem;
+    color: var(--color-fg);
+  }
+
+  .found {
+    display: flex;
+    flex: none;
+    align-items: center;
+    padding: 0 16px;
+    border-left: 1px solid var(--color-line);
+    font-size: 0.75rem;
+    color: var(--color-muted);
+  }
+
+  .try {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+  }
+
+  .try-label {
+    font: 400 0.75rem/1 var(--font-mono);
+    color: var(--color-faint);
+  }
+
+  .empty {
+    margin: 0;
+    padding: 40px 0;
+    color: var(--color-muted);
   }
 </style>
 

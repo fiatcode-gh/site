@@ -4,150 +4,207 @@ import type { MarkdownHeading } from "astro";
 
 /**
  * A post's contents list, in two forms — the post page renders both and CSS
- * picks one, because they cannot be the same DOM node: the rail has to be a
- * grid child in the second column, the band a sibling above the grid.
+ * picks one, because they cannot be the same DOM node: the rail lives in the
+ * Outline column beside the article, the mobile list above the prose.
  *
- * `rail` (>= 900px) — sticky, 230px wide, the same column as the nav's
- * `search` cell, so this rail's left rule continues the nav's left rule as one
- * unbroken vertical line. The rule is drawn ONCE, here as border-left, and not
- * as a border-right on the article, or the two land on adjacent pixels and
- * read as 2px. top:78px = the 52px nav plus the 26px gutter, so the rails
- * never touch when scrolled.
+ * `rail` (>= 900px) — inside the sticky Outline aside. Scroll-spied: the
+ * reader's current section gets aria-current, a bar in --active and fg
+ * weight, so it never relies on hue alone.
  *
- * `band` (< 900px) — the rail has nowhere to go at that width, and the spec
- * hides it without saying what replaces it. A native <details> band in normal
- * flow keeps the list reachable with no JavaScript, no fixed positioning and
- * no overlay, so it stays on the grid like every other band.
+ * `mobile` (< 900px) — a native <details> in normal flow, collapsed, with
+ * 48px rows. No JavaScript, no fixed positioning, no overlay.
+ *
+ * Sections (h3) carry the same 01, 02… numbers as the headings in the prose
+ * (a CSS counter there); h4 sub-sections are indented and unnumbered.
  */
 interface Props {
   headings: MarkdownHeading[];
-  variant?: "rail" | "band";
+  variant?: "rail" | "mobile";
 }
 
 const { headings, variant = "rail" } = Astro.props;
-const items = filterHeadings(headings);
+
+let section = 0;
+const items = filterHeadings(headings).map((h) => ({
+  ...h,
+  number: h.depth === 3 ? String(++section).padStart(2, "0") : null,
+}));
+const sectionLabel = `${section} ${section === 1 ? "section" : "sections"}`;
 ---
 
 {
   items.length >= 2 &&
     (variant === "rail" ? (
       <nav class="toc" aria-label="Contents">
-        <p class="label mb-3 text-ink-55">Contents</p>
-        {items.map((item) => (
-          <a
-            href={`#${item.slug}`}
-            data-toc-link={item.slug}
-            class:list={["toc-link", item.depth === 4 && "toc-sub"]}
-          >
-            {item.text}
-          </a>
-        ))}
+        <ol>
+          {items.map((item) => (
+            <li>
+              <a
+                href={`#${item.slug}`}
+                data-toc-link={item.slug}
+                class:list={[item.number === null && "sub"]}
+              >
+                <span class="num" aria-hidden="true">
+                  {item.number}
+                </span>
+                <span>{item.text}</span>
+              </a>
+            </li>
+          ))}
+        </ol>
       </nav>
     ) : (
-      <details class="toc-band band">
-        <summary class="label">Contents</summary>
+      <details class="toc-mobile">
+        <summary>
+          Contents <span class="count">{sectionLabel}</span>
+        </summary>
         <nav aria-label="Contents">
-          {items.map((item) => (
-            <a
-              href={`#${item.slug}`}
-              class:list={["toc-link", item.depth === 4 && "toc-sub"]}
-            >
-              {item.text}
-            </a>
-          ))}
+          <ol>
+            {items.map((item) => (
+              <li>
+                <a
+                  href={`#${item.slug}`}
+                  class:list={[item.number === null && "sub"]}
+                >
+                  <span class="num" aria-hidden="true">
+                    {item.number}
+                  </span>
+                  <span>{item.text}</span>
+                </a>
+              </li>
+            ))}
+          </ol>
         </nav>
       </details>
     ))
 }
 
 <style>
-  /* ── Shared link ─────────────────────────────────────────── */
-
-  /* The border-top is also what divides the summary from the first link in
-     the band, so neither the summary nor the band draws a bottom rule. */
-  .toc-link {
-    display: block;
-    padding: 6px 0;
-    font-size: 12px;
-    line-height: 1.5;
-    border-top: 1px solid var(--color-rule);
-    color: var(--color-ink-62);
-  }
-
-  .toc-link:hover {
-    background: var(--color-accent);
-    color: var(--color-ink);
-  }
-
-  .toc-sub {
-    padding-left: 14px;
-  }
-
-  /* The reader's current section, set by the script below, which also mirrors
-     it into aria-current for assistive tech. */
-  .toc-link[aria-current] {
-    color: var(--color-ink);
-    font-weight: 600;
+  .num {
+    font: 500 0.75rem/1.75 var(--font-mono);
+    color: var(--color-kw);
   }
 
   /* ── Rail, >= 900px ──────────────────────────────────────── */
 
-  .toc {
-    position: sticky;
-    top: 78px;
-    align-self: start;
-    box-sizing: border-box;
-    padding: 36px 20px 36px 26px;
-    border-left: 1px solid var(--color-ink);
+  .toc a {
+    display: grid;
+    grid-template-columns: 2em minmax(0, 1fr);
+    gap: 4px;
+    margin-left: -1px;
+    padding: 6px 12px 6px 20px;
+    border-left: 2px solid transparent;
+    font: 400 0.875rem/1.45 var(--font-sans);
+    color: var(--color-muted);
+    text-decoration: none;
   }
 
-  @media (width < 900px) {
-    .toc {
-      display: none;
+  .toc a.sub {
+    padding-left: 34px;
+    font-size: 0.8125rem;
+  }
+
+  .toc a:hover {
+    border-left-color: var(--color-line-strong);
+    background: var(--color-hover);
+    color: var(--color-fg);
+  }
+
+  /* The reader's current section, set by the script below. */
+  .toc a[aria-current] {
+    border-left-color: var(--color-active);
+    font-weight: 600;
+    color: var(--color-fg);
+  }
+
+  .toc a:focus-visible {
+    outline-offset: -2px;
+  }
+
+  /* ── Mobile, < 900px ─────────────────────────────────────── */
+
+  .toc-mobile {
+    display: none;
+    margin: 0 0 28px;
+    border: 1px solid var(--color-line);
+    border-radius: 8px;
+    background: var(--color-raised);
+    font-family: var(--font-mono);
+  }
+
+  .toc-mobile summary {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 48px;
+    padding: 0 16px;
+    font-size: 0.8125rem;
+    font-weight: 500;
+    list-style: none;
+    cursor: pointer;
+  }
+
+  .toc-mobile summary::-webkit-details-marker {
+    display: none;
+  }
+
+  .toc-mobile summary::before {
+    content: "";
+    flex: none;
+    width: 6px;
+    height: 6px;
+    border-right: 1.5px solid var(--color-faint);
+    border-bottom: 1.5px solid var(--color-faint);
+    transform: rotate(-45deg);
+  }
+
+  .toc-mobile[open] summary::before {
+    transform: rotate(45deg);
+  }
+
+  .toc-mobile .count {
+    margin-left: auto;
+    font-weight: 400;
+    color: var(--color-faint);
+  }
+
+  .toc-mobile ol {
+    padding: 4px 0 10px;
+    border-top: 1px solid var(--color-line);
+  }
+
+  .toc-mobile a {
+    display: grid;
+    grid-template-columns: 2em minmax(0, 1fr);
+    align-items: center;
+    gap: 12px;
+    min-height: 44px;
+    padding: 6px 16px;
+    font: 400 0.9375rem/1.4 var(--font-sans);
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .toc-mobile a.sub {
+    padding-left: 32px;
+    color: var(--color-muted);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .toc a {
+      transition:
+        background-color 120ms ease,
+        color 120ms ease,
+        border-color 120ms ease;
+    }
+
+    .toc-mobile summary::before {
+      transition: transform 150ms ease;
     }
   }
 
-  /* ── Band, < 900px ───────────────────────────────────────── */
-
-  .toc-band {
-    display: none;
-  }
-
-  .toc-band > summary {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 14px 26px;
-    cursor: pointer;
-    /* Drop the default disclosure triangle; the +/- below replaces it. */
-    list-style: none;
-  }
-
-  .toc-band > summary::-webkit-details-marker {
-    display: none;
-  }
-
-  .toc-band > summary::after {
-    content: "+";
-    font-size: 14px;
-    line-height: 1;
-  }
-
-  .toc-band[open] > summary::after {
-    content: "−";
-  }
-
-  .toc-band > summary:hover {
-    background: var(--color-tint);
-  }
-
-  /* The gutter lives on the links so each one's hover fills the full width. */
-  .toc-band nav {
-    padding: 0 26px 14px;
-  }
-
   @media (width < 900px) {
-    .toc-band {
+    .toc-mobile {
       display: block;
     }
   }
@@ -156,8 +213,8 @@ const items = filterHeadings(headings);
 <script>
   import { activeHeadingId } from "../lib/toc";
 
-  // Only the rail is scroll-spied. The band's copies carry no data-toc-link,
-  // so a collapsed band cannot pull the highlight off the visible rail.
+  // Only the rail is scroll-spied. The mobile copies carry no data-toc-link,
+  // so a collapsed list cannot pull the highlight off the visible rail.
   const links = Array.from(
     document.querySelectorAll<HTMLAnchorElement>("[data-toc-link]"),
   );

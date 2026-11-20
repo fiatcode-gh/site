@@ -2,6 +2,7 @@
 import PageHeader from "@/components/PageHeader.astro";
 import PostRow from "@/components/PostRow.astro";
 import Layout from "@/layouts/Layout.astro";
+import { newestFirst } from "@/lib/posts";
 import type { Page, PaginateFunction } from "astro";
 import { getCollection, type CollectionEntry } from "astro:content";
 
@@ -11,7 +12,7 @@ export async function getStaticPaths({
   paginate: PaginateFunction;
 }) {
   const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+    newestFirst,
   );
   return paginate(posts, { pageSize: 10 });
 }
@@ -21,52 +22,71 @@ interface Props {
 }
 
 const { page } = Astro.props;
+
+// Page 1 is /posts itself; later pages read as a page of it, not a "2" file.
+const crumbs =
+  page.currentPage === 1
+    ? [{ label: "posts" }]
+    : [
+        { label: "posts", href: "/posts/" },
+        { label: `page ${page.currentPage}` },
+      ];
 ---
 
 <Layout
   title="Posts | fiatcode"
   description="Read the latest blog posts by fiatcode"
+  crumbs={crumbs}
 >
-  <PageHeader title="Posts">
-    <div class="label-meta flex items-baseline gap-4" slot="aside">
-      <a href="/rss.xml" class="chip hover-accent">rss</a>
-      <span>
-        {page.total} posts &middot; page {page.currentPage} of {page.lastPage}
-      </span>
-    </div>
+  <PageHeader
+    title="Posts"
+    comment={`${page.total} posts · page ${page.currentPage} of ${page.lastPage}`}
+  >
+    <a href="/rss.xml" class="chip" slot="aside">rss</a>
   </PageHeader>
 
-  {page.data.map((post) => <PostRow post={post} />)}
+  <ol class="postlist">
+    {page.data.map((post) => <PostRow post={post} />)}
+  </ol>
 
-  <!--
-    Pager. The counter carries no side rules, so the prev and next cells
-    can each own one edge without any pair of borders stacking.
-  -->
-  <nav class="band flex" aria-label="Pagination">
+  <nav class="pagination" aria-label="Pagination">
     {
-      page.url.prev && (
-        <a
-          href={page.url.prev}
-          rel="prev"
-          class="hover-tint border-r border-ink px-[26px] py-4 text-[12.5px] font-semibold"
-        >
+      page.url.prev ? (
+        <a href={page.url.prev} rel="prev" class="chip">
           &larr; prev
         </a>
+      ) : (
+        <span />
       )
     }
-    <span class="flex-1 px-[26px] py-4 text-xs text-ink-55">
-      {page.currentPage} / {page.lastPage}
-    </span>
+    <span class="pos">{page.currentPage} / {page.lastPage}</span>
     {
-      page.url.next && (
-        <a
-          href={page.url.next}
-          rel="next"
-          class="hover-tint border-l border-ink px-[26px] py-4 text-[12.5px] font-semibold"
-        >
+      page.url.next ? (
+        <a href={page.url.next} rel="next" class="chip">
           next &rarr;
         </a>
+      ) : (
+        <span />
       )
     }
   </nav>
 </Layout>
+
+<style>
+  .pagination {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 16px;
+    margin-top: 40px;
+  }
+
+  .pagination [rel="next"] {
+    justify-self: end;
+  }
+
+  .pos {
+    font: 400 0.8125rem/1 var(--font-mono);
+    color: var(--color-faint);
+  }
+</style>
