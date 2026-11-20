@@ -87,7 +87,7 @@
   <div class="cell px-[26px] py-4">
     <div class="pane-head">
       <label for="b64-input">{mode === "encode" ? "Input" : "Base64"}</label>
-      <span class="text-ink-55">{input.length} chars</span>
+      <span class="text-faint">{input.length} chars</span>
     </div>
     <textarea
       id="b64-input"

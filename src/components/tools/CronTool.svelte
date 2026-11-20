@@ -23,7 +23,7 @@
 
 <div class="flex flex-col gap-5">
   <div class="flex flex-col gap-2">
-    <label for="cron-input" class="font-mono text-xs text-ink-55">
+    <label for="cron-input" class="font-mono text-xs text-faint">
       cron expression (minute hour day-of-month month day-of-week)
     </label>
     <input
@@ -31,52 +31,52 @@
       bind:value={expression}
       placeholder="*/15 9-17 * * 1-5"
       spellcheck="false"
-      class="w-full border border-rule bg-code p-3 font-mono text-sm text-ink placeholder:text-ink-55"
+      class="w-full border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
     />
   </div>
 
   {#if result === null}
-    <p class="font-mono text-xs text-ink-55">…</p>
+    <p class="font-mono text-xs text-faint">…</p>
   {:else if !result.ok}
     {#if expression.trim() !== ""}
-      <p aria-live="polite" class="font-mono text-xs text-ink">
+      <p aria-live="polite" class="font-mono text-xs text-fg">
         {result.error}
       </p>
     {:else}
-      <p class="font-mono text-xs text-ink-55">
+      <p class="font-mono text-xs text-faint">
         type an expression to explain it
       </p>
     {/if}
   {:else}
     {#if result.description}
-      <div class="border border-rule bg-code p-4">
-        <p class="text-lg text-ink">{result.description}</p>
+      <div class="border border-line bg-raised p-4">
+        <p class="text-lg text-fg">{result.description}</p>
       </div>
     {:else}
-      <p class="font-mono text-xs text-ink-55">
+      <p class="font-mono text-xs text-faint">
         no plain-language description available for this syntax
       </p>
     {/if}
 
     {#if result.nextRuns}
       <div class="flex flex-col gap-2">
-        <h2 class="font-mono text-xs text-ink-55">
+        <h2 class="font-mono text-xs text-faint">
           next {result.nextRuns.length} runs — computed in your browser's timezone:
-          <span class="text-ink">{timeZone}</span>
+          <span class="text-fg">{timeZone}</span>
         </h2>
         <ol
-          class="flex flex-col divide-y divide-rule border border-rule bg-code font-mono text-sm"
+          class="flex flex-col divide-y divide-line border border-line bg-raised font-mono text-sm"
         >
           {#each result.nextRuns as run, i (run.getTime())}
             <li class="flex items-baseline gap-3 px-3 py-2">
-              <span class="text-ink-55">{i + 1}.</span>
-              <span class="text-ink">{fmt.format(run)}</span>
+              <span class="text-faint">{i + 1}.</span>
+              <span class="text-fg">{fmt.format(run)}</span>
             </li>
           {/each}
         </ol>
       </div>
     {:else}
-      <p class="font-mono text-xs text-ink-55">
+      <p class="font-mono text-xs text-faint">
         next-run times unavailable for this expression
       </p>
     {/if}

@@ -1,26 +1,28 @@
 ---
 import PostRow from "@/components/PostRow.astro";
 import Layout from "@/layouts/Layout.astro";
+import { newestFirst } from "@/lib/posts";
 import { tools } from "@/lib/tools/registry";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
-  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+  newestFirst,
 );
 
 const latest = posts.slice(0, 3);
 
-const cards = [
+// The about.yaml pane: keys are YAML keys, values are prose.
+const about = [
   {
-    label: "Currently",
+    key: "currently",
     body: 'Local startup where <strong>"full-stack"</strong> means Flutter, Spring, and React Router — sometimes all in the same day.',
   },
   {
-    label: "The Craftsman's Way",
+    key: "the_craftsmans_way",
     body: "Quality is not negotiable. Clean Architecture, TDD, and DDD aren't just buzzwords here; they're how I try to keep my sanity intact.",
   },
   {
-    label: "This site",
+    key: "this_site",
     body: "Built with Astro, because life's too short for slow websites. No trackers.",
   },
 ];
@@ -29,95 +31,175 @@ const cards = [
 <Layout
   title="fiatcode"
   description="Cross-platform developer, Linux native, craftsman at heart. Writing about building apps, self-hosting, and software craftsmanship."
+  crumbs={[{ label: "README.md" }]}
 >
-  <!-- Hero -->
-  <div class="band px-[26px] pb-12 pt-16">
-    <p class="label-meta mb-7">
-      Cross-platform developer &middot; Linux native &middot; Craftsman at heart
+  <section class="hero" aria-labelledby="hi">
+    <p class="comment">
+      // Cross-platform developer &middot; Linux native &middot; Craftsman at
+      heart
     </p>
-    <h1 class="hero-title display mb-7 max-w-[16ch] leading-[0.94]">
-      Hi, I'm <span class="hl">fiatcode</span>
-    </h1>
-    <p class="mb-4 max-w-[66ch] leading-[1.7] text-pretty">
-      I write about building apps, learning new tech, and the occasional
-      existential crisis that comes with debugging production code. This is
-      where I share what I'm working on, what I'm learning, and thoughts that
-      don't fit in a commit message.
-    </p>
-    <p class="max-w-[66ch] leading-[1.7] text-pretty">
-      Stick around if you're into cross-platform dev, software craftsmanship, or
-      just want to see someone figure things out in public.
-    </p>
-    <div class="btn-group mt-[34px]">
-      <a href="/posts" class="btn btn-solid">read the posts &rarr;</a>
-      <a href="/tags" class="btn hover-tint">browse by tag</a>
-    </div>
-  </div>
-
-  <!-- Three-up -->
-  <div class="ruled band grid-cols-3 max-[899px]:grid-cols-1">
-    {
-      cards.map((c) => (
-        <div class="cell px-[26px] py-[22px]">
-          <p class="label mb-2.5">{c.label}</p>
-          <p class="text-[13px] leading-[1.65]" set:html={c.body} />
-        </div>
-      ))
-    }
-  </div>
-
-  <!-- Latest posts -->
-  <div class="label band flex justify-between px-[26px] py-3">
-    <span>Latest posts</span>
-    <a href="/posts" class="hover:underline">all {posts.length} &rarr;</a>
-  </div>
-  {latest.map((post) => <PostRow post={post} />)}
-
-  <!-- Tool strip -->
-  <div class="band flex max-[899px]:flex-col">
-    <div
-      class="w-[170px] flex-none border-r border-ink px-[26px] py-[18px] max-[899px]:w-auto max-[899px]:border-b max-[899px]:border-r-0"
-    >
-      <p class="label">Tools</p>
-      <p class="mt-2 text-[11px] leading-[1.5] text-ink-55">
-        All client-side. No uploads.
+    <h1 id="hi">Hi, I'm <span class="name">fiatcode</span></h1>
+    <div class="intro">
+      <p>
+        I write about building apps, learning new tech, and the occasional
+        existential crisis that comes with debugging production code. This is
+        where I share what I'm working on, what I'm learning, and thoughts that
+        don't fit in a commit message.
+      </p>
+      <p>
+        Stick around if you're into cross-platform dev, software craftsmanship,
+        or just want to see someone figure things out in public.
       </p>
     </div>
-    <div
-      class="ruled flex-1 grid-cols-4 max-[899px]:grid-cols-3 max-[619px]:grid-cols-2"
-    >
+
+    <div class="split about-pane">
+      <div class="split-head">
+        <span class="split-tab">
+          <span class="ico ico-md" aria-hidden="true">&lbrace;&rbrace;</span>
+          about.yaml
+        </span>
+        <span aria-hidden="true">YAML</span>
+      </div>
+      <dl class="about">
+        {
+          about.map((row) => (
+            <div class="about-row">
+              <dt>{row.key}</dt>
+              <dd set:html={row.body} />
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="latest">
+    <div class="section-head">
+      <h2 id="latest">
+        Latest posts <span class="path" aria-hidden="true">posts/</span>
+      </h2>
+      <a class="more-link" href="/posts/">All {posts.length} posts &rarr;</a>
+    </div>
+    <ol class="postlist">
+      {latest.map((post) => <PostRow post={post} level={3} />)}
+    </ol>
+  </section>
+
+  <section class="section" aria-labelledby="tools-h">
+    <div class="section-head">
+      <h2 id="tools-h">
+        Tools <span class="path" aria-hidden="true">tools/</span>
+      </h2>
+      <span class="local-note"
+        >Runs in your browser &middot; nothing uploaded</span
+      >
+    </div>
+    <ul class="fn-list">
       {
         tools.map((t) => (
-          <a
-            href={`/tools/${t.slug}`}
-            class="cell hover-tint px-4 py-3.5 no-underline"
-          >
-            <span class="mb-1 block text-[13.5px] font-bold">{t.slug}</span>
-            <span class="block text-[11.5px] leading-[1.45] text-ink-62">
-              {t.short}
-            </span>
-          </a>
+          <li>
+            <a href={`/tools/${t.slug}/`}>
+              <span class="fn-name">{t.slug}</span>
+              <span class="fn-desc">{t.short}</span>
+            </a>
+          </li>
         ))
       }
-    </div>
-  </div>
+    </ul>
+  </section>
 </Layout>
 
 <style>
-  /* 92 / 64 / 44 across the two container breakpoints. */
-  .hero-title {
-    font-size: 92px;
+  .hero h1 {
+    margin: 0 0 24px;
+    font-size: clamp(2.375rem, 5.2vw, 3.5rem);
+    font-weight: 600;
+    line-height: 1.05;
+    letter-spacing: -0.03em;
   }
 
-  @media (width < 900px) {
-    .hero-title {
-      font-size: 64px;
-    }
+  .name {
+    color: var(--color-fn);
+  }
+
+  .intro p {
+    max-width: 62ch;
+    margin: 0 0 1em;
+    font-size: 1.1875rem;
+    line-height: 1.65;
+  }
+
+  .intro p + p {
+    font-size: 1.0625rem;
+    color: var(--color-muted);
+  }
+
+  .about-pane {
+    margin-top: 40px;
+  }
+
+  /* Each row is a numbered YAML line: gutter number, key, value. */
+  .about {
+    margin: 0;
+    padding: 14px 0;
+    counter-reset: ln;
+  }
+
+  .about-row {
+    display: grid;
+    grid-template-columns: 52px 13rem minmax(0, 1fr);
+    padding: 8px 24px 8px 0;
+    counter-increment: ln;
+  }
+
+  .about-row::before {
+    content: counter(ln);
+    content: counter(ln) / "";
+    padding-right: 20px;
+    font: 400 0.75rem/1.9 var(--font-mono);
+    color: var(--color-gutter);
+    text-align: right;
+  }
+
+  .about dt {
+    font: 500 0.875rem/1.9 var(--font-mono);
+    color: var(--color-kw);
+  }
+
+  .about dt::after {
+    content: ":";
+    content: ":" / "";
+    color: var(--color-faint);
+  }
+
+  .about dd {
+    margin: 0;
+    padding-top: 2px;
+    line-height: 1.6;
+  }
+
+  .about dd :global(strong) {
+    font-weight: 600;
+    color: var(--color-str);
   }
 
   @media (width < 620px) {
-    .hero-title {
-      font-size: 44px;
+    .intro p {
+      font-size: 1.125rem;
+    }
+
+    .about-row {
+      grid-template-columns: 34px minmax(0, 1fr);
+      padding-right: 18px;
+    }
+
+    .about-row::before {
+      grid-row: span 2;
+      padding-right: 12px;
+    }
+
+    .about dd {
+      grid-column: 2;
     }
   }
 </style>

@@ -2,11 +2,12 @@
 import PageHeader from "@/components/PageHeader.astro";
 import PostRow from "@/components/PostRow.astro";
 import Layout from "@/layouts/Layout.astro";
+import { newestFirst } from "@/lib/posts";
 import { getCollection, type CollectionEntry } from "astro:content";
 
 export async function getStaticPaths() {
   const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
-    (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+    newestFirst,
   );
 
   const tags = new Set(posts.flatMap((post) => post.data.tags ?? []));
@@ -29,21 +30,14 @@ const { tagged } = Astro.props;
   title={`#${name} | fiatcode`}
   description={`Blog posts tagged ${name} by fiatcode`}
 >
-  <PageHeader title={`#${name}`}>
-    <span class="label-meta" slot="aside">
-      {tagged.length}
-      {tagged.length === 1 ? "post" : "posts"}
-    </span>
+  <PageHeader
+    title={`#${name}`}
+    comment={`${tagged.length} ${tagged.length === 1 ? "post" : "posts"} tagged ${name}`}
+  >
+    <a href="/tags/" class="chip" slot="aside">&larr; all tags</a>
   </PageHeader>
 
-  {tagged.map((post) => <PostRow post={post} />)}
-
-  <div class="band flex">
-    <a
-      href="/tags"
-      class="hover-tint px-[26px] py-4 text-[12.5px] font-semibold"
-    >
-      &larr; all tags
-    </a>
-  </div>
+  <ol class="postlist">
+    {tagged.map((post) => <PostRow post={post} />)}
+  </ol>
 </Layout>

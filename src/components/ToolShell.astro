@@ -1,19 +1,19 @@
 ---
 /**
- * Chrome around a tool island: the breadcrumb, the title block, then the
- * island itself, closed by the no-network note and a related post.
+ * Chrome around a tool island: the title block, the island in an editor
+ * split with its own tab, then the no-network note and a related post.
  *
- * The island supplies its own mode strip and panes — this component owns
+ * The island supplies its own controls and panes — this component owns
  * everything outside it.
  */
 interface Props {
+  /** Lowercase slug is the display name here, matching the /tools list. */
   slug: string;
-  /** Lowercase slug is the display name here, matching the /tools cards. */
   description: string;
   /**
-   * Opt out of the shared 26px gutter. For islands that lay out their own
+   * Drop the split's inner padding. For islands that lay out their own
    * full-width bands — a mode strip, a pane grid — where the gutter belongs
-   * to each cell rather than to the block, and wrapping would double it.
+   * to each cell rather than to the block.
    */
   bleed?: boolean;
   relatedTitle?: string;
@@ -38,61 +38,122 @@ if (!slug) {
 }
 ---
 
-<div class="band flex justify-between px-[26px] py-[11px] text-[11px]">
-  <a href="/tools" class="hover:underline">&larr; all tools</a>
-  <span class="text-ink-55">/tools/{slug}</span>
-</div>
-
-<div class="band px-[26px] pb-6 pt-11">
-  <h1 class="tool-title display mb-3 leading-none">{slug}</h1>
-  <p class="max-w-[62ch] text-sm leading-[1.65]">
+<header class="page-head">
+  <p class="comment">// tools/{slug}</p>
+  <h1 class="page-title tool-title">{slug}</h1>
+  <p class="page-lead">
     {description}
     <span class="hl">Nothing leaves this tab.</span>
   </p>
-</div>
+</header>
 
-{
-  /*
-   * The closing rule lives on whichever element ends the tool body, because
-   * the row below draws no border-top — two borders on adjacent elements
-   * would render as 2px. A bleeding island's own last band carries it.
-   */
-}
-{
-  bleed ? (
+<section class="split tool" aria-label={`${slug} tool`}>
+  <div class="split-head">
+    <span class="split-tab">
+      <span class="ico ico-fn" aria-hidden="true">ƒ</span>
+      {slug}
+    </span>
+    <span class="local-note">local only</span>
+  </div>
+  <div class:list={["tool-body", bleed && "tool-body-bleed"]}>
     <slot />
-  ) : (
-    <div class="band p-[26px]">
-      <slot />
-    </div>
-  )
-}
+  </div>
+</section>
 
-<div class="ruled band grid-cols-2 max-[619px]:grid-cols-1">
-  <p class="cell px-[26px] py-[18px] text-[12.5px] leading-[1.65]">
+<div class="tool-foot">
+  <p>
     Runs entirely in your browser. Open the network tab and watch nothing
     happen.
   </p>
-  <a href={relatedHref} class="cell hover-tint block px-[26px] py-[18px]">
-    <span class="label mb-1.5 block text-ink-55">Related post</span>
-    <span class="text-sm font-semibold">{relatedTitle}</span>
+  <a href={relatedHref} class="related">
+    <span class="related-label">Related post</span>
+    <span class="related-title">{relatedTitle}</span>
   </a>
 </div>
 
 <style>
+  /* Tool names are function tokens: blue, mono, with call parens. */
   .tool-title {
-    font-size: 64px;
+    font-family: var(--font-mono);
+    letter-spacing: -0.03em;
+    color: var(--color-fn);
+    overflow-wrap: anywhere;
   }
 
-  @media (width < 900px) {
-    .tool-title {
-      font-size: 48px;
-    }
+  .tool-title::after {
+    content: "()";
+    content: "()" / "";
+    color: var(--color-faint);
+  }
+
+  .tool {
+    background: var(--color-surface);
+  }
+
+  .tool-body {
+    padding: 24px;
+  }
+
+  /* A bleeding island draws its own bands; its last band's bottom rule is
+     pulled under the split's border (clipped by overflow) so the two never
+     stack into 2px. */
+  .tool-body-bleed {
+    margin-bottom: -1px;
+    padding: 0;
+  }
+
+  .tool-foot {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+    margin-top: 32px;
+  }
+
+  .tool-foot p {
+    margin: 0;
+    padding: 16px 0;
+    font-size: 0.9375rem;
+    line-height: 1.6;
+    color: var(--color-muted);
+  }
+
+  .related {
+    display: block;
+    padding: 16px 18px;
+    border: 1px solid var(--color-line);
+    border-radius: 10px;
+    color: var(--color-fg);
+    text-decoration: none;
+  }
+
+  .related:hover {
+    border-color: var(--color-line-strong);
+    background: var(--color-raised);
+  }
+
+  .related-label {
+    display: block;
+    margin-bottom: 6px;
+    font: 500 0.75rem/1.2 var(--font-mono);
+    color: var(--color-fn);
+  }
+
+  .related-title {
+    font-weight: 600;
+    line-height: 1.4;
   }
 
   @media (width < 620px) {
-    .tool-title {
-      font-size: 38px;
+    .tool-body {
+      padding: 18px;
+    }
+
+    .tool-body-bleed {
+      padding: 0;
+    }
+
+    .tool-foot {
+      grid-template-columns: minmax(0, 1fr);
     }
   }
 </style>

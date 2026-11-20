@@ -10,27 +10,40 @@ import { tools } from "@/lib/tools/registry";
 >
   <PageHeader
     title="Tools"
+    comment={`${tools.length} tools`}
     lead='Small utilities that run entirely in your browser. <span class="hl">No uploads, no trackers, no servers.</span>'
-  />
+  >
+    <span class="local-note" slot="aside">Runs in your browser</span>
+  </PageHeader>
 
-  <div class="ruled band grid-cols-2 max-[619px]:grid-cols-1">
+  <ul class="fn-list tool-index">
     {
       tools.map((tool) => (
-        <a
-          href={`/tools/${tool.slug}/`}
-          class="cell hover-tint block px-[26px] py-[22px]"
-        >
-          <span class="mb-2 flex items-baseline justify-between gap-3">
-            <span class="text-xl font-bold tracking-[-0.01em]">
-              {tool.slug}
-            </span>
-            <span class="text-[11px] text-ink-55">/tools/{tool.slug}</span>
-          </span>
-          <span class="block text-[13px] leading-[1.6] text-ink-62">
-            {tool.description}
-          </span>
-        </a>
+        <li>
+          <a href={`/tools/${tool.slug}/`}>
+            <span class="fn-name">{tool.slug}</span>
+            <span class="fn-desc">{tool.description}</span>
+          </a>
+        </li>
       ))
     }
-  </div>
+  </ul>
 </Layout>
+
+<style>
+  /* Full descriptions need the width: one column, a wider name column. */
+  .tool-index {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .tool-index a {
+    grid-template-columns: 12rem minmax(0, 1fr);
+    padding-block: 18px;
+  }
+
+  @media (width < 620px) {
+    .tool-index a {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+</style>

@@ -1,0 +1,261 @@
+---
+import { isCurrent, sectionOf } from "@/lib/nav";
+import { groupByYear, newestFirst, tagCounts } from "@/lib/posts";
+import { tools } from "@/lib/tools/registry";
+import { getCollection } from "astro:content";
+
+/**
+ * The Explorer sidebar, on every page at >= 1240px: posts grouped by year,
+ * the tools in the registry (so the unlisted /tools/cycle never shows), and
+ * tags with their post counts. The current page is the selected row:
+ * --select background, a bar in --active and aria-current.
+ *
+ * Folders are native <details>, so they toggle without JavaScript. Which
+ * start open:
+ * - posts: always; within it, the year holding the current post, or the
+ *   newest year when the page is not a post.
+ * - tools: on tool pages, and on pages outside posts and tags.
+ * - tags: on tag pages and post pages.
+ *
+ * Hidden below 1240px (see the workbench comment in Layout.astro), where the
+ * title-bar tabs are the navigation.
+ */
+const path = Astro.url.pathname;
+const section = sectionOf(path);
+
+const posts = (await getCollection("blog", ({ data }) => !data.draft)).sort(
+  newestFirst,
+);
+const years = groupByYear(posts);
+const tags = tagCounts(posts);
+
+const postHref = (id: string) => `/posts/${id}/`;
+const currentPost = posts.find((p) => isCurrent(path, postHref(p.id)));
+const openYear = currentPost
+  ? years.find((y) => y.posts.includes(currentPost))?.year
+  : years[0]?.year;
+
+const toolsOpen =
+  section === "tools" || (section !== "posts" && section !== "tags");
+const tagsOpen = section === "tags" || currentPost !== undefined;
+
+const current = (href: string) =>
+  isCurrent(path, href) ? ("page" as const) : undefined;
+---
+
+<nav class="explorer" aria-label="Explorer">
+  <p class="explorer-title">Explorer</p>
+
+  <details open>
+    <summary>posts <span class="count">{posts.length}</span></summary>
+    {
+      years.map(({ year, posts }) => (
+        <details open={year === openYear}>
+          <summary>
+            {year} <span class="count">{posts.length}</span>
+          </summary>
+          <ul class="tree tree-l2">
+            {posts.map((post) => (
+              <li>
+                <a
+                  href={postHref(post.id)}
+                  title={post.data.title}
+                  aria-current={current(postHref(post.id))}
+                >
+                  <span class="ico ico-md" aria-hidden="true">
+                    M↓
+                  </span>
+                  <span class="name">{post.id}.md</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
+      ))
+    }
+  </details>
+
+  <details open={toolsOpen}>
+    <summary>tools <span class="count">{tools.length}</span></summary>
+    <ul class="tree tree-l1">
+      {
+        tools.map((tool) => (
+          <li>
+            <a
+              href={`/tools/${tool.slug}/`}
+              title={tool.name}
+              aria-current={current(`/tools/${tool.slug}/`)}
+            >
+              <span class="ico ico-fn" aria-hidden="true">
+                ƒ
+              </span>
+              <span class="name">{tool.slug}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </details>
+
+  <details open={tagsOpen}>
+    <summary>tags <span class="count">{tags.length}</span></summary>
+    <ul class="tree tree-l1">
+      {
+        tags.map(([tag, count]) => (
+          <li>
+            <a href={`/tags/${tag}/`} aria-current={current(`/tags/${tag}/`)}>
+              <span class="ico ico-tag" aria-hidden="true">
+                #
+              </span>
+              <span class="name">{tag}</span>
+              <span class="count">
+                {count}
+                <span class="sr-only">{count === 1 ? "post" : "posts"}</span>
+              </span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </details>
+</nav>
+
+<style>
+  .explorer {
+    padding: 14px 0 40px;
+    border-right: 1px solid var(--color-line);
+    background: var(--color-chrome);
+    font: 400 0.8125rem/1.5 var(--font-mono);
+  }
+
+  .explorer-title {
+    margin: 0;
+    padding: 0 20px 10px;
+    font-size: 0.6875rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-faint);
+  }
+
+  summary {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 4px 14px;
+    font-weight: 500;
+    color: var(--color-fg);
+    list-style: none;
+    cursor: pointer;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* The disclosure chevron: a rotated corner, pointing right when closed. */
+  summary::before {
+    content: "";
+    flex: none;
+    width: 6px;
+    height: 6px;
+    margin: 0 2px 0 4px;
+    border-right: 1.5px solid var(--color-faint);
+    border-bottom: 1.5px solid var(--color-faint);
+    transform: rotate(-45deg);
+  }
+
+  details[open] > summary::before {
+    transform: rotate(45deg) translate(-2px, -1px);
+  }
+
+  summary:hover {
+    background: var(--color-hover);
+  }
+
+  details details summary {
+    padding-left: 30px;
+    font-weight: 400;
+    color: var(--color-muted);
+  }
+
+  .count {
+    margin-left: auto;
+    font-size: 0.6875rem;
+    color: var(--color-faint);
+  }
+
+  .tree {
+    margin: 0 0 4px;
+  }
+
+  .tree a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 3px 14px 3px 0;
+    overflow: hidden;
+    color: var(--color-muted);
+    text-decoration: none;
+    white-space: nowrap;
+    /* Indent guide: a 1px line down the folder's column. */
+    background-image: linear-gradient(var(--color-line), var(--color-line));
+    background-repeat: no-repeat;
+    background-size: 1px 100%;
+  }
+
+  .tree-l1 a {
+    padding-left: 38px;
+    background-position: 22px 0;
+  }
+
+  .tree-l2 a {
+    padding-left: 54px;
+    background-position: 38px 0;
+  }
+
+  .name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .tree a:hover {
+    background-color: var(--color-hover);
+    color: var(--color-fg);
+  }
+
+  .tree a[aria-current="page"] {
+    background-color: var(--color-select);
+    color: var(--color-fg);
+    box-shadow: inset 2px 0 0 var(--color-active);
+  }
+
+  /* On --select the faint count would drop under 4.5:1. */
+  .tree a[aria-current="page"] .count {
+    color: var(--color-muted);
+  }
+
+  summary:focus-visible,
+  .tree a:focus-visible {
+    outline-offset: -2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    summary,
+    .tree a {
+      transition:
+        background-color 120ms ease,
+        color 120ms ease;
+    }
+
+    summary::before {
+      transition: transform 150ms ease;
+    }
+  }
+
+  @media (width < 1240px) {
+    .explorer {
+      display: none;
+    }
+  }
+</style>

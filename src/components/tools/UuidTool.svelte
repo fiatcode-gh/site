@@ -28,56 +28,56 @@
   <div class="flex flex-wrap items-center gap-4">
     <fieldset class="flex items-center gap-4">
       <legend class="sr-only">Identifier type</legend>
-      <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
+      <label
+        class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+      >
         <input
           type="radio"
           bind:group={kind}
           value="uuid"
           onchange={generate}
-          class="accent-(--color-ink)"
+          class="accent-(--color-fn)"
         />
         UUID v4
       </label>
-      <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
+      <label
+        class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+      >
         <input
           type="radio"
           bind:group={kind}
           value="ulid"
           onchange={generate}
-          class="accent-(--color-ink)"
+          class="accent-(--color-fn)"
         />
         ULID
       </label>
     </fieldset>
-    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
+    <label
+      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+    >
       count
       <input
         type="number"
         bind:value={count}
         min="1"
         max="1000"
-        class="w-20 border border-rule bg-code px-2 py-1 font-mono text-xs text-ink"
+        class="w-20 border border-line bg-raised px-2 py-1 font-mono text-xs text-fg max-[619px]:min-h-10"
       />
     </label>
-    <button
-      type="button"
-      onclick={generate}
-      class="border border-rule bg-code px-3 py-1.5 font-mono text-xs text-ink-62 transition-colors hover:border-ink hover:text-ink"
-    >
-      generate
-    </button>
+    <button type="button" onclick={generate} class="tool-btn">generate</button>
     <CopyButton text={ids.join("\n")} label="copy all" />
   </div>
 
   {#if error}
-    <p aria-live="polite" class="font-mono text-xs text-ink">{error}</p>
+    <p aria-live="polite" class="font-mono text-xs text-fg">{error}</p>
   {/if}
 
   {#if ids.length > 0}
-    <ul class="flex flex-col divide-y divide-rule border border-rule bg-code">
+    <ul class="flex flex-col divide-y divide-line border border-line bg-raised">
       {#each ids as id (id)}
         <li class="flex items-center justify-between gap-3 px-3 py-2">
-          <code class="font-mono text-sm break-all text-ink">{id}</code>
+          <code class="font-mono text-sm break-all text-fg">{id}</code>
           <CopyButton text={id} />
         </li>
       {/each}

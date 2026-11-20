@@ -98,16 +98,16 @@
       : 0,
   );
 
-  // Encoded by FORM, not hue: with a single-accent palette and partial color
-  // blindness in mind, period/ovulation/fertile must differ by shape and weight,
-  // not shade. Solid block = period; bold ring (a "circled" day) = ovulation;
+  // Encoded by FORM, not hue: with partial colour blindness in mind,
+  // period/ovulation/fertile must differ by shape and weight, not shade.
+  // Solid block = period; bold ring (a "circled" day) = ovulation;
   // faint thin ring = fertile; underline = safe.
   const tagClass: Record<string, string> = {
-    period: "bg-accent text-ink font-bold",
-    ovulation: "text-ink font-bold ring-2 ring-inset ring-ink",
-    fertile: "text-ink ring-1 ring-inset ring-rule",
-    safe: "text-ink underline decoration-dotted underline-offset-2",
-    neutral: "text-ink-55",
+    period: "bg-mark text-fg font-bold",
+    ovulation: "text-fg font-bold ring-2 ring-inset ring-fg",
+    fertile: "text-fg ring-1 ring-inset ring-line-strong",
+    safe: "text-fg underline decoration-dotted underline-offset-2",
+    neutral: "text-faint",
   };
 
   const MONTHS = [
@@ -160,7 +160,7 @@
 <div class="flex flex-col gap-5">
   <!-- Input area -->
   <div class="flex flex-col gap-2">
-    <label for="cycle-dates" class="font-mono text-xs text-ink-55">
+    <label for="cycle-dates" class="font-mono text-xs text-faint">
       period start dates — one ISO date (YYYY-MM-DD) per line
     </label>
     <textarea
@@ -168,27 +168,17 @@
       bind:value={text}
       rows="6"
       spellcheck="false"
-      class="w-full border border-rule bg-code p-3 font-mono text-sm text-ink placeholder:text-ink-55"
+      class="w-full border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
     ></textarea>
     <div class="flex gap-2">
-      <button
-        onclick={save}
-        class="border border-rule bg-code px-3 py-1.5 font-mono text-xs text-ink hover:border-ink"
-      >
-        save to this browser
-      </button>
-      <button
-        onclick={clear}
-        class="border border-rule bg-code px-3 py-1.5 font-mono text-xs text-ink-62 hover:border-ink"
-      >
-        clear
-      </button>
+      <button onclick={save} class="tool-btn">save to this browser</button>
+      <button onclick={clear} class="tool-btn text-muted">clear</button>
     </div>
   </div>
 
   <!-- Parse issues -->
   {#if mounted && parsed.issues.length}
-    <p class="font-mono text-xs text-ink">
+    <p class="font-mono text-xs text-fg">
       skipped {parsed.issues.length} unreadable line(s): {parsed.issues
         .map((i) => `L${i.line}`)
         .join(", ")}
@@ -197,14 +187,14 @@
 
   <!-- Low confidence notice -->
   {#if mounted && hasData && fertility?.confidence === "low"}
-    <p class="font-mono text-xs text-ink-55">
+    <p class="font-mono text-xs text-faint">
       fewer than 6 cycles — estimates are low-confidence
     </p>
   {/if}
 
   <!-- Empty state -->
   {#if mounted && !hasData}
-    <p class="font-mono text-xs text-ink-55">
+    <p class="font-mono text-xs text-faint">
       paste at least two period start dates to compute cycles
     </p>
   {/if}
@@ -212,7 +202,7 @@
   <!-- Main content: tabs + panels -->
   {#if mounted && hasData}
     <!-- Header stats line -->
-    <p class="font-mono text-xs text-ink-55">
+    <p class="font-mono text-xs text-faint">
       {parsed.dates.length} period{parsed.dates.length !== 1 ? "s" : ""} ·
       {stats.cycleCount} cycle{stats.cycleCount !== 1 ? "s" : ""} ·
       {flagged.length} anomal{flagged.length !== 1 ? "ies" : "y"}
@@ -222,13 +212,14 @@
     </p>
 
     <!-- Tab bar -->
-    <div class="flex border border-rule bg-code/40 font-mono text-xs">
+    <div class="flex border border-line bg-chrome font-mono text-xs">
       {#each ["summary", "calendar", "safe dates", "cycles"] as const as t}
         <button
           onclick={() => (tab = t)}
-          class="flex-1 px-2 py-2 capitalize transition-colors {tab === t
-            ? 'bg-code text-ink'
-            : 'text-ink-55 hover:text-ink'}"
+          class="flex-1 px-2 py-2 capitalize motion-safe:transition-colors max-[619px]:min-h-10 {tab ===
+          t
+            ? 'bg-surface font-semibold text-fg shadow-[inset_0_2px_0_var(--color-active)]'
+            : 'text-faint hover:text-fg'}"
         >
           {t}
         </button>
@@ -240,31 +231,27 @@
       <div class="flex flex-col gap-3">
         <!-- Stat cards -->
         <div class="grid grid-cols-3 gap-2">
-          <div class="border border-rule bg-code p-3 text-center">
-            <p class="font-mono text-base font-bold text-ink">
+          <div class="border border-line bg-raised p-3 text-center">
+            <p class="font-mono text-base font-bold text-fg">
               {Math.round(stats.mean)}d
             </p>
-            <p class="mt-0.5 font-mono text-[10px] leading-tight text-ink-55">
+            <p class="mt-0.5 font-mono text-[10px] leading-tight text-faint">
               mean cycle
             </p>
           </div>
-          <div class="border border-rule bg-code p-3 text-center">
-            <p class="font-mono text-base font-bold text-ink">
+          <div class="border border-line bg-raised p-3 text-center">
+            <p class="font-mono text-base font-bold text-fg">
               {stats.shortest}–{stats.longest}d
             </p>
-            <p class="mt-0.5 font-mono text-[10px] leading-tight text-ink-55">
+            <p class="mt-0.5 font-mono text-[10px] leading-tight text-faint">
               range
             </p>
           </div>
-          <div class="border border-rule bg-code p-3 text-center">
-            <p
-              class="font-mono text-base font-bold {flagged.length === 0
-                ? 'text-ink'
-                : 'text-ink'}"
-            >
+          <div class="border border-line bg-raised p-3 text-center">
+            <p class="font-mono text-base font-bold text-fg">
               {stats.cycleCount - flagged.length}/{stats.cycleCount}
             </p>
-            <p class="mt-0.5 font-mono text-[10px] leading-tight text-ink-55">
+            <p class="mt-0.5 font-mono text-[10px] leading-tight text-faint">
               clean cycles
             </p>
           </div>
@@ -272,14 +259,14 @@
 
         <!-- Next period prediction -->
         {#if prediction}
-          <div class="border border-ink/30 bg-code p-4">
-            <p class="font-mono text-xs uppercase tracking-wide text-ink">
+          <div class="border border-line-strong bg-raised p-4">
+            <p class="font-mono text-xs uppercase tracking-wide text-fg">
               next period expected
             </p>
-            <p class="mt-1 text-2xl text-ink">
+            <p class="mt-1 text-2xl text-fg">
               {fmt(prediction.point)}
             </p>
-            <p class="mt-0.5 font-mono text-xs text-ink-55">
+            <p class="mt-0.5 font-mono text-xs text-faint">
               earliest {fmtS(prediction.earliest)} · latest {fmtS(
                 prediction.latest,
               )}
@@ -291,10 +278,10 @@
         <div class="flex flex-col gap-1.5">
           {#if periodEnd}
             <div
-              class="flex flex-col gap-1 border border-rule bg-code px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <span class="font-mono text-xs text-ink-55">period ends ~</span>
-              <span class="font-mono text-sm text-ink sm:text-right">
+              <span class="font-mono text-xs text-faint">period ends ~</span>
+              <span class="font-mono text-sm text-fg sm:text-right">
                 {fmtW(periodEnd)}
               </span>
             </div>
@@ -302,12 +289,12 @@
 
           {#if safe1Start && safe1End && safe1Days > 0}
             <div
-              class="flex flex-col gap-1 border border-rule bg-code px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <span class="font-mono text-xs text-ink-55"
+              <span class="font-mono text-xs text-faint"
                 >safe zone 1 (post-period)</span
               >
-              <span class="font-mono text-sm text-ink sm:text-right">
+              <span class="font-mono text-sm text-fg sm:text-right">
                 {fmtS(safe1Start)} – {fmtS(safe1End)} ({safe1Days}d)
               </span>
             </div>
@@ -315,41 +302,41 @@
 
           {#if fertility}
             <div
-              class="flex flex-col gap-1 border border-rule bg-code px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <span class="font-mono text-xs text-ink-55"
+              <span class="font-mono text-xs text-faint"
                 >fertile window opens (estimated · probabilistic)</span
               >
-              <span class="font-mono text-sm text-ink sm:text-right">
+              <span class="font-mono text-sm text-fg sm:text-right">
                 {fmtW(fertility.fertileStart)}
               </span>
             </div>
 
             <div
-              class="flex flex-col gap-1 border border-rule bg-code px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <span class="font-mono text-xs text-ink-55"
+              <span class="font-mono text-xs text-faint"
                 >ovulation estimate</span
               >
               <span class="font-mono text-sm sm:text-right">
-                <span class="text-ink">
+                <span class="text-fg">
                   ~{fmtS(fertility.ovulationEstimate)} ±{fertility.ovulationBandDays}
                   days
                 </span>
                 <br />
-                <span class="text-ink-55 text-[10px]">
+                <span class="text-faint text-[10px]">
                   cannot be pinned by calendar alone
                 </span>
               </span>
             </div>
 
             <div
-              class="flex flex-col gap-1 border border-rule bg-code px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <span class="font-mono text-xs text-ink-55"
+              <span class="font-mono text-xs text-faint"
                 >fertile window closes (estimated · probabilistic)</span
               >
-              <span class="font-mono text-sm text-ink sm:text-right">
+              <span class="font-mono text-sm text-fg sm:text-right">
                 {fmtW(fertility.fertileEnd)}
               </span>
             </div>
@@ -357,12 +344,12 @@
 
           {#if safe2Start && safe2End && safe2Days > 0}
             <div
-              class="flex flex-col gap-1 border border-rule bg-code px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <span class="font-mono text-xs text-ink-55"
+              <span class="font-mono text-xs text-faint"
                 >safe zone 2 (post-ovulation)</span
               >
-              <span class="font-mono text-sm text-ink sm:text-right">
+              <span class="font-mono text-sm text-fg sm:text-right">
                 {fmtS(safe2Start)} – {fmtS(safe2End)} ({safe2Days}d)
               </span>
             </div>
@@ -371,12 +358,12 @@
           <!-- SDM cross-check -->
           {#if sdm}
             <div
-              class="flex flex-col gap-1 border border-rule bg-code px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
             >
-              <span class="font-mono text-xs text-ink-55"
+              <span class="font-mono text-xs text-faint"
                 >Standard Days Method (days 8–19):</span
               >
-              <span class="font-mono text-xs text-ink-62 sm:text-right">
+              <span class="font-mono text-xs text-muted sm:text-right">
                 {fmtS(sdm.start)} – {fmtS(sdm.end)}
               </span>
             </div>
@@ -390,15 +377,15 @@
       <div class="flex flex-col gap-4">
         {#each calMonths() as { year, month }}
           {@const cells = calCells(year, month)}
-          <div class="border border-rule bg-code p-4">
+          <div class="border border-line bg-raised p-4">
             <p
-              class="mb-3 text-center font-mono text-sm uppercase tracking-wider text-ink-55"
+              class="mb-3 text-center font-mono text-sm uppercase tracking-wider text-faint"
             >
               {MONTHS[month]}
               {year}
             </p>
             <div
-              class="mb-2 grid grid-cols-7 gap-1 text-center font-mono text-xs text-ink-55"
+              class="mb-2 grid grid-cols-7 gap-1 text-center font-mono text-xs text-faint"
             >
               {#each WDAYS as d}
                 <span>{d}</span>
@@ -424,11 +411,11 @@
         {/each}
 
         <!-- Legend -->
-        <div class="border border-rule bg-code p-4 grid grid-cols-2 gap-2.5">
-          {#each [{ cls: "bg-accent", label: "period (current) — solid" }, { cls: "ring-2 ring-inset ring-ink", label: "ovulation estimate — ring" }, { cls: "ring-1 ring-inset ring-rule", label: "fertile (estimated · probabilistic) — faint ring" }, { cls: "border-b border-dotted border-ink-55", label: "safe days — underline" }] as leg}
+        <div class="border border-line bg-raised p-4 grid grid-cols-2 gap-2.5">
+          {#each [{ cls: "bg-mark", label: "period (current) — solid" }, { cls: "ring-2 ring-inset ring-fg", label: "ovulation estimate — ring" }, { cls: "ring-1 ring-inset ring-line-strong", label: "fertile (estimated · probabilistic) — faint ring" }, { cls: "border-b border-dotted border-faint", label: "safe days — underline" }] as leg}
             <div class="flex items-center gap-2">
               <span class="h-4 w-4 flex-shrink-0 {leg.cls}"></span>
-              <span class="font-mono text-xs text-ink-55">{leg.label}</span>
+              <span class="font-mono text-xs text-faint">{leg.label}</span>
             </div>
           {/each}
         </div>
@@ -439,57 +426,57 @@
     {#if tab === "safe dates"}
       <div class="flex flex-col gap-3">
         {#if safe1Start && safe1End && safe1Days > 0}
-          <div class="border border-rule bg-code p-4 space-y-2">
-            <p class="font-mono text-xs uppercase tracking-wide text-ink-55">
+          <div class="border border-line bg-raised p-4 space-y-2">
+            <p class="font-mono text-xs uppercase tracking-wide text-faint">
               safe zone 1 — post-period
             </p>
-            <p class="text-2xl text-ink">
+            <p class="text-2xl text-fg">
               {fmtS(safe1Start)} – {fmtS(safe1End)}
             </p>
-            <p class="font-mono text-xs text-ink-55">
+            <p class="font-mono text-xs text-faint">
               {safe1Days}-day window · after bleeding ends, before fertility
               begins
             </p>
           </div>
         {:else if safe1Days <= 0}
-          <p class="font-mono text-xs text-ink-55">
+          <p class="font-mono text-xs text-faint">
             no safe zone 1 — fertile window overlaps with period end
           </p>
         {/if}
 
         {#if fertility}
-          <div class="border border-ink/30 bg-code p-4 space-y-2">
-            <p class="font-mono text-xs uppercase tracking-wide text-ink">
+          <div class="border border-line-strong bg-raised p-4 space-y-2">
+            <p class="font-mono text-xs uppercase tracking-wide text-fg">
               avoid — fertile window (estimated · probabilistic)
             </p>
-            <p class="text-2xl text-ink">
+            <p class="text-2xl text-fg">
               {fmtS(fertility.fertileStart)} – {fmtS(fertility.fertileEnd)}
             </p>
-            <p class="font-mono text-xs text-ink-62">
+            <p class="font-mono text-xs text-muted">
               ovulation estimate: ~{fmtS(fertility.ovulationEstimate)} ±{fertility.ovulationBandDays}
               days
             </p>
-            <p class="font-mono text-xs text-ink-55">
+            <p class="font-mono text-xs text-faint">
               cannot be pinned by calendar alone — highest pregnancy risk
             </p>
           </div>
         {/if}
 
         {#if safe2Start && safe2End && safe2Days > 0}
-          <div class="border border-rule bg-code p-4 space-y-2">
-            <p class="font-mono text-xs uppercase tracking-wide text-ink-55">
+          <div class="border border-line bg-raised p-4 space-y-2">
+            <p class="font-mono text-xs uppercase tracking-wide text-faint">
               safe zone 2 — post-ovulation
             </p>
-            <p class="text-2xl text-ink">
+            <p class="text-2xl text-fg">
               {fmtS(safe2Start)} – {fmtS(safe2End)}
             </p>
-            <p class="font-mono text-xs text-ink-55">
+            <p class="font-mono text-xs text-faint">
               {safe2Days}-day window · after ovulation has passed, before next
               period
             </p>
           </div>
         {:else if safe2Days <= 0}
-          <p class="font-mono text-xs text-ink-55">
+          <p class="font-mono text-xs text-faint">
             no safe zone 2 — next period predicted immediately after fertile
             window
           </p>
@@ -497,41 +484,41 @@
 
         <!-- SDM cross-check -->
         {#if sdm}
-          <div class="border border-rule bg-code p-4 space-y-1">
-            <p class="font-mono text-xs text-ink-55">
+          <div class="border border-line bg-raised p-4 space-y-1">
+            <p class="font-mono text-xs text-faint">
               Standard Days Method cross-check (days 8–19 of cycle):
             </p>
-            <p class="font-mono text-sm text-ink">
+            <p class="font-mono text-sm text-fg">
               {fmtS(sdm.start)} – {fmtS(sdm.end)}
             </p>
-            <p class="font-mono text-xs text-ink-55">
+            <p class="font-mono text-xs text-faint">
               {elig.note}
             </p>
           </div>
         {/if}
 
         <!-- Reliability note -->
-        <div class="border border-rule bg-code p-4 space-y-1.5">
-          <p class="font-mono text-xs text-ink-62">dataset reliability</p>
-          <p class="font-mono text-xs text-ink-55">
+        <div class="border border-line bg-raised p-4 space-y-1.5">
+          <p class="font-mono text-xs text-muted">dataset reliability</p>
+          <p class="font-mono text-xs text-faint">
             {stats.cycleCount} cycle{stats.cycleCount !== 1 ? "s" : ""} logged · {flagged.length}
             anomal{flagged.length !== 1 ? "ies" : "y"}
             · range {stats.shortest}–{stats.longest}d
           </p>
           {#if flagged.length > 0}
-            <p class="font-mono text-xs text-ink">
+            <p class="font-mono text-xs text-fg">
               {flagged.length} anomal{flagged.length !== 1 ? "ies" : "y"} detected
               — estimates less reliable
             </p>
           {:else}
-            <p class="font-mono text-xs text-ink-55">
+            <p class="font-mono text-xs text-faint">
               no anomalies — dataset consistent
             </p>
           {/if}
         </div>
 
         <!-- Disclaimer -->
-        <p class="font-mono text-[10px] text-ink-55 leading-relaxed">
+        <p class="font-mono text-[10px] text-faint leading-relaxed">
           Calendar/Standard Days methods are ~95% (perfect use) / ~88% (typical
           use) effective for 26–32-day cycles. Not a contraceptive guarantee;
           ovulation cannot be pinned by calendar alone.
@@ -543,24 +530,24 @@
     {#if tab === "cycles"}
       <div class="flex flex-col gap-3">
         <!-- Distribution bar chart -->
-        <div class="border border-rule bg-code p-4 space-y-3">
-          <p class="font-mono text-xs uppercase tracking-wide text-ink-55">
+        <div class="border border-line bg-raised p-4 space-y-3">
+          <p class="font-mono text-xs uppercase tracking-wide text-faint">
             length distribution ({stats.cycleCount} cycles)
           </p>
           {#each Object.entries(stats.distribution).sort(([a], [b]) => +a - +b) as [len, count]}
             {@const pct = Math.round((+count / stats.cycleCount) * 100)}
             {@const barW = Math.round((+count / maxCount) * 100)}
             <div class="flex items-center gap-3">
-              <span class="w-8 font-mono text-sm text-ink">{len}d</span>
-              <div class="flex-1 bg-code h-5 overflow-hidden">
+              <span class="w-8 font-mono text-sm text-fg">{len}d</span>
+              <div class="flex-1 bg-raised h-5 overflow-hidden">
                 <div
-                  class="h-full bg-accent/40 flex items-center justify-end pr-2"
+                  class="h-full bg-mark flex items-center justify-end pr-2"
                   style="width:{barW}%"
                 >
-                  <span class="font-mono text-[10px] text-ink">{count}×</span>
+                  <span class="font-mono text-[10px] text-fg">{count}×</span>
                 </div>
               </div>
-              <span class="w-10 font-mono text-xs text-ink-55 text-right">
+              <span class="w-10 font-mono text-xs text-faint text-right">
                 {pct}%
               </span>
             </div>
@@ -569,35 +556,29 @@
 
         <!-- All cycles list -->
         <div class="flex flex-col gap-1.5">
-          <p class="font-mono text-xs text-ink-55 px-1">
+          <p class="font-mono text-xs text-faint px-1">
             all {cycles.length} cycles
           </p>
           {#each cycles as c, i}
             {@const isAnomaly = c.days < 21 || c.days > 35}
             <div
-              class="border {isAnomaly
-                ? 'border-rule'
-                : 'border-rule'} bg-code px-4 py-2.5 flex items-center justify-between"
+              class="border border-line bg-raised px-4 py-2.5 flex items-center justify-between"
             >
-              <span class="font-mono text-[11px] text-ink-55">
+              <span class="font-mono text-[11px] text-faint">
                 {fmtS(c.from)} → {fmtS(c.to)}
               </span>
               <div class="flex items-center gap-2">
                 <div
-                  class="h-1.5 bg-accent/50"
+                  class="h-1.5 bg-mark"
                   style="width:{Math.round(
                     (c.days / (stats.longest || 30)) * 48,
                   )}px"
                 ></div>
-                <span
-                  class="font-mono text-sm font-bold {isAnomaly
-                    ? 'text-ink'
-                    : 'text-ink'}"
-                >
+                <span class="font-mono text-sm font-bold text-fg">
                   {c.days}d
                 </span>
                 {#if isAnomaly}
-                  <span class="font-mono text-[10px] text-ink">!</span>
+                  <span class="font-mono text-[10px] text-fg">!</span>
                 {/if}
               </div>
             </div>
@@ -606,14 +587,14 @@
 
         <!-- Summary footer -->
         <div
-          class="border border-rule bg-code px-4 py-3 flex justify-between font-mono text-xs text-ink-55"
+          class="border border-line bg-raised px-4 py-3 flex justify-between font-mono text-xs text-faint"
         >
           <span>
             {stats.cycleCount - flagged.length}/{stats.cycleCount} clean
           </span>
           <span>
             anomalies:
-            <span class={flagged.length === 0 ? "text-ink" : "text-ink"}>
+            <span class="text-fg">
               {flagged.length}
             </span>
           </span>
@@ -624,7 +605,7 @@
 
   <!-- Footer disclaimer (always visible when there's data) -->
   {#if mounted && hasData}
-    <p class="font-mono text-center text-[10px] text-ink-55 pb-4">
+    <p class="font-mono text-center text-[10px] text-faint pb-4">
       Ogino-Knaus calendar method · not a medical tool · data stays in this
       browser
     </p>

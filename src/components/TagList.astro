@@ -1,0 +1,20 @@
+---
+/** A post's tags as `#tag` string tokens, each linking to its tag page. */
+interface Props {
+  tags: string[];
+}
+
+const { tags } = Astro.props;
+---
+
+{
+  tags.length > 0 && (
+    <ul class="tags" aria-label="Tags">
+      {tags.map((tag) => (
+        <li>
+          <a href={`/tags/${tag}/`}>{tag}</a>
+        </li>
+      ))}
+    </ul>
+  )
+}

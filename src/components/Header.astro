@@ -1,124 +1,188 @@
 ---
-/**
- * Sticky nav: one row of cells divided by 1px rules — the logo, three
- * flexing sections, then `search` locked to 230px.
- *
- * That 230px is a real column. The post page's TOC rail is the same
- * width, so this nav's left rule and the TOC's left rule form one
- * continuous vertical line down the page. The rule is drawn ONCE — as
- * border-left on the search cell here, and border-left on the TOC —
- * never as a border-right on the neighbour, or the two land on adjacent
- * pixels and read as 2px.
- *
- * Nav height is 52px (15px padding top and bottom around a 22px line
- * box), which is what sets the TOC's sticky offset of 78px (52 + 26).
- *
- * Below 900px the nav wraps and `search` takes a full-width row.
- */
-const sections = [
-  { href: "/posts", label: "posts" },
-  { href: "/tools", label: "tools" },
-  { href: "/tags", label: "tags" },
-];
+import { sectionOf, sections } from "@/lib/nav";
 
+/**
+ * Title bar: the logo, then one editor tab per section. The section the
+ * page lives in is the open tab — surface background, a top bar in
+ * --active, and aria-current, so it never relies on hue alone.
+ *
+ * At >= 1240px the logo cell is exactly as wide as the Explorer below it,
+ * so the two share one vertical rule. Below 620px the logo takes its own
+ * row and the four tabs split the next one evenly.
+ */
 const path = Astro.url.pathname;
-const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
+const current = sectionOf(path);
 ---
 
-<nav class="nav" aria-label="Main">
+<header class="titlebar">
   <a
     href="/"
     class="logo"
+    aria-label="fiatcode.dev, home"
     aria-current={path === "/" ? "page" : undefined}
-    aria-label="fiatcode.dev — home"
   >
-    fiatcode.dev
+    <span class="logo-mark" aria-hidden="true">f</span>
+    <span aria-hidden="true">fiatcode<span class="tld">.dev</span></span>
   </a>
-
-  {
-    sections.map((s) => (
-      <a
-        href={s.href}
-        class:list={["section", isActive(s.href) && "is-active"]}
-        aria-current={isActive(s.href) ? "page" : undefined}
-      >
-        {s.label}
-      </a>
-    ))
-  }
-
-  <a
-    href="/search"
-    class:list={["search", isActive("/search") && "is-active"]}
-    aria-current={isActive("/search") ? "page" : undefined}
-  >
-    search
-  </a>
-</nav>
+  <nav aria-label="Main">
+    <ul class="tabs">
+      {
+        sections.map((s) => (
+          <li>
+            <a
+              href={`/${s}/`}
+              aria-current={current === s ? "page" : undefined}
+            >
+              {s === "search" && (
+                <svg
+                  viewBox="0 0 16 16"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1.6"
+                  aria-hidden="true"
+                >
+                  <circle cx="7" cy="7" r="4.5" />
+                  <path d="m10.5 10.5 3.5 3.5" />
+                </svg>
+              )}
+              {s}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
 
 <style>
-  .nav {
-    position: sticky;
-    top: 0;
-    z-index: 10;
+  .titlebar {
     display: flex;
-    flex-wrap: wrap;
-    background: var(--color-paper);
-    border-bottom: 1px solid var(--color-ink);
-  }
-
-  .nav > a {
-    padding: 15px 16px;
-    font-size: 12px;
-  }
-
-  .nav > a:hover {
-    text-decoration: underline;
-  }
-
-  /* Active section takes the full accent, consistent with the small-target
-     hover tier. */
-  .is-active {
-    background: var(--color-accent);
+    align-items: stretch;
+    border-bottom: 1px solid var(--color-line);
+    background: var(--color-chrome);
+    font-family: var(--font-mono);
   }
 
   .logo {
-    padding: 15px 22px;
-    font-size: 13px;
+    display: flex;
+    flex: none;
+    align-items: center;
+    gap: 10px;
+    box-sizing: border-box;
+    width: 260px;
+    padding: 0 20px;
+    border-right: 1px solid var(--color-line);
+    font-size: 0.875rem;
     font-weight: 600;
     letter-spacing: -0.01em;
-    border-right: 1px solid var(--color-ink);
+    color: var(--color-fg);
+    text-decoration: none;
   }
 
-  .section {
-    flex: 1;
-    border-right: 1px solid var(--color-ink);
+  .logo-mark {
+    display: grid;
+    place-items: center;
+    width: 18px;
+    height: 18px;
+    border-radius: 5px;
+    background: var(--color-fn);
+    font-size: 0.6875rem;
+    font-weight: 700;
+    line-height: 1;
+    color: var(--color-surface);
   }
 
-  /* The search cell owns the rule it shares with `tags`, so `tags` must not
-     also draw one — two 1px borders on adjacent elements render as 2px.
-     Matched by position, not :last-of-type: every cell here is an <a>, so
-     :last-of-type would resolve to `search` and silently match nothing.
-     `search` is the last child, so the final section is second from last. */
-  .nav > a.section:nth-last-child(2) {
-    border-right: 0;
+  .tld {
+    font-weight: 400;
+    color: var(--color-faint);
   }
 
-  .search {
-    width: 230px;
+  .tabs {
+    display: flex;
+  }
+
+  .tabs a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 44px;
+    padding: 0 20px;
+    border-right: 1px solid var(--color-line);
+    font-size: 0.8125rem;
+    color: var(--color-muted);
+    text-decoration: none;
+  }
+
+  .tabs a:hover {
+    background: var(--color-hover);
+    color: var(--color-fg);
+  }
+
+  /* The open tab sits on the buffer: it drops over the title bar's bottom
+     rule so the two surfaces join. */
+  .tabs a[aria-current="page"] {
+    margin-bottom: -1px;
+    background: var(--color-surface);
+    color: var(--color-fg);
+    font-weight: 600;
+    box-shadow: inset 0 2px 0 var(--color-active);
+  }
+
+  .logo:focus-visible,
+  .tabs a:focus-visible {
+    outline-offset: -2px;
+  }
+
+  .tabs svg {
     flex: none;
-    box-sizing: border-box;
-    border-left: 1px solid var(--color-ink);
+    width: 14px;
+    height: 14px;
   }
 
-  @media (width < 900px) {
-    .search {
+  @media (prefers-reduced-motion: no-preference) {
+    .tabs a {
+      transition:
+        background-color 120ms ease,
+        color 120ms ease;
+    }
+  }
+
+  @media (width < 1240px) {
+    .logo {
       width: auto;
+    }
+  }
+
+  @media (width < 620px) {
+    .titlebar {
+      flex-wrap: wrap;
+    }
+
+    .logo {
+      width: 100%;
+      min-height: 52px;
+      padding: 0 18px;
+      border-right: 0;
+      border-bottom: 1px solid var(--color-line);
+    }
+
+    .titlebar > nav {
       flex: 1 1 100%;
-      /* On its own row the shared vertical rule is meaningless; it needs a
-         horizontal one instead, or the two rows merge into one block. */
-      border-left: 0;
-      border-top: 1px solid var(--color-ink);
+    }
+
+    .tabs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+    }
+
+    .tabs a {
+      justify-content: center;
+      height: 48px;
+      padding: 0;
+    }
+
+    .tabs li:last-child a {
+      border-right: 0;
     }
   }
 </style>

@@ -1,47 +1,32 @@
 ---
 /**
- * Section header: display H1 on the left, optional meta on the right,
- * closed by a structural rule. Used by /posts, /tools, /tags and /search.
- *
- * H1 steps 64 / 48 / 38 across the two breakpoints.
+ * Section header for /posts, /tools, /tags, a tag page and /search: an
+ * optional code-comment line, the h1 with optional meta on its right, then
+ * an optional lead paragraph.
  */
 interface Props {
   title: string;
-  /** Optional lead paragraph below the title. */
+  /** Mono meta line above the title, written as a `//` comment. */
+  comment?: string;
+  /** Lead paragraph below the title. May carry inline HTML. */
   lead?: string;
 }
 
-const { title, lead } = Astro.props;
-const hasAside = Astro.slots.has("aside");
+const { title, comment, lead } = Astro.props;
 ---
 
-<div
-  class:list={[
-    "band px-[26px] pb-6 pt-11",
-    hasAside && "flex flex-wrap items-end justify-between gap-4",
-  ]}
->
-  <h1 class:list={["page-title display leading-none", lead && "mb-3.5"]}>
-    {title}
-  </h1>
-  {lead && <p class="max-w-[62ch] text-sm leading-[1.65]" set:html={lead} />}
-  {hasAside && <slot name="aside" />}
-</div>
-
-<style>
-  .page-title {
-    font-size: 64px;
-  }
-
-  @media (width < 900px) {
-    .page-title {
-      font-size: 48px;
+<header class="page-head">
+  {comment && <p class="comment">// {comment}</p>}
+  <div class="page-head-row">
+    <h1 class="page-title">{title}</h1>
+    {
+      Astro.slots.has("aside") && (
+        <div class="page-aside">
+          <slot name="aside" />
+        </div>
+      )
     }
-  }
-
-  @media (width < 620px) {
-    .page-title {
-      font-size: 38px;
-    }
-  }
-</style>
+  </div>
+  {lead && <p class="page-lead" set:html={lead} />}
+  <slot />
+</header>
