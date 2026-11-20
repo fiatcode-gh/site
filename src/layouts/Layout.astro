@@ -1,23 +1,50 @@
 ---
 import "@/styles/global.css";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Explorer from "@/components/Explorer.astro";
 import Footer from "@/components/Footer.astro";
 import Header from "@/components/Header.astro";
+import { crumbsFor, type Crumb } from "@/lib/nav";
 
 interface Props {
   title: string;
   description: string;
   noindex?: boolean;
+  /**
+   * The trail after `fiatcode.dev`. Defaults to the URL's segments; pass
+   * your own when the URL is not the best path (a post's year, page 2).
+   */
+  crumbs?: Crumb[];
 }
 
-const { title, description, noindex = false } = Astro.props;
+const {
+  title,
+  description,
+  noindex = false,
+  crumbs = crumbsFor(Astro.url.pathname),
+} = Astro.props;
+
+// The post page fills a third column with its Outline rail.
+const hasOutline = Astro.slots.has("outline");
 ---
 
 <!doctype html>
-<html lang="en" class="[scrollbar-gutter:stable]">
+<html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="theme-color" content="#faf8f2" />
+    <!-- The title-bar chrome colour of each theme. -->
+    <meta
+      name="theme-color"
+      content="#f2f4f7"
+      media="(prefers-color-scheme: light)"
+    />
+    <meta
+      name="theme-color"
+      content="#111317"
+      media="(prefers-color-scheme: dark)"
+    />
+    <meta name="color-scheme" content="light dark" />
     <link rel="icon" href="/favicon.ico" sizes="any" />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
@@ -36,12 +63,90 @@ const { title, description, noindex = false } = Astro.props;
     <meta name="generator" content={Astro.generator} />
   </head>
   <body>
-    <div class="shell">
-      <Header />
-      <main>
-        <slot />
+    <a class="skip" href="#main">Skip to content</a>
+    <Header />
+    <Breadcrumb crumbs={crumbs} />
+    <div class:list={["workbench", hasOutline && "workbench-outline"]}>
+      <Explorer />
+      <main id="main" class="editor">
+        <div class="editor-inner">
+          <slot />
+        </div>
       </main>
-      <Footer />
+      <slot name="outline" />
     </div>
+    <Footer />
   </body>
 </html>
+
+<style>
+  .skip {
+    position: absolute;
+    top: -60px;
+    left: 12px;
+    z-index: 10;
+    padding: 10px 14px;
+    border-radius: 6px;
+    background: var(--color-fn);
+    font: 600 0.8125rem/1 var(--font-mono);
+    color: var(--color-surface);
+    text-decoration: none;
+  }
+
+  .skip:focus {
+    top: 8px;
+  }
+
+  /* Explorer | editor | (outline). The Explorer column is the one width
+     outside the 900/620 pair: with the 260px sidebar and the 240px Outline
+     both shown, a post's prose falls under the 60ch floor below 1240px, so
+     the sidebar hides there and the title-bar tabs navigate. */
+  .workbench {
+    flex: 1;
+    display: grid;
+    grid-template-columns: 260px minmax(0, 1fr);
+  }
+
+  .workbench-outline {
+    grid-template-columns: 260px minmax(0, 1fr) 240px;
+  }
+
+  .editor {
+    min-width: 0;
+    padding: 56px 64px 96px;
+  }
+
+  .editor-inner {
+    max-width: 880px;
+  }
+
+  @media (width < 1240px) {
+    .workbench {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .workbench-outline {
+      grid-template-columns: minmax(0, 1fr) 220px;
+    }
+  }
+
+  @media (width < 900px) {
+    .workbench-outline {
+      grid-template-columns: minmax(0, 1fr);
+    }
+
+    .editor {
+      padding: 40px 32px 72px;
+    }
+  }
+
+  @media (width < 620px) {
+    .skip {
+      padding: 14px 16px;
+    }
+
+    .editor {
+      padding: 32px 18px 64px;
+    }
+  }
+</style>

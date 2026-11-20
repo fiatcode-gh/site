@@ -124,4 +124,4 @@ The craftsman gets leverage. The leverage doesn't get taste.
 
 ---
 
-TracPulse lives at [git.fiatcode.dev/fiatcode/tracpulse](https://git.fiatcode.dev/fiatcode/tracpulse).
+TracPulse lives at [github.com/fiatcode-gh/tracpulse](https://github.com/fiatcode-gh/tracpulse).

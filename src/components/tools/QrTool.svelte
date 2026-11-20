@@ -59,23 +59,24 @@
 
 <div class="flex flex-col gap-5">
   <div class="flex flex-col gap-2">
-    <label for="qr-text" class="font-mono text-xs text-ink-55">text / URL</label
-    >
+    <label for="qr-text" class="font-mono text-xs text-faint">text / URL</label>
     <textarea
       id="qr-text"
       bind:value={text}
       placeholder="https://…"
       spellcheck="false"
-      class="min-h-20 w-full resize-y border border-rule bg-code p-3 font-mono text-sm text-ink placeholder:text-ink-55"
+      class="min-h-20 w-full resize-y border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
     ></textarea>
   </div>
 
   <div class="flex flex-wrap items-center gap-4">
-    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
+    <label
+      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+    >
       error correction
       <select
         bind:value={ecc}
-        class="border border-rule bg-code px-2 py-1 font-mono text-xs text-ink-62"
+        class="border border-line bg-raised px-2 py-1 font-mono text-xs text-muted max-[619px]:min-h-10"
       >
         <option value="L">L (7%)</option>
         <option value="M">M (15%)</option>
@@ -83,59 +84,55 @@
         <option value="H">H (30%)</option>
       </select>
     </label>
-    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
+    <label
+      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+    >
       margin
       <input
         type="number"
         bind:value={border}
         min="0"
         max="10"
-        class="w-16 border border-rule bg-code px-2 py-1 font-mono text-xs text-ink"
+        class="w-16 border border-line bg-raised px-2 py-1 font-mono text-xs text-fg max-[619px]:min-h-10"
       />
     </label>
-    <label class="flex items-center gap-1.5 font-mono text-xs text-ink-62">
+    <label
+      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+    >
       PNG scale
       <input
         type="number"
         bind:value={scale}
         min="4"
         max="40"
-        class="w-16 border border-rule bg-code px-2 py-1 font-mono text-xs text-ink"
+        class="w-16 border border-line bg-raised px-2 py-1 font-mono text-xs text-fg max-[619px]:min-h-10"
       />
-      <span class="text-ink-55">px/module</span>
+      <span class="text-faint">px/module</span>
     </label>
   </div>
 
   {#if view === null}
-    <p class="font-mono text-xs text-ink-55">type something to encode</p>
+    <p class="font-mono text-xs text-faint">type something to encode</p>
   {:else if view.error}
-    <p aria-live="polite" class="font-mono text-xs text-ink">{view.error}</p>
+    <p aria-live="polite" class="font-mono text-xs text-fg">{view.error}</p>
   {:else}
     <div class="flex flex-col items-start gap-4 sm:flex-row">
       <!--
-        Stays pure white rather than paper: the quiet zone around a QR code
-        is what scanners key on, so it wants maximum contrast, not the
-        surrounding surface colour. The 1px --rule hairline is the same
-        border every other output surface and prose image carries.
+        Stays pure white rather than the page surface, in both themes: the
+        quiet zone around a QR code is what scanners key on, so it wants
+        maximum contrast. The 1px --line hairline is the same border every
+        other output surface and prose image carries.
       -->
       <div
-        class="w-full max-w-64 border border-rule bg-white p-2 [&_svg]:h-auto [&_svg]:w-full"
+        class="w-full max-w-64 border border-line bg-white p-2 [&_svg]:h-auto [&_svg]:w-full"
       >
         {@html view.svg}
       </div>
       <div class="flex flex-col gap-2">
-        <button
-          type="button"
-          onclick={downloadSvg}
-          class="border border-rule bg-code px-3 py-1.5 font-mono text-xs text-ink-62 transition-colors hover:border-ink hover:text-ink"
-        >
+        <button type="button" onclick={downloadSvg} class="tool-btn">
           download SVG
         </button>
-        <button
-          type="button"
-          onclick={downloadPng}
-          class="border border-rule bg-code px-3 py-1.5 font-mono text-xs text-ink-62 transition-colors hover:border-ink hover:text-ink"
-        >
+        <button type="button" onclick={downloadPng} class="tool-btn">
           download PNG
         </button>
       </div>

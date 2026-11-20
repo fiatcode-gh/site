@@ -116,35 +116,77 @@ Blog posts live in `src/content/blog/`. Frontmatter must match the schema in `sr
 
 ## Styling
 
-Brutalist / raw-HTML: paper stock, hairline black rules, everything on one grid.
-No rounded corners, no shadows, no gradients. Light only — there is no dark theme.
+"Workspace": the site reads like a modern code editor (Zed / VS Code), not a retro
+terminal. Title bar with section tabs, a file-path breadcrumb, an Explorer sidebar,
+the page as the open buffer, and a status bar as the footer. Light and dark are both
+designed; `prefers-color-scheme` picks one. There is no manual toggle and no theming
+JavaScript.
 
-- Tailwind v4 via `@tailwindcss/vite`. All tokens and primitives in `src/styles/global.css`.
-- Type: IBM Plex Mono for body and UI; Instrument Serif for display (H1 and the
-  fortune pull quote only). Article prose is mono, 14.5px / 1.8, 68ch.
-- Expressive Code (`ec.config.mjs`) — `vitesse-light`, square corners, 1px hairline
-  borders, `#f1ede2` code surface, IBM Plex Mono.
+- Tailwind v4 via `@tailwindcss/vite`. All tokens and shared primitives live in
+  `src/styles/global.css`; shell pieces (title bar, breadcrumb, Explorer, footer,
+  TOC, tool shell) keep their own scoped `<style>`.
+- **Tokens** are Tailwind colours in one `@theme static` block (light values), with
+  the dark values overriding the same `--color-*` variables in a
+  `prefers-color-scheme: dark` media query right below it. Use them as utilities
+  (`text-muted`, `bg-raised`, `border-line`) or as `var(--color-…)`:
+  - surfaces: `surface` (page/buffer), `chrome` (title bar, Explorer, tab strips),
+    `raised` (panes, inputs, code), `hover`, `select` (current item), `mark`
+    (find-match highlight: regex hits, `.hl`), `lede`, `quote`;
+  - lines: `line`, `line-strong`;
+  - text: `fg`, `muted`, `faint`, and `gutter` (decorative only);
+  - syntax: `fn`, `str`, `kw`, plus `active` (`fn` in light, `kw` in dark). The
+    code-block `num` colour exists only as a literal in `ec.config.mjs`;
+  - status bar: `status`, `status-fg`, `status-seg`, `status-seg-fg`.
+- **Type**: JetBrains Mono (`--font-mono`) for chrome, meta, labels and code; IBM
+  Plex Sans (`--font-sans`) for prose and long text. Self-hosted latin subsets via
+  `@fontsource`; never add a Google Fonts request. Prose is 17px / 1.75, 68ch.
+- **Expressive Code** (`ec.config.mjs`) builds a light and a dark theme from the
+  same palette and switches them with the media query (`themeCssSelector: false`).
+  EC needs literal colours, so the palette there is a copy of the CSS tokens —
+  change both together, then delete `.astro/` and `node_modules/.astro` (see
+  Gotchas).
 - Search is a client-side filter over title/description/tags (`src/lib/search.ts`),
   with the index inlined into `/search`. Pagefind was removed.
 
 ### Rules that are easy to break
 
-- **Every rule is exactly 1px, and two borders must never land on adjacent
-  elements** — that renders as 2px and is the most visible failure mode. Grids draw
-  their rules with a 1px `gap` over a `--color-rule` background (`.ruled`), so cells
-  themselves carry no border. When two neighbours share an edge, exactly one draws it.
-- **Ink alphas are a closed scale**: `.62` secondary body, `.55` meta (4.68:1 on
-  paper — the AA floor), `.25` hairlines, and `.4` for decorative separators ONLY.
-  Do not introduce intermediate values; when collapsing, round toward the ink.
-- **The accent is a background, never a text colour.** At `oklch(0.9 …)` it is
-  1.17:1 against paper. Large surfaces hover to `--color-tint`, small targets to
-  full `--color-accent`.
-- **Encode state by shape, position, or value — not hue.** The cycle tracker's day
-  types and the tools' error states both follow this.
-- Two breakpoints only: 900px and 620px.
-- Heading convention drives prose styling: `##` is the lede (styled as the
-  accent-ruled lead block) and `###` are sections (the 22px heading). The contents
-  rail lists h3/h4, never the lede.
+- **Three syntax colours, each with one meaning.** `fn` (blue) is what you can
+  follow or call: links, focus rings, tool names, the blockquote bar, the hero
+  name. `str` (green) is data: tags, the "runs locally" dot, YAML values. `kw`
+  (amber) marks structure: section numbers, the `// thesis` label, list markers,
+  YAML keys, the search prompt, the `ƒ` glyph, the tool-error bar. The `active`
+  bar is `fn` in light and `kw` in dark. Pick by meaning, and do not add a fourth.
+- **Never name a component class after a Tailwind utility.** Tailwind scans
+  `class=` attributes and emits the utility for any matching name, so a
+  `class="outline"` rail picked up `outline-style`/`outline-width` and drew a
+  foreground ring. Prefix component classes (`post-rail`, `fn-list`) instead.
+- **Contrast floor is 4.5:1 for all text, in both themes.** `faint` is the floor
+  (4.8 on chrome in light) and drops under it on `select` — use `muted` there.
+  `gutter` (3.7:1) is for `aria-hidden` glyphs only: line numbers, breadcrumb and
+  meta separators. The measured pairs are in the comments next to the tokens.
+- **Encode state by shape, position or weight — not hue.** The open tab, mode
+  button and cycle-tracker tab get the surface background, a 2px `active` bar and
+  heavier weight; the current Explorer row and TOC item get a bar; tool errors get
+  a left bar and weight; the cycle tracker's day types differ by fill, ring weight
+  and underline.
+- **Decorative generated text uses alt text**: write `content: "x"; content: "x" / "";`
+  so screen readers skip it where supported (`// thesis`, section numbers, `#`
+  before tags, `()` after tool names).
+- **Hairline grids** (`.ruled`, `.ruled-flex`) draw rules with a 1px `gap` over a
+  `--color-line` background, so cells carry no border. When two neighbours share
+  an edge, exactly one draws it.
+- **Breakpoints**: 900px (Outline rail → `<details>` contents list, editor padding)
+  and 620px (stacked title bar, 40px tap targets — tool controls use `.tool-btn` or
+  `max-[619px]:min-h-10`). The Explorer adds exactly one more, 1240px: with the
+  260px sidebar and the 240px Outline both shown, a post's prose falls under 60ch
+  below that width, so the sidebar hides and the tabs are the navigation.
+- **No horizontal page scroll at 390px.** Only code blocks and prose tables scroll
+  sideways; the breadcrumb stays one line and ellipsises its last crumb.
+- Heading convention drives prose styling: `##` is the lede (the `// thesis`
+  block) and `###` are sections, numbered 01, 02… by a CSS counter that the
+  contents list mirrors. The contents list shows h3/h4, never the lede.
+- Transitions sit behind `prefers-reduced-motion: no-preference` (in Svelte
+  utilities, `motion-safe:transition-colors`, never bare `transition-colors`).
 
 ---
 
@@ -183,8 +225,9 @@ Do not change without understanding fingerprinting behavior.
 
 ## Important Constraints
 
-- **Tests** — `vitest`, run with `npm test`. 119 tests over the tool libs, the TOC
-  helpers and the search filter. There is no component or visual test layer.
+- **Tests** — `vitest`, run with `npm test`. 138 tests over the tool libs, the TOC
+  helpers, the search filter, and the post/nav helpers (`src/lib/posts.ts`,
+  `src/lib/nav.ts`). There is no component or visual test layer.
 - **CI** — Forgejo Actions (`.forgejo/workflows/build.yml`) builds and publishes the
   container image on push to `main`. It does NOT run tests or check formatting, so
   both are on you before pushing.
