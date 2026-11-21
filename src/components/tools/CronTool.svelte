@@ -31,7 +31,7 @@
       bind:value={expression}
       placeholder="*/15 9-17 * * 1-5"
       spellcheck="false"
-      class="w-full border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
+      class="pane"
     />
   </div>
 
@@ -39,9 +39,7 @@
     <p class="font-mono text-xs text-faint">…</p>
   {:else if !result.ok}
     {#if expression.trim() !== ""}
-      <p aria-live="polite" class="font-mono text-xs text-fg">
-        {result.error}
-      </p>
+      <p aria-live="polite" class="tool-error">{result.error}</p>
     {:else}
       <p class="font-mono text-xs text-faint">
         type an expression to explain it
@@ -65,7 +63,7 @@
           <span class="text-fg">{timeZone}</span>
         </h2>
         <ol
-          class="flex flex-col divide-y divide-line border border-line bg-raised font-mono text-sm"
+          class="flex flex-col divide-y divide-line border border-line bg-raised font-mono text-[13px]"
         >
           {#each result.nextRuns as run, i (run.getTime())}
             <li class="flex items-baseline gap-3 px-3 py-2">

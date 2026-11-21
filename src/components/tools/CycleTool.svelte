@@ -168,8 +168,7 @@
       bind:value={text}
       rows="6"
       spellcheck="false"
-      class="w-full border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
-    ></textarea>
+      class="pane"></textarea>
     <div class="flex gap-2">
       <button onclick={save} class="tool-btn">save to this browser</button>
       <button onclick={clear} class="tool-btn text-muted">clear</button>
@@ -178,7 +177,7 @@
 
   <!-- Parse issues -->
   {#if mounted && parsed.issues.length}
-    <p class="font-mono text-xs text-fg">
+    <p aria-live="polite" class="tool-error">
       skipped {parsed.issues.length} unreadable line(s): {parsed.issues
         .map((i) => `L${i.line}`)
         .join(", ")}
@@ -235,7 +234,7 @@
             <p class="font-mono text-base font-bold text-fg">
               {Math.round(stats.mean)}d
             </p>
-            <p class="mt-0.5 font-mono text-[10px] leading-tight text-faint">
+            <p class="mt-0.5 font-mono text-xs leading-tight text-faint">
               mean cycle
             </p>
           </div>
@@ -243,7 +242,7 @@
             <p class="font-mono text-base font-bold text-fg">
               {stats.shortest}–{stats.longest}d
             </p>
-            <p class="mt-0.5 font-mono text-[10px] leading-tight text-faint">
+            <p class="mt-0.5 font-mono text-xs leading-tight text-faint">
               range
             </p>
           </div>
@@ -251,7 +250,7 @@
             <p class="font-mono text-base font-bold text-fg">
               {stats.cycleCount - flagged.length}/{stats.cycleCount}
             </p>
-            <p class="mt-0.5 font-mono text-[10px] leading-tight text-faint">
+            <p class="mt-0.5 font-mono text-xs leading-tight text-faint">
               clean cycles
             </p>
           </div>
@@ -324,7 +323,7 @@
                   days
                 </span>
                 <br />
-                <span class="text-faint text-[10px]">
+                <span class="text-faint text-xs">
                   cannot be pinned by calendar alone
                 </span>
               </span>
@@ -518,7 +517,7 @@
         </div>
 
         <!-- Disclaimer -->
-        <p class="font-mono text-[10px] text-faint leading-relaxed">
+        <p class="font-mono text-xs text-faint leading-relaxed">
           Calendar/Standard Days methods are ~95% (perfect use) / ~88% (typical
           use) effective for 26–32-day cycles. Not a contraceptive guarantee;
           ovulation cannot be pinned by calendar alone.
@@ -544,7 +543,7 @@
                   class="h-full bg-mark flex items-center justify-end pr-2"
                   style="width:{barW}%"
                 >
-                  <span class="font-mono text-[10px] text-fg">{count}×</span>
+                  <span class="font-mono text-xs text-fg">{count}×</span>
                 </div>
               </div>
               <span class="w-10 font-mono text-xs text-faint text-right">
@@ -564,7 +563,7 @@
             <div
               class="border border-line bg-raised px-4 py-2.5 flex items-center justify-between"
             >
-              <span class="font-mono text-[11px] text-faint">
+              <span class="font-mono text-xs text-faint">
                 {fmtS(c.from)} → {fmtS(c.to)}
               </span>
               <div class="flex items-center gap-2">
@@ -578,7 +577,7 @@
                   {c.days}d
                 </span>
                 {#if isAnomaly}
-                  <span class="font-mono text-[10px] text-fg">!</span>
+                  <span class="font-mono text-xs text-fg">!</span>
                 {/if}
               </div>
             </div>
@@ -605,7 +604,7 @@
 
   <!-- Footer disclaimer (always visible when there's data) -->
   {#if mounted && hasData}
-    <p class="font-mono text-center text-[10px] text-faint pb-4">
+    <p class="font-mono text-center text-xs text-faint pb-4">
       Ogino-Knaus calendar method · not a medical tool · data stays in this
       browser
     </p>

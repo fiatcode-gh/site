@@ -51,7 +51,7 @@
     <label for="re-pattern" class="font-mono text-xs text-faint">pattern</label>
     <!-- The box shows focus for the input inside it, like the search box. -->
     <div
-      class="flex items-center gap-0 border border-field bg-raised font-mono text-sm focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-fn"
+      class="pane flex items-center p-0 resize-none focus-within:outline-2 focus-within:-outline-offset-2 focus-within:outline-fn"
     >
       <span class="pl-3 text-faint" aria-hidden="true">/</span>
       <input
@@ -90,12 +90,11 @@
       bind:value={input}
       placeholder="paste text to test against…"
       spellcheck="false"
-      class="min-h-32 w-full resize-y border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
-    ></textarea>
+      class="pane min-h-32"></textarea>
   </div>
 
   {#if !result.ok}
-    <p aria-live="polite" class="font-mono text-xs text-fg">{result.error}</p>
+    <p aria-live="polite" class="tool-error">{result.error}</p>
   {:else if input !== ""}
     <div class="flex flex-col gap-2">
       <h2 class="font-mono text-xs text-faint">
@@ -104,7 +103,7 @@
           : ""}
       </h2>
       <pre
-        class="max-h-64 overflow-auto border border-line bg-raised p-3 font-mono text-sm whitespace-pre-wrap text-muted">{#each segs as seg, i (i)}{#if seg.hit}<mark
+        class="pane-out max-h-64 min-h-0 overflow-auto break-normal wrap-anywhere text-muted">{#each segs as seg, i (i)}{#if seg.hit}<mark
               class="bg-mark text-fg">{seg.text}</mark
             >{:else}{seg.text}{/if}{/each}</pre>
     </div>
@@ -112,19 +111,21 @@
     {#if result.matches.length > 0 && result.matches.some((m) => m.groups.length > 0 || m.named)}
       <div class="flex flex-col gap-2">
         <h2 class="font-mono text-xs text-faint">capture groups</h2>
+        <!-- Groups are separated by an explicit space, collapsed under
+             normal white-space, so `$1=me $2=home` never runs together. -->
         <ul
-          class="flex max-h-64 flex-col gap-1 overflow-auto border border-line bg-raised p-3 font-mono text-xs"
+          class="pane-out flex max-h-64 min-h-0 flex-col gap-1 overflow-auto break-normal wrap-anywhere whitespace-normal"
         >
           {#each result.matches.slice(0, 50) as m, i (i)}
             <li class="text-muted">
               <span class="text-faint">[{i}]</span>
               "{m.text}"
               {#each m.groups as g, gi (gi)}
-                <span class="text-faint">${gi + 1}=</span>{g ?? "∅"}
+                {" "}<span class="text-faint">${gi + 1}=</span>{g ?? "∅"}
               {/each}
               {#if m.named}
                 {#each Object.entries(m.named) as [name, value] (name)}
-                  <span class="text-fg">{name}=</span>{value ?? "∅"}
+                  {" "}<span class="text-fg">{name}=</span>{value ?? "∅"}
                 {/each}
               {/if}
             </li>
@@ -143,7 +144,7 @@
       bind:value={replacement}
       placeholder="[$1]"
       spellcheck="false"
-      class="w-full border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
+      class="pane"
     />
     {#if replaced}
       {#if replaced.ok}
@@ -152,11 +153,9 @@
           <CopyButton text={replaced.output} />
         </div>
         <pre
-          class="max-h-48 overflow-auto border border-line bg-raised p-3 font-mono text-sm whitespace-pre-wrap text-fg">{replaced.output}</pre>
+          class="pane-out max-h-48 min-h-0 overflow-auto break-normal wrap-anywhere">{replaced.output}</pre>
       {:else}
-        <p aria-live="polite" class="font-mono text-xs text-fg">
-          {replaced.error}
-        </p>
+        <p aria-live="polite" class="tool-error">{replaced.error}</p>
       {/if}
     {/if}
   </div>

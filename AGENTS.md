@@ -131,7 +131,8 @@ JavaScript.
   (`text-muted`, `bg-raised`, `border-line`) or as `var(--color-…)`:
   - surfaces: `surface` (page/buffer), `chrome` (title bar, Explorer, tab strips),
     `raised` (panes, inputs, code), `hover`, `select` (current item), `mark`
-    (find-match highlight: regex hits, `.hl`), `lede`, `quote`;
+    (highlighted data only: regex hits, `.hl`, the cycle tracker's period days
+    and bars — never a state or an action), `lede`, `quote`;
   - lines: `line`, `line-strong`, and `field` for form-control borders (the one
     line that must meet 3:1 against its surface, WCAG 1.4.11);
   - text: `fg`, `muted`, `faint`, and `gutter` (decorative only);
@@ -167,9 +168,10 @@ JavaScript.
   meta separators. The measured pairs are in the comments next to the tokens.
 - **Encode state by shape, position or weight — not hue.** The open tab, mode
   button and cycle-tracker tab get the surface background, a 2px `active` bar and
-  heavier weight; the current Explorer row and TOC item get a bar; tool errors get
-  a left bar and weight; the cycle tracker's day types differ by fill, ring weight
-  and underline.
+  heavier weight; the current Explorer row and TOC item get a bar; tool errors
+  use `.tool-error` (a left bar and weight, with `aria-live="polite"`), never
+  plain text; the cycle tracker's day types differ by fill, ring weight and
+  underline.
 - **Decorative generated text uses alt text**: write `content: "x"; content: "x" / "";`
   so screen readers skip it where supported (`// thesis`, section numbers, `#`
   before tags, `()` after tool names).

@@ -116,7 +116,7 @@
     ondrop={onDrop}
     class={`block cursor-pointer focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-fn border border-dashed p-10 text-center motion-safe:transition-colors ${
       dragging
-        ? "border-fg bg-mark"
+        ? "border-fn bg-select"
         : "border-line bg-raised hover:border-line-strong"
     }`}
   >
@@ -134,7 +134,7 @@
   </label>
 
   {#if error}
-    <p aria-live="polite" class="font-mono text-xs text-fg">{error}</p>
+    <p aria-live="polite" class="tool-error">{error}</p>
   {/if}
   {#if busy}
     <p class="font-mono text-xs text-faint">processing…</p>
@@ -147,7 +147,7 @@
       </h2>
       {#if fields.length > 0}
         <div class="max-h-64 overflow-auto border border-line">
-          <table class="w-full font-mono text-xs">
+          <table class="w-full font-mono text-[13px]">
             <tbody class="divide-y divide-line">
               {#each fields as field (field.name)}
                 <tr>
@@ -192,11 +192,7 @@
         </p>
       {/if}
       <div class="flex flex-wrap items-center gap-3">
-        <a
-          href={cleanedUrl}
-          download={cleanedName}
-          class="tool-btn inline-flex items-center border-fg bg-mark text-fg no-underline hover:bg-hover"
-        >
+        <a href={cleanedUrl} download={cleanedName} class="chip chip-primary">
           download {cleanedName}
         </a>
         <span class="font-mono text-xs text-faint">

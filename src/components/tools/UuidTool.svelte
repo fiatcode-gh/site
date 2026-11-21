@@ -70,14 +70,14 @@
   </div>
 
   {#if error}
-    <p aria-live="polite" class="font-mono text-xs text-fg">{error}</p>
+    <p aria-live="polite" class="tool-error">{error}</p>
   {/if}
 
   {#if ids.length > 0}
     <ul class="flex flex-col divide-y divide-line border border-line bg-raised">
       {#each ids as id (id)}
         <li class="flex items-center justify-between gap-3 px-3 py-2">
-          <code class="font-mono text-sm break-all text-fg">{id}</code>
+          <code class="font-mono text-[13px] break-all text-fg">{id}</code>
           <CopyButton text={id} />
         </li>
       {/each}

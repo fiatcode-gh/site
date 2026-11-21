@@ -54,8 +54,7 @@
         bind:value={input}
         placeholder={'paste JSON… e.g. {"a": 1}'}
         spellcheck="false"
-        class="min-h-64 w-full resize-y border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
-      ></textarea>
+        class="pane min-h-64"></textarea>
     </div>
     <div class="flex flex-col gap-2">
       <div class="flex min-h-8 items-center justify-between">
@@ -69,10 +68,10 @@
         readonly
         value={output}
         placeholder="valid JSON appears here…"
-        class="min-h-64 w-full resize-y border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
+        class="pane-out min-h-64 resize-y border-field break-normal wrap-anywhere"
       ></textarea>
       {#if !result.ok && input.trim() !== ""}
-        <p aria-live="polite" class="font-mono text-xs text-fg">
+        <p aria-live="polite" class="tool-error">
           {result.error}{result.line != null
             ? ` (line ${result.line}, column ${result.column})`
             : ""}
