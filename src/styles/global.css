@@ -45,6 +45,9 @@
   /* Lines */
   --color-line: #dde2e8;
   --color-line-strong: #c4ccd6;
+  /* Form-control borders: the one line that must meet the 3:1 non-text floor
+     (WCAG 1.4.11). 3.7 on surface, 3.5 on raised, 3.4 on chrome. */
+  --color-field: #7d8692;
 
   /* Text. Contrast on surface / chrome: fg 15.8 / 14.4, muted 7.6 / 6.9,
      faint 5.3 / 4.8. Faint is the floor for text — never put it on
@@ -84,6 +87,7 @@
       --color-quote: #1a2230;
       --color-line: #2a2e37;
       --color-line-strong: #3a404c;
+      --color-field: #6b7385;
       --color-fg: #d6dae1;
       --color-muted: #a3abb8;
       --color-faint: #8b94a4;
@@ -99,10 +103,27 @@
     }
   }
 
+  /* Heights of the pinned chrome (title bar 44px + rule, breadcrumb 36px) and
+     of the one-line status bar at the bottom. Only the wide workspace layout
+     pins them; below 1240px they scroll with the page and both are 0. The
+     Explorer, Outline rail and anchor jumps read these. */
+  :root {
+    --chrome-h: 0px;
+    --status-h: 0px;
+  }
+
+  @media (width >= 1240px) {
+    :root {
+      --chrome-h: 81px;
+      --status-h: 28px;
+    }
+  }
+
   html {
     color-scheme: light dark;
     -webkit-text-size-adjust: 100%;
-    scroll-padding-top: 24px;
+    scroll-padding-top: calc(var(--chrome-h) + 24px);
+    scroll-padding-bottom: var(--status-h);
   }
 
   @media (prefers-reduced-motion: no-preference) {
@@ -380,8 +401,11 @@
     opacity: 0.7;
   }
 
+  /* Hover by underline, not a darker tint: on a hovered post row (raised) an
+     18% tint dropped the green text to 4.3:1. */
   .tags a:hover {
-    background: color-mix(in srgb, var(--color-str) 18%, transparent);
+    text-decoration: underline;
+    text-underline-offset: 3px;
   }
 
   /* ── Tool list: function tokens ─────────────────────────── */
@@ -514,7 +538,7 @@
     box-sizing: border-box;
     width: 100%;
     padding: 12px;
-    border: 1px solid var(--color-line);
+    border: 1px solid var(--color-field);
     background: var(--color-raised);
     font: 400 0.8125rem/1.7 var(--font-mono);
     color: var(--color-fg);

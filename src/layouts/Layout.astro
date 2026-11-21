@@ -64,8 +64,10 @@ const hasOutline = Astro.slots.has("outline");
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <Header />
-    <Breadcrumb crumbs={crumbs} />
+    <div class="chrome">
+      <Header />
+      <Breadcrumb crumbs={crumbs} />
+    </div>
     <div class:list={["workbench", hasOutline && "workbench-outline"]}>
       <Explorer />
       <main id="main" class="editor">
@@ -95,6 +97,16 @@ const hasOutline = Astro.slots.has("outline");
 
   .skip:focus {
     top: 8px;
+  }
+
+  /* Title bar and breadcrumb stay put in the workspace layout, as an IDE's
+     do. Its height is --chrome-h in global.css. */
+  @media (width >= 1240px) {
+    .chrome {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
   }
 
   /* Explorer | editor | (outline). The Explorer column is the one width

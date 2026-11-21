@@ -49,7 +49,7 @@
       bind:value={token}
       placeholder="paste a JWT… (header.payload.signature)"
       spellcheck="false"
-      class="min-h-28 w-full resize-y border border-line bg-raised p-3 font-mono text-sm break-all text-fg placeholder:text-faint"
+      class="min-h-28 w-full resize-y border border-field bg-raised p-3 font-mono text-sm break-all text-fg placeholder:text-faint"
     ></textarea>
   </div>
 
@@ -66,7 +66,7 @@
       <p class="font-mono text-xs text-muted">exp is in the future</p>
     {/if}
 
-    <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+    <div class="grid grid-cols-1 gap-4 min-[900px]:grid-cols-2">
       <div class="flex flex-col gap-2">
         <div class="flex items-center justify-between">
           <h2 class="font-mono text-xs text-faint">header</h2>

@@ -48,6 +48,16 @@ const last = trail.length - 1;
     color: var(--color-muted);
   }
 
+  /* Solid and a fixed height while the chrome is pinned: the editor scrolls
+     under it, and --chrome-h in global.css must stay exact. */
+  @media (width >= 1240px) {
+    .crumbs {
+      box-sizing: border-box;
+      height: 36px;
+      background: var(--color-surface);
+    }
+  }
+
   .crumbs ol {
     display: flex;
     align-items: center;
