@@ -24,13 +24,8 @@ The site now looks like a modern code editor: tabs for the main nav, a file-path
 - `prettier-plugin-astro` stays on 0.14 and `prettier-plugin-svelte` on 4.1. Their next majors move text inside a tag onto its own line, which adds spaces to the built HTML (`<a>⏎go home⏎</a>`). Nothing catches this, the same class of bug that keeps `compressHTML: true`.
 - TypeScript stays on 6 until `@astrojs/svelte` accepts 7.
 - No `overscroll-behavior: contain` on the Explorer: Chromium applies it to a panel that does not overflow, so the mouse wheel did nothing over a short tree.
+- Tool outputs that are rows or tables (Cron's run list and description, UUID's id list, the Exif and JWT tables) keep their own utility styling on purpose: `.pane-out` is a single preformatted box and does not fit them. Text outputs use `.pane-out`; a read-only output that is still a form control (JSON's textarea) adds `border-field`.
 
 ## Open
 
-- The regex tool prints capture groups as `$1=me$2=home` with no separator. This predates the redesign.
-- Only the Base64 tool uses `.tool-error`; other tools show errors as plain text.
 - The Explorer adds about 16 KB of markup to every page and grows with each post. Fine at 22 posts; revisit if the archive grows a lot.
-- Six tools re-spell the input box with utilities instead of `.pane` / `.pane-out`, so they render at 14px where Base64 renders at 13px.
-- `mark` is documented as the find-match highlight but also marks the JWT "EXPIRED" box, the Exif drop and download states, and the cycle tool's period days.
-- The Expressive Code copy button is 32px below 620px and keeps EC's own 1px focus outline.
-- The cycle tool uses 10–11px labels.
