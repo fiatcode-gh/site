@@ -38,7 +38,7 @@
   --color-raised: #f6f8fa; /* panes, inputs, code */
   --color-hover: #eaeef3;
   --color-select: #dce9fa; /* current item */
-  --color-mark: #fde4b8; /* find-match highlight: regex hits, .hl */
+  --color-mark: #fde4b8; /* highlighted data only: regex hits, .hl, cycle period days and bars */
   --color-lede: #fdf4ee; /* the // thesis block */
   --color-quote: #eef5fd;
 
@@ -920,11 +920,29 @@
   }
 }
 
-/* Expressive Code animates its copy button and "Copied!" tooltip with no
-   reduced-motion query. Its CSS is unlayered, so this override is too, and
-   :root lifts it above EC's (0,2,1) selectors whatever the load order. */
+/* Expressive Code's CSS is unlayered, so these overrides are too, and :root
+   lifts them above EC's (0,2,1) selectors whatever the load order. */
+
+/* EC animates its copy button and "Copied!" tooltip with no reduced-motion
+   query. */
 @media (prefers-reduced-motion: reduce) {
   :root .expressive-code .copy * {
     transition-duration: 0s;
+  }
+}
+
+/* EC's `all: revert` reset hands the copy button the browser's thin focus
+   outline; give it the site's ring instead. */
+:root .expressive-code .copy button:focus-visible {
+  outline: 2px solid var(--color-fn);
+  outline-offset: 2px;
+}
+
+/* EC shrinks the copy button to 32px wherever a mouse is present; below
+   620px it keeps the site's 40px tap target either way. */
+@media (width < 620px) {
+  :root .expressive-code .copy button {
+    width: 2.5rem;
+    height: 2.5rem;
   }
 }

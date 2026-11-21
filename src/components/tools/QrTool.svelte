@@ -65,8 +65,7 @@
       bind:value={text}
       placeholder="https://…"
       spellcheck="false"
-      class="min-h-20 w-full resize-y border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
-    ></textarea>
+      class="pane min-h-20"></textarea>
   </div>
 
   <div class="flex flex-wrap items-center gap-4">
@@ -114,7 +113,7 @@
   {#if view === null}
     <p class="font-mono text-xs text-faint">type something to encode</p>
   {:else if view.error}
-    <p aria-live="polite" class="font-mono text-xs text-fg">{view.error}</p>
+    <p aria-live="polite" class="tool-error">{view.error}</p>
   {:else}
     <div class="flex flex-col items-start gap-4 min-[620px]:flex-row">
       <!--
