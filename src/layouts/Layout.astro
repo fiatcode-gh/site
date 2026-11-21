@@ -105,6 +105,15 @@ const hasOutline = Astro.slots.has("outline");
     flex: 1;
     display: grid;
     grid-template-columns: 260px minmax(0, 1fr);
+    /* The Explorer column's chrome and its 1px right rule. The Explorer
+       itself is sticky and only as tall as its tree, so the column paints
+       them instead. */
+    background: linear-gradient(
+      to right,
+      var(--color-chrome) 259px,
+      var(--color-line) 259px 260px,
+      transparent 260px
+    );
   }
 
   .workbench-outline {
@@ -123,6 +132,7 @@ const hasOutline = Astro.slots.has("outline");
   @media (width < 1240px) {
     .workbench {
       grid-template-columns: minmax(0, 1fr);
+      background: none;
     }
 
     .workbench-outline {

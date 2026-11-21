@@ -121,10 +121,20 @@ const current = (href: string) =>
 </nav>
 
 <style>
+  /* Pinned like an IDE side panel: it stays put while the editor scrolls and
+     scrolls on its own when the tree is taller than the viewport. The column's
+     background and right rule are painted by .workbench in Layout.astro, so
+     they still reach the footer when the tree is shorter than the page. */
   .explorer {
+    position: sticky;
+    top: 0;
+    align-self: start;
+    box-sizing: border-box;
+    max-height: 100dvh;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
     padding: 14px 0 40px;
-    border-right: 1px solid var(--color-line);
-    background: var(--color-chrome);
     font: 400 0.8125rem/1.5 var(--font-mono);
   }
 

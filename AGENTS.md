@@ -180,6 +180,10 @@ JavaScript.
   `max-[619px]:min-h-10`). The Explorer adds exactly one more, 1240px: with the
   260px sidebar and the 240px Outline both shown, a post's prose falls under 60ch
   below that width, so the sidebar hides and the tabs are the navigation.
+- **The Explorer is pinned, like an IDE side panel.** It is `position: sticky` at
+  the top with `max-height: 100dvh` and its own scroll, so the page scrolls under
+  it. Its chrome background and right rule are painted by `.workbench`, not by the
+  Explorer itself, because the sticky panel is only as tall as its tree.
 - **No horizontal page scroll at 390px.** Only code blocks and prose tables scroll
   sideways; the breadcrumb stays one line and ellipsises its last crumb.
 - Heading convention drives prose styling: `##` is the lede (the `// thesis`
