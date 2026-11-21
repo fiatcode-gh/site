@@ -29,7 +29,7 @@
     <fieldset class="flex items-center gap-4">
       <legend class="sr-only">Identifier type</legend>
       <label
-        class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+        class="flex items-center gap-1.5 font-mono text-xs text-muted max-[620px]:min-h-10"
       >
         <input
           type="radio"
@@ -41,7 +41,7 @@
         UUID v4
       </label>
       <label
-        class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+        class="flex items-center gap-1.5 font-mono text-xs text-muted max-[620px]:min-h-10"
       >
         <input
           type="radio"
@@ -54,7 +54,7 @@
       </label>
     </fieldset>
     <label
-      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[620px]:min-h-10"
     >
       count
       <input
@@ -62,7 +62,7 @@
         bind:value={count}
         min="1"
         max="1000"
-        class="w-20 border border-line bg-raised px-2 py-1 font-mono text-xs text-fg max-[619px]:min-h-10"
+        class="w-20 border border-field bg-raised px-2 py-1 font-mono text-xs text-fg max-[620px]:min-h-10"
       />
     </label>
     <button type="button" onclick={generate} class="tool-btn">generate</button>

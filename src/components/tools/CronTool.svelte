@@ -31,7 +31,7 @@
       bind:value={expression}
       placeholder="*/15 9-17 * * 1-5"
       spellcheck="false"
-      class="w-full border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
+      class="w-full border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
     />
   </div>
 

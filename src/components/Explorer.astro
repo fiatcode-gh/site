@@ -120,11 +120,46 @@ const current = (href: string) =>
   </details>
 </nav>
 
+{
+  /*
+    Reveal the current page's row, as an editor does for the open file. Inline,
+    so it runs right after the tree is parsed and before first paint: a bundled
+    module script is deferred and the panel would visibly jump. It moves the
+    panel's own scrollTop only; scrollIntoView() would scroll the page as well.
+    Below 1240px the panel is display:none, both rects are empty, nothing moves.
+  */
+}
+<script is:inline>
+  {
+    const tree = document.querySelector(".explorer");
+    const row = tree && tree.querySelector("[aria-current]");
+    if (row) {
+      const t = tree.getBoundingClientRect();
+      const r = row.getBoundingClientRect();
+      if (r.top < t.top || r.bottom > t.bottom) {
+        tree.scrollTop += r.top - t.top - (t.height - r.height) / 2;
+      }
+    }
+  }
+</script>
+
 <style>
+  /* Pinned like an IDE side panel, right under the pinned chrome: it stays put
+     while the editor scrolls and scrolls on its own when the tree is taller
+     than the space left. The column's background and right rule are painted
+     by .workbench in Layout.astro, so they still reach the footer when the
+     tree is shorter than the page. */
   .explorer {
+    position: sticky;
+    top: var(--chrome-h);
+    align-self: start;
+    box-sizing: border-box;
+    max-height: calc(100dvh - var(--chrome-h) - var(--status-h));
+    overflow-y: auto;
+    /* No overscroll-behavior: contain. Chromium applies it to a panel that
+       does not overflow too, which made the wheel dead over a short tree. */
+    scrollbar-width: thin;
     padding: 14px 0 40px;
-    border-right: 1px solid var(--color-line);
-    background: var(--color-chrome);
     font: 400 0.8125rem/1.5 var(--font-mono);
   }
 

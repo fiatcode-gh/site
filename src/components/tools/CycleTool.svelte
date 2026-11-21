@@ -168,7 +168,7 @@
       bind:value={text}
       rows="6"
       spellcheck="false"
-      class="w-full border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
+      class="w-full border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
     ></textarea>
     <div class="flex gap-2">
       <button onclick={save} class="tool-btn">save to this browser</button>
@@ -216,7 +216,7 @@
       {#each ["summary", "calendar", "safe dates", "cycles"] as const as t}
         <button
           onclick={() => (tab = t)}
-          class="flex-1 px-2 py-2 capitalize motion-safe:transition-colors max-[619px]:min-h-10 {tab ===
+          class="flex-1 px-2 py-2 capitalize motion-safe:transition-colors max-[620px]:min-h-10 {tab ===
           t
             ? 'bg-surface font-semibold text-fg shadow-[inset_0_2px_0_var(--color-active)]'
             : 'text-faint hover:text-fg'}"
@@ -278,10 +278,10 @@
         <div class="flex flex-col gap-1.5">
           {#if periodEnd}
             <div
-              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between min-[620px]:gap-2"
             >
               <span class="font-mono text-xs text-faint">period ends ~</span>
-              <span class="font-mono text-sm text-fg sm:text-right">
+              <span class="font-mono text-sm text-fg min-[620px]:text-right">
                 {fmtW(periodEnd)}
               </span>
             </div>
@@ -289,12 +289,12 @@
 
           {#if safe1Start && safe1End && safe1Days > 0}
             <div
-              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between min-[620px]:gap-2"
             >
               <span class="font-mono text-xs text-faint"
                 >safe zone 1 (post-period)</span
               >
-              <span class="font-mono text-sm text-fg sm:text-right">
+              <span class="font-mono text-sm text-fg min-[620px]:text-right">
                 {fmtS(safe1Start)} – {fmtS(safe1End)} ({safe1Days}d)
               </span>
             </div>
@@ -302,23 +302,23 @@
 
           {#if fertility}
             <div
-              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between min-[620px]:gap-2"
             >
               <span class="font-mono text-xs text-faint"
                 >fertile window opens (estimated · probabilistic)</span
               >
-              <span class="font-mono text-sm text-fg sm:text-right">
+              <span class="font-mono text-sm text-fg min-[620px]:text-right">
                 {fmtW(fertility.fertileStart)}
               </span>
             </div>
 
             <div
-              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between min-[620px]:gap-2"
             >
               <span class="font-mono text-xs text-faint"
                 >ovulation estimate</span
               >
-              <span class="font-mono text-sm sm:text-right">
+              <span class="font-mono text-sm min-[620px]:text-right">
                 <span class="text-fg">
                   ~{fmtS(fertility.ovulationEstimate)} ±{fertility.ovulationBandDays}
                   days
@@ -331,12 +331,12 @@
             </div>
 
             <div
-              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between min-[620px]:gap-2"
             >
               <span class="font-mono text-xs text-faint"
                 >fertile window closes (estimated · probabilistic)</span
               >
-              <span class="font-mono text-sm text-fg sm:text-right">
+              <span class="font-mono text-sm text-fg min-[620px]:text-right">
                 {fmtW(fertility.fertileEnd)}
               </span>
             </div>
@@ -344,12 +344,12 @@
 
           {#if safe2Start && safe2End && safe2Days > 0}
             <div
-              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between min-[620px]:gap-2"
             >
               <span class="font-mono text-xs text-faint"
                 >safe zone 2 (post-ovulation)</span
               >
-              <span class="font-mono text-sm text-fg sm:text-right">
+              <span class="font-mono text-sm text-fg min-[620px]:text-right">
                 {fmtS(safe2Start)} – {fmtS(safe2End)} ({safe2Days}d)
               </span>
             </div>
@@ -358,12 +358,12 @@
           <!-- SDM cross-check -->
           {#if sdm}
             <div
-              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 sm:flex-row sm:items-center sm:justify-between sm:gap-2"
+              class="flex flex-col gap-1 border border-line bg-raised px-4 py-3 min-[620px]:flex-row min-[620px]:items-center min-[620px]:justify-between min-[620px]:gap-2"
             >
               <span class="font-mono text-xs text-faint"
                 >Standard Days Method (days 8–19):</span
               >
-              <span class="font-mono text-xs text-muted sm:text-right">
+              <span class="font-mono text-xs text-muted min-[620px]:text-right">
                 {fmtS(sdm.start)} – {fmtS(sdm.end)}
               </span>
             </div>

@@ -83,7 +83,7 @@
   </button>
 </div>
 
-<div class="ruled band grid-cols-2 max-[619px]:grid-cols-1">
+<div class="ruled band grid-cols-2 max-[620px]:grid-cols-1">
   <div class="cell px-[26px] py-4">
     <div class="pane-head">
       <label for="b64-input">{mode === "encode" ? "Input" : "Base64"}</label>
@@ -114,6 +114,7 @@
   bind:this={fileInput}
   id="b64-file"
   type="file"
+  tabindex="-1"
   onchange={onFileChange}
   class="sr-only"
   aria-label="Encode a file as base64, processed locally"

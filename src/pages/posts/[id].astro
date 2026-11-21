@@ -225,9 +225,14 @@ const sourceUrl = `https://github.com/fiatcode-gh/site/blob/main/src/content/blo
     font-family: var(--font-mono);
   }
 
+  /* Capped to the space between the pinned bars (24px gap above and below),
+     so the last facts never sit under the status bar on short windows. */
   .post-rail-inner {
     position: sticky;
-    top: 24px;
+    top: calc(var(--chrome-h) + 24px);
+    max-height: calc(100dvh - var(--chrome-h) - var(--status-h) - 48px);
+    overflow-y: auto;
+    scrollbar-width: thin;
   }
 
   .post-rail-title {
