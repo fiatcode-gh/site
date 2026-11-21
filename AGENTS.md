@@ -132,7 +132,8 @@ JavaScript.
   - surfaces: `surface` (page/buffer), `chrome` (title bar, Explorer, tab strips),
     `raised` (panes, inputs, code), `hover`, `select` (current item), `mark`
     (find-match highlight: regex hits, `.hl`), `lede`, `quote`;
-  - lines: `line`, `line-strong`;
+  - lines: `line`, `line-strong`, and `field` for form-control borders (the one
+    line that must meet 3:1 against its surface, WCAG 1.4.11);
   - text: `fg`, `muted`, `faint`, and `gutter` (decorative only);
   - syntax: `fn`, `str`, `kw`, plus `active` (`fn` in light, `kw` in dark). The
     code-block `num` colour exists only as a literal in `ec.config.mjs`;
@@ -177,9 +178,26 @@ JavaScript.
   an edge, exactly one draws it.
 - **Breakpoints**: 900px (Outline rail → `<details>` contents list, editor padding)
   and 620px (stacked title bar, 40px tap targets — tool controls use `.tool-btn` or
-  `max-[619px]:min-h-10`). The Explorer adds exactly one more, 1240px: with the
-  260px sidebar and the 240px Outline both shown, a post's prose falls under 60ch
-  below that width, so the sidebar hides and the tabs are the navigation.
+  `max-[620px]:min-h-10`; `max-[620px]` is `width < 620px`, matching the media
+  queries, where `max-[619px]` would leave 619px out). The Explorer adds exactly
+  one more, 1240px: with the 260px sidebar and the 240px Outline both shown, a
+  post's prose falls under 60ch below that width, so the sidebar hides and the
+  tabs are the navigation.
+- **From 1240px the workspace is pinned, like an IDE.** The title bar and
+  breadcrumb (`.chrome` in `Layout.astro`) stick to the top, the Explorer sticks
+  under them with its own scroll, and the footer folds into one sticky status bar
+  at the bottom. Their heights are `--chrome-h` (81px) and `--status-h` (28px) in
+  `global.css`; both are 0 below 1240px. The Explorer's `top`/`max-height`, the
+  Outline rail's `top` and `scroll-padding` read them, so a change to the title
+  bar, the breadcrumb (fixed at 36px there) or the status bar must update them.
+  The Explorer's chrome background and right rule are painted by `.workbench`,
+  because the sticky panel is only as tall as its tree; an inline script scrolls
+  the panel (never the page) so the current page's row is in view on load.
+- **The footer has three layouts.** From 1240px: one status-bar line, the quote
+  ellipsised (full text in `title`), rss/github/mastodon icon-only. 620–1239px:
+  the two-row panel and status bar with text labels. Below 620px: the quote first,
+  then one row of 44px icon links and `© year fiatcode`; the status segments are
+  hidden. Icon-only link text stays in the DOM as `sr-only`, never removed.
 - **No horizontal page scroll at 390px.** Only code blocks and prose tables scroll
   sideways; the breadcrumb stays one line and ellipsises its last crumb.
 - Heading convention drives prose styling: `##` is the lede (the `// thesis`
@@ -228,9 +246,9 @@ Do not change without understanding fingerprinting behavior.
 - **Tests** — `vitest`, run with `npm test`. 138 tests over the tool libs, the TOC
   helpers, the search filter, and the post/nav helpers (`src/lib/posts.ts`,
   `src/lib/nav.ts`). There is no component or visual test layer.
-- **CI** — Forgejo Actions (`.forgejo/workflows/build.yml`) builds and publishes the
-  container image on push to `main`. It does NOT run tests or check formatting, so
-  both are on you before pushing.
+- **CI** — GitHub Actions (`.github/workflows/build.yml`) builds the image on every
+  pull request and publishes it to `ghcr.io/fiatcode-gh/site` on push to `main`. It
+  does NOT run tests or check formatting, so both are on you before pushing.
 - **No ESLint** — only Prettier for formatting.
 - **Single package** — not a monorepo; all code lives under `src/`.
 - **Node version** — Docker uses Node 24; local dev should match (nvm recommended).
@@ -256,7 +274,8 @@ Edit the "Current Vocabulary" table and "Per-Post Tags" matrix in this file. Kee
 
 - Site URL: `astro.config.mjs` → `site` field
 - Title/description per-page: in the page/layout component frontmatter
-- Favicon/manifest: replace files in `public/`
+- Favicon/manifest: regenerate the icon set with `scripts/mkfav.py` (command in
+  its docstring); the title-bar logo is `public/favicon.svg` itself
 
 ### Modify Tailwind theme
 
@@ -277,7 +296,7 @@ Edit `src/styles/global.css` — `@theme` block and `@layer base` utilities.
 
 ## References
 
-- `astro.config.mjs` — integrations (sitemap, pagefind, expressive-code)
+- `astro.config.mjs` — integrations (expressive-code, sitemap, svelte)
 - `src/content.config.ts` — content collection schema and loader
 - `sws.config.toml` — production server and cache headers
 - `compose.yml` — Docker Compose production service

@@ -15,7 +15,7 @@
 <div class="flex flex-col gap-5">
   <div class="flex flex-wrap items-center gap-4">
     <label
-      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[620px]:min-h-10"
     >
       <input
         type="checkbox"
@@ -25,14 +25,14 @@
       minify
     </label>
     <label
-      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[620px]:min-h-10"
       class:opacity-40={minified}
     >
       indent
       <select
         bind:value={indent}
         disabled={minified}
-        class="border border-line bg-raised px-2 py-1 font-mono text-xs text-muted max-[619px]:min-h-10"
+        class="border border-field bg-raised px-2 py-1 font-mono text-xs text-muted max-[620px]:min-h-10"
       >
         <option value={2}>2</option>
         <option value={4}>4</option>
@@ -41,7 +41,7 @@
     </label>
   </div>
 
-  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+  <div class="grid grid-cols-1 gap-4 min-[900px]:grid-cols-2">
     <div class="flex flex-col gap-2">
       <!-- min-h-8 matches the output header (CopyButton height) so both textareas align -->
       <div class="flex min-h-8 items-center">
@@ -54,7 +54,7 @@
         bind:value={input}
         placeholder={'paste JSON… e.g. {"a": 1}'}
         spellcheck="false"
-        class="min-h-64 w-full resize-y border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
+        class="min-h-64 w-full resize-y border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
       ></textarea>
     </div>
     <div class="flex flex-col gap-2">
@@ -69,7 +69,7 @@
         readonly
         value={output}
         placeholder="valid JSON appears here…"
-        class="min-h-64 w-full resize-y border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
+        class="min-h-64 w-full resize-y border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
       ></textarea>
       {#if !result.ok && input.trim() !== ""}
         <p aria-live="polite" class="font-mono text-xs text-fg">

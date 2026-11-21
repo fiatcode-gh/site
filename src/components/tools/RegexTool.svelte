@@ -51,7 +51,7 @@
     <label for="re-pattern" class="font-mono text-xs text-faint">pattern</label>
     <!-- The box shows focus for the input inside it, like the search box. -->
     <div
-      class="flex items-center gap-0 border border-line bg-raised font-mono text-sm focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-fn"
+      class="flex items-center gap-0 border border-field bg-raised font-mono text-sm focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-fn"
     >
       <span class="pl-3 text-faint" aria-hidden="true">/</span>
       <input
@@ -69,7 +69,7 @@
     <legend class="sr-only">Flags</legend>
     {#each Object.keys(flags) as flag (flag)}
       <label
-        class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+        class="flex items-center gap-1.5 font-mono text-xs text-muted max-[620px]:min-h-10"
       >
         <input
           type="checkbox"
@@ -90,7 +90,7 @@
       bind:value={input}
       placeholder="paste text to test against…"
       spellcheck="false"
-      class="min-h-32 w-full resize-y border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
+      class="min-h-32 w-full resize-y border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
     ></textarea>
   </div>
 
@@ -143,7 +143,7 @@
       bind:value={replacement}
       placeholder="[$1]"
       spellcheck="false"
-      class="w-full border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
+      class="w-full border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
     />
     {#if replaced}
       {#if replaced.ok}

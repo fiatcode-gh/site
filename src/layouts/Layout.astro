@@ -64,8 +64,10 @@ const hasOutline = Astro.slots.has("outline");
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
-    <Header />
-    <Breadcrumb crumbs={crumbs} />
+    <div class="chrome">
+      <Header />
+      <Breadcrumb crumbs={crumbs} />
+    </div>
     <div class:list={["workbench", hasOutline && "workbench-outline"]}>
       <Explorer />
       <main id="main" class="editor">
@@ -97,6 +99,16 @@ const hasOutline = Astro.slots.has("outline");
     top: 8px;
   }
 
+  /* Title bar and breadcrumb stay put in the workspace layout, as an IDE's
+     do. Its height is --chrome-h in global.css. */
+  @media (width >= 1240px) {
+    .chrome {
+      position: sticky;
+      top: 0;
+      z-index: 5;
+    }
+  }
+
   /* Explorer | editor | (outline). The Explorer column is the one width
      outside the 900/620 pair: with the 260px sidebar and the 240px Outline
      both shown, a post's prose falls under the 60ch floor below 1240px, so
@@ -105,6 +117,15 @@ const hasOutline = Astro.slots.has("outline");
     flex: 1;
     display: grid;
     grid-template-columns: 260px minmax(0, 1fr);
+    /* The Explorer column's chrome and its 1px right rule. The Explorer
+       itself is sticky and only as tall as its tree, so the column paints
+       them instead. */
+    background: linear-gradient(
+      to right,
+      var(--color-chrome) 259px,
+      var(--color-line) 259px 260px,
+      transparent 260px
+    );
   }
 
   .workbench-outline {
@@ -123,6 +144,7 @@ const hasOutline = Astro.slots.has("outline");
   @media (width < 1240px) {
     .workbench {
       grid-template-columns: minmax(0, 1fr);
+      background: none;
     }
 
     .workbench-outline {

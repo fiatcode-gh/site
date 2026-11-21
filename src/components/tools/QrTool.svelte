@@ -65,18 +65,18 @@
       bind:value={text}
       placeholder="https://…"
       spellcheck="false"
-      class="min-h-20 w-full resize-y border border-line bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
+      class="min-h-20 w-full resize-y border border-field bg-raised p-3 font-mono text-sm text-fg placeholder:text-faint"
     ></textarea>
   </div>
 
   <div class="flex flex-wrap items-center gap-4">
     <label
-      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[620px]:min-h-10"
     >
       error correction
       <select
         bind:value={ecc}
-        class="border border-line bg-raised px-2 py-1 font-mono text-xs text-muted max-[619px]:min-h-10"
+        class="border border-field bg-raised px-2 py-1 font-mono text-xs text-muted max-[620px]:min-h-10"
       >
         <option value="L">L (7%)</option>
         <option value="M">M (15%)</option>
@@ -85,7 +85,7 @@
       </select>
     </label>
     <label
-      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[620px]:min-h-10"
     >
       margin
       <input
@@ -93,11 +93,11 @@
         bind:value={border}
         min="0"
         max="10"
-        class="w-16 border border-line bg-raised px-2 py-1 font-mono text-xs text-fg max-[619px]:min-h-10"
+        class="w-16 border border-field bg-raised px-2 py-1 font-mono text-xs text-fg max-[620px]:min-h-10"
       />
     </label>
     <label
-      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[619px]:min-h-10"
+      class="flex items-center gap-1.5 font-mono text-xs text-muted max-[620px]:min-h-10"
     >
       PNG scale
       <input
@@ -105,7 +105,7 @@
         bind:value={scale}
         min="4"
         max="40"
-        class="w-16 border border-line bg-raised px-2 py-1 font-mono text-xs text-fg max-[619px]:min-h-10"
+        class="w-16 border border-field bg-raised px-2 py-1 font-mono text-xs text-fg max-[620px]:min-h-10"
       />
       <span class="text-faint">px/module</span>
     </label>
@@ -116,7 +116,7 @@
   {:else if view.error}
     <p aria-live="polite" class="font-mono text-xs text-fg">{view.error}</p>
   {:else}
-    <div class="flex flex-col items-start gap-4 sm:flex-row">
+    <div class="flex flex-col items-start gap-4 min-[620px]:flex-row">
       <!--
         Stays pure white rather than the page surface, in both themes: the
         quiet zone around a QR code is what scanners key on, so it wants

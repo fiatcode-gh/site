@@ -114,7 +114,7 @@
     }}
     ondragleave={() => (dragging = false)}
     ondrop={onDrop}
-    class={`block cursor-pointer border border-dashed p-10 text-center motion-safe:transition-colors ${
+    class={`block cursor-pointer focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-fn border border-dashed p-10 text-center motion-safe:transition-colors ${
       dragging
         ? "border-fg bg-mark"
         : "border-line bg-raised hover:border-line-strong"
@@ -172,7 +172,7 @@
     <div class="flex flex-col gap-3 border-t border-line pt-5">
       {#if lossy}
         <label
-          class="flex items-center gap-3 font-mono text-xs text-muted max-[619px]:min-h-10"
+          class="flex items-center gap-3 font-mono text-xs text-muted max-[620px]:min-h-10"
         >
           quality
           <input
