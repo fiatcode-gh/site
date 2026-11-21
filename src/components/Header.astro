@@ -21,7 +21,7 @@ const current = sectionOf(path);
     aria-label="fiatcode.dev, home"
     aria-current={path === "/" ? "page" : undefined}
   >
-    <span class="logo-mark" aria-hidden="true">f</span>
+    <img class="logo-mark" src="/favicon.svg" alt="" width="20" height="20" />
     <span aria-hidden="true">fiatcode<span class="tld">.dev</span></span>
   </a>
   <nav aria-label="Main">
@@ -88,17 +88,12 @@ const current = sectionOf(path);
     text-decoration: none;
   }
 
+  /* The favicon itself, so the logo and the tab icon cannot drift.
+     Regenerate both with .flow/assets/fiatcode-favicon/candidates/mkfav.py. */
   .logo-mark {
-    display: grid;
-    place-items: center;
-    width: 18px;
-    height: 18px;
-    border-radius: 5px;
-    background: var(--color-fn);
-    font-size: 0.6875rem;
-    font-weight: 700;
-    line-height: 1;
-    color: var(--color-surface);
+    flex: none;
+    width: 20px;
+    height: 20px;
   }
 
   .tld {

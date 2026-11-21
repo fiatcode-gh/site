@@ -274,7 +274,8 @@ Edit the "Current Vocabulary" table and "Per-Post Tags" matrix in this file. Kee
 
 - Site URL: `astro.config.mjs` → `site` field
 - Title/description per-page: in the page/layout component frontmatter
-- Favicon/manifest: replace files in `public/`
+- Favicon/manifest: regenerate the icon set with `scripts/mkfav.py` (command in
+  its docstring); the title-bar logo is `public/favicon.svg` itself
 
 ### Modify Tailwind theme
 

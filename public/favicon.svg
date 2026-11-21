@@ -1,8 +1,4 @@
-<!-- The nav's active cell at tab scale: accent field, ink glyph.
-     Lowercase "f" from IBM Plex Mono 700, the face of the logo cell, embedded
-     as an outline so the file carries no font dependency. Instrument Serif was
-     tried and rejected: its stem mushes at 16px. -->
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-<rect width="64" height="64" fill="#f2e309"/>
-<path fill="#000" transform="translate(15.324 52.000) scale(0.054054 -0.054054)" d="M71 115H223V401H61V516H223V591Q223 657 261.5 698.5Q300 740 381 740H556V625H371V516H556V401H371V115H533V0H71Z"/>
-</svg>
+<!-- An editor tile: lowercase f in JetBrains Mono 700, in the link blue,
+     followed by an amber block cursor. Dark theme colours in both
+     themes. Also the title bar logo. Glyph embedded as an outline. -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64"><rect width="64" height="64" rx="17.78" fill="#17191e"/><rect x="1.5" y="1.5" width="61" height="61" rx="16.28" fill="none" stroke="#3a404c" stroke-width="3"/><path fill="#74b6ff" transform="translate(8.699 52.000) scale(0.054795 -0.054795)" d="M205 0V376H54V489H205V572Q205 644 253.0 687.0Q301 730 380 730H541V620H383Q359 620 344.5 606.5Q330 593 330 570V489H541V376H330V0Z"/><rect x="42.342" y="40.000" width="10" height="12" fill="#f2a55e"/></svg>
