@@ -1,0 +1,95 @@
+---
+import PageHeader from "@/components/PageHeader.astro";
+import Figure from "@/components/tools/workout/Figure.svelte";
+import TodaySpecimen from "@/components/tools/workout/TodaySpecimen.svelte";
+import { rangeText } from "@/components/tools/workout/text";
+import Layout from "@/layouts/Layout.astro";
+import { movementsFor } from "@/lib/tools/workout/library/library";
+import { PATTERN_LABELS, PATTERNS } from "@/lib/tools/workout/library/patterns";
+
+// Unlisted review sheet: absent from the registry, noindex, and dropped from
+// the sitemap in astro.config, the way /tools/cycle is hidden.
+---
+
+<Layout
+  title="Workout illustrations | fiatcode"
+  description="Review sheet for the Workout tool's 87 illustrations."
+  noindex={true}
+>
+  <PageHeader
+    title="Workout illustrations"
+    comment="tools/workout/gallery"
+    lead="Every variation at 220 px and at 96 px. This page is not linked from the tool."
+  />
+  <section
+    data-wk="illustrations"
+    aria-label="Illustrations"
+    class="flex flex-col gap-10"
+  >
+    {
+      PATTERNS.map((pattern) => (
+        <div data-wk={`pattern-${pattern}`} class="flex flex-col gap-6">
+          <h2 class="text-2xl font-semibold text-fg">
+            {PATTERN_LABELS[pattern]}
+          </h2>
+          {movementsFor(pattern).map((movement) => (
+            <div class="flex flex-col gap-3">
+              <h3 id={movement.id} class="text-lg font-semibold text-fg">
+                {movement.name}
+              </h3>
+              <ol class="grid gap-3 min-[900px]:grid-cols-2">
+                {movement.variations.map((variation, index) => (
+                  <li class="flex flex-col gap-2 border border-line bg-raised p-3">
+                    <div class="flex flex-wrap items-end gap-3">
+                      <div class="w-[220px]">
+                        <Figure variationId={variation.id} size="large" />
+                      </div>
+                      <Figure variationId={variation.id} size="thumb" />
+                    </div>
+                    <p class="font-semibold text-fg">
+                      {index + 1}. {variation.name}
+                    </p>
+                    <p class="font-mono text-xs text-muted">
+                      {rangeText(variation)}
+                    </p>
+                    <p class="text-sm text-muted">{variation.cue}</p>
+                  </li>
+                ))}
+              </ol>
+            </div>
+          ))}
+        </div>
+      ))
+    }
+  </section>
+  <section
+    data-wk="states"
+    aria-labelledby="wk-states"
+    class="mt-16 flex flex-col gap-6"
+  >
+    <h2 id="wk-states" class="text-2xl font-semibold text-fg">States</h2>
+    <p class="text-muted">
+      Specimens: the tool's Today screen rendered for fixed dates. Not the live
+      tool; nothing here is interactive.
+    </p>
+    {
+      [
+        {
+          title: "Recovery day (Sunday 22 November 2026)",
+          dateKey: "2026-11-22",
+        },
+        {
+          title: "Training day (Monday 23 November 2026)",
+          dateKey: "2026-11-23",
+        },
+      ].map(({ title, dateKey }) => (
+        <div class="flex flex-col gap-3">
+          <h3 class="text-lg font-semibold text-fg">{title}</h3>
+          <div inert class="border border-line p-6 max-[620px]:p-[18px]">
+            <TodaySpecimen dateKey={dateKey} />
+          </div>
+        </div>
+      ))
+    }
+  </section>
+</Layout>

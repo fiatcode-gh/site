@@ -61,4 +61,11 @@ export const tools: ToolEntry[] = [
     description: "Create QR codes from text or URLs, download as SVG or PNG.",
     short: "From text or URLs, SVG or PNG.",
   },
+  {
+    slug: "workout",
+    name: "Workout",
+    description:
+      "A full-body bodyweight session planned for you every day. No equipment, no account.",
+    short: "Daily bodyweight plan, no equipment.",
+  },
 ];

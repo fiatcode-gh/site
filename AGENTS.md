@@ -132,7 +132,8 @@ JavaScript.
   - surfaces: `surface` (page/buffer), `chrome` (title bar, Explorer, tab strips),
     `raised` (panes, inputs, code), `hover`, `select` (current item), `mark`
     (highlighted data only: regex hits, `.hl`, the cycle tracker's period days
-    and bars — never a state or an action), `lede`, `quote`;
+    and bars, the workout week strip's trained days — never a state or an
+    action), `lede`, `quote`;
   - lines: `line`, `line-strong`, and `field` for form-control borders (the one
     line that must meet 3:1 against its surface, WCAG 1.4.11);
   - text: `fg`, `muted`, `faint`, and `gutter` (decorative only);
@@ -157,7 +158,9 @@ JavaScript.
   name. `str` (green) is data: tags, the "runs locally" dot, YAML values. `kw`
   (amber) marks structure: section numbers, the `// thesis` label, list markers,
   YAML keys, the search prompt, the `ƒ` glyph, the tool-error bar. The `active`
-  bar is `fn` in light and `kw` in dark. Pick by meaning, and do not add a fourth.
+  bar is `fn` in light and `kw` in dark. The workout tool adds two uses: `kw`
+  draws the figures' motion marks and `fn` fills the session progress bar. Pick
+  by meaning, and do not add a fourth.
 - **Never name a component class after a Tailwind utility.** Tailwind scans
   `class=` attributes and emits the utility for any matching name, so a
   `class="outline"` rail picked up `outline-style`/`outline-width` and drew a
@@ -179,7 +182,8 @@ JavaScript.
   `--color-line` background, so cells carry no border. When two neighbours share
   an edge, exactly one draws it.
 - **Breakpoints**: 900px (Outline rail → `<details>` contents list, editor padding)
-  and 620px (stacked title bar, 40px tap targets — tool controls use `.tool-btn` or
+  and 620px (stacked title bar, 40px tap targets — tool controls use `.tool-btn`
+  (`.tool-btn-primary` for a screen's one lead action) or
   `max-[620px]:min-h-10`; `max-[620px]` is `width < 620px`, matching the media
   queries, where `max-[619px]` would leave 619px out). The Explorer adds exactly
   one more, 1240px: with the 260px sidebar and the 240px Outline both shown, a
@@ -245,9 +249,18 @@ Do not change without understanding fingerprinting behavior.
 
 ## Important Constraints
 
-- **Tests** — `vitest`, run with `npm test`. 138 tests over the tool libs, the TOC
+- **Tests** — `vitest`, run with `npm test`. 545 tests over the tool libs, the TOC
   helpers, the search filter, and the post/nav helpers (`src/lib/posts.ts`,
-  `src/lib/nav.ts`). There is no component or visual test layer.
+  `src/lib/nav.ts`). Each module of `src/lib/tools/workout/` has a test at the
+  same path under `tests/lib/workout/`, except `types.ts`, `core/version.ts`,
+  `core/reasons.ts`, `library/patterns.ts` and the data files under
+  `library/movements/` and `library/poses/`. Three test files have no module:
+  `app/journey`, `architecture` and `contrast`; `support/simulate.ts` and
+  `fixtures/` are helpers. There is no component or visual test layer.
+- **Workout tool** — stores everything under one `localStorage` key,
+  `fiatcode.workout.state`. Its illustration review sheet `/tools/workout/gallery/`
+  is unlisted and dropped from the sitemap by the filter in `astro.config.mjs`.
+  The session player keeps 48px controls on purpose, above the site's 40px minimum.
 - **CI** — GitHub Actions (`.github/workflows/build.yml`) builds the image on every
   pull request and publishes it to `ghcr.io/fiatcode-gh/site` on push to `main`. It
   does NOT run tests or check formatting, so both are on you before pushing.

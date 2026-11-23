@@ -38,7 +38,7 @@
   --color-raised: #f6f8fa; /* panes, inputs, code */
   --color-hover: #eaeef3;
   --color-select: #dce9fa; /* current item */
-  --color-mark: #fde4b8; /* highlighted data only: regex hits, .hl, cycle period days and bars */
+  --color-mark: #fde4b8; /* highlighted data only: regex hits, .hl, cycle period days and bars, workout trained days */
   --color-lede: #fdf4ee; /* the // thesis block */
   --color-quote: #eef5fd;
 
@@ -495,7 +495,8 @@
     background: var(--color-hover);
   }
 
-  /* The lead action: filled, the one place --fn is a background. */
+  /* The lead action: filled, one of the two places --fn is a background
+     (the other is .tool-btn-primary). */
   .chip-primary {
     border-color: var(--color-fn);
     background: var(--color-fn);
@@ -646,6 +647,26 @@
 
   .tool-btn:disabled:hover {
     background: var(--color-surface);
+  }
+
+  /* The lead action of a tool screen, filled like .chip-primary. */
+  .tool-btn-primary {
+    border-color: var(--color-fn);
+    background: var(--color-fn);
+    color: var(--color-surface);
+  }
+
+  .tool-btn-primary:hover {
+    background: var(--color-fn);
+    text-decoration: underline;
+  }
+
+  .tool-btn-primary:disabled,
+  .tool-btn-primary:disabled:hover {
+    border-color: var(--color-line);
+    background: var(--color-surface);
+    color: var(--color-faint);
+    text-decoration: none;
   }
 
   @media (prefers-reduced-motion: no-preference) {

@@ -1,0 +1,3232 @@
+{
+  "format": "sweat-seeker-backup",
+  "schemaVersion": 1,
+  "appVersion": "1.0.0",
+  "exportedAt": "2026-11-21T03:00:00.000Z",
+  "data": {
+    "schemaVersion": 1,
+    "onboarded": true,
+    "settings": {
+      "timeCapMinutes": 40,
+      "muted": false
+    },
+    "progress": {
+      "push-up": {
+        "level": 0,
+        "sets": 3,
+        "target": 12,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "overhead-push": {
+        "level": 0,
+        "sets": 3,
+        "target": 30,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "triceps-press": {
+        "level": 0,
+        "sets": 3,
+        "target": 12,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "squat": {
+        "level": 2,
+        "sets": 3,
+        "target": 14,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "lunge": {
+        "level": 2,
+        "sets": 3,
+        "target": 12,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "wall-sit": {
+        "level": 1,
+        "sets": 3,
+        "target": 35,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "plank": {
+        "level": 2,
+        "sets": 3,
+        "target": 30,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "leg-raise": {
+        "level": 2,
+        "sets": 3,
+        "target": 14,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "side-plank": {
+        "level": 1,
+        "sets": 3,
+        "target": 25,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "back-extension": {
+        "level": 1,
+        "sets": 3,
+        "target": 14,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "hip-bridge": {
+        "level": 0,
+        "sets": 3,
+        "target": 20,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "back-bridge": {
+        "level": 0,
+        "sets": 3,
+        "target": 45,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "burpee": {
+        "level": 2,
+        "sets": 3,
+        "target": 12,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "jumps": {
+        "level": 2,
+        "sets": 3,
+        "target": 24,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      },
+      "mountain-climber": {
+        "level": 2,
+        "sets": 3,
+        "target": 30,
+        "topStreak": 0,
+        "lowStreak": 0,
+        "tooHard": [
+          0,
+          0
+        ],
+        "cooldown": {
+          "harder": 0,
+          "easier": 0
+        },
+        "suggestion": null
+      }
+    },
+    "history": [
+      {
+        "id": "2026-11-07T1794074400000",
+        "date": "2026-11-07",
+        "dayType": "training",
+        "startedAt": 1794074400000,
+        "endedAt": 1794074534000,
+        "exercises": [
+          {
+            "movementId": "overhead-push",
+            "movementName": "Overhead push",
+            "variationId": "pike-hold",
+            "variationName": "Pike hold",
+            "pattern": "push",
+            "level": 0,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 15,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "wall-sit",
+            "movementName": "Wall sit",
+            "variationId": "wall-sit",
+            "variationName": "Wall sit",
+            "pattern": "legs",
+            "level": 1,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 20,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "leg-raise",
+            "movementName": "Leg raise",
+            "variationId": "lying-leg-raise",
+            "variationName": "Lying leg raise",
+            "pattern": "core",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 6,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "hip-bridge",
+            "movementName": "Hip bridge",
+            "variationId": "glute-bridge",
+            "variationName": "Glute bridge",
+            "pattern": "back",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 15,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "jumps",
+            "movementName": "Jumps",
+            "variationId": "squat-jack",
+            "variationName": "Squat jack",
+            "pattern": "conditioning",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 12,
+            "restSeconds": 60
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-07",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": [
+          {
+            "movementId": "overhead-push",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Pike hold: you hit every set, so next time is 3 × 20 s."
+          },
+          {
+            "movementId": "wall-sit",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Wall sit: you hit every set, so next time is 3 × 25 s."
+          },
+          {
+            "movementId": "leg-raise",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Lying leg raise: you hit every set, so next time is 3 × 8 reps."
+          },
+          {
+            "movementId": "hip-bridge",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Glute bridge: you hit every set, so next time is 3 × 17 reps."
+          },
+          {
+            "movementId": "jumps",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Squat jack: you hit every set, so next time is 3 × 15 reps."
+          }
+        ]
+      },
+      {
+        "id": "2026-11-08T1794160800000",
+        "date": "2026-11-08",
+        "dayType": "recovery",
+        "startedAt": 1794160800000,
+        "endedAt": 1794160859000,
+        "exercises": [
+          {
+            "movementId": "triceps-press",
+            "movementName": "Triceps press",
+            "variationId": "cobra-press",
+            "variationName": "Cobra press",
+            "pattern": "push",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 5,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "lunge",
+            "movementName": "Lunge",
+            "variationId": "reverse-lunge",
+            "variationName": "Reverse lunge",
+            "pattern": "legs",
+            "level": 2,
+            "type": "reps",
+            "perSide": true,
+            "plannedSets": 2,
+            "target": 4,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "side-plank",
+            "movementName": "Side plank",
+            "variationId": "side-plank",
+            "variationName": "Side plank",
+            "pattern": "core",
+            "level": 1,
+            "type": "hold",
+            "perSide": true,
+            "plannedSets": 2,
+            "target": 10,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "back-extension",
+            "movementName": "Back extension",
+            "variationId": "prone-chest-lift",
+            "variationName": "Prone chest lift",
+            "pattern": "back",
+            "level": 1,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 7,
+            "restSeconds": 45
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 5,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 5,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": "left",
+            "status": "logged",
+            "value": 4,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": "right",
+            "status": "logged",
+            "value": 4,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": "left",
+            "status": "logged",
+            "value": 4,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": "right",
+            "status": "logged",
+            "value": 4,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": "left",
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": "right",
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": "left",
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": "right",
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 7,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 7,
+            "loggedOn": "2026-11-08",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": []
+      },
+      {
+        "id": "2026-11-09T1794247200000",
+        "date": "2026-11-09",
+        "dayType": "training",
+        "startedAt": 1794247200000,
+        "endedAt": 1794247364000,
+        "exercises": [
+          {
+            "movementId": "push-up",
+            "movementName": "Push-up",
+            "variationId": "wall-push-up",
+            "variationName": "Wall push-up",
+            "pattern": "push",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 8,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "squat",
+            "movementName": "Squat",
+            "variationId": "close-squat",
+            "variationName": "Close squat",
+            "pattern": "legs",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 8,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "plank",
+            "movementName": "Plank",
+            "variationId": "long-lever-plank",
+            "variationName": "Long-lever plank",
+            "pattern": "core",
+            "level": 2,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 15,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "back-bridge",
+            "movementName": "Back bridge",
+            "variationId": "tabletop-hold",
+            "variationName": "Tabletop hold",
+            "pattern": "back",
+            "level": 0,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 30,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "mountain-climber",
+            "movementName": "Mountain climber",
+            "variationId": "mountain-climber",
+            "variationName": "Mountain climber",
+            "pattern": "conditioning",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 20,
+            "restSeconds": 60
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 30,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 30,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 30,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-09",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": [
+          {
+            "movementId": "push-up",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Wall push-up: you hit every set, so next time is 3 × 10 reps."
+          },
+          {
+            "movementId": "squat",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Close squat: you hit every set, so next time is 3 × 10 reps."
+          },
+          {
+            "movementId": "plank",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Long-lever plank: you hit every set, so next time is 3 × 20 s."
+          },
+          {
+            "movementId": "back-bridge",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Tabletop hold: you hit every set, so next time is 3 × 35 s."
+          },
+          {
+            "movementId": "mountain-climber",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Mountain climber: you hit every set, so next time is 3 × 25 reps."
+          }
+        ]
+      },
+      {
+        "id": "2026-11-10T1794333600000",
+        "date": "2026-11-10",
+        "dayType": "training",
+        "startedAt": 1794333600000,
+        "endedAt": 1794333725000,
+        "exercises": [
+          {
+            "movementId": "triceps-press",
+            "movementName": "Triceps press",
+            "variationId": "cobra-press",
+            "variationName": "Cobra press",
+            "pattern": "push",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 8,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "lunge",
+            "movementName": "Lunge",
+            "variationId": "reverse-lunge",
+            "variationName": "Reverse lunge",
+            "pattern": "legs",
+            "level": 2,
+            "type": "reps",
+            "perSide": true,
+            "plannedSets": 3,
+            "target": 6,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "side-plank",
+            "movementName": "Side plank",
+            "variationId": "side-plank",
+            "variationName": "Side plank",
+            "pattern": "core",
+            "level": 1,
+            "type": "hold",
+            "perSide": true,
+            "plannedSets": 3,
+            "target": 15,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "back-extension",
+            "movementName": "Back extension",
+            "variationId": "prone-chest-lift",
+            "variationName": "Prone chest lift",
+            "pattern": "back",
+            "level": 1,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 11,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "burpee",
+            "movementName": "Burpee",
+            "variationId": "burpee",
+            "variationName": "Burpee",
+            "pattern": "conditioning",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 6,
+            "restSeconds": 60
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": "left",
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": "right",
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": "left",
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": "right",
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": "left",
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": "right",
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": "left",
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": "right",
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": "left",
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": "right",
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": "left",
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": "right",
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 11,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 11,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 11,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-10",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": [
+          {
+            "movementId": "triceps-press",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Cobra press: you hit every set, so next time is 3 × 9 reps."
+          },
+          {
+            "movementId": "lunge",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Reverse lunge: you hit every set, so next time is 3 × 8 reps each side."
+          },
+          {
+            "movementId": "side-plank",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Side plank: you hit every set, so next time is 3 × 20 s each side."
+          },
+          {
+            "movementId": "back-extension",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Prone chest lift: you hit every set, so next time is 3 × 12 reps."
+          },
+          {
+            "movementId": "burpee",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Burpee: you hit every set, so next time is 3 × 8 reps."
+          }
+        ]
+      },
+      {
+        "id": "2026-11-11T1794420000000",
+        "date": "2026-11-11",
+        "dayType": "recovery",
+        "startedAt": 1794420000000,
+        "endedAt": 1794420065000,
+        "exercises": [
+          {
+            "movementId": "push-up",
+            "movementName": "Push-up",
+            "variationId": "wall-push-up",
+            "variationName": "Wall push-up",
+            "pattern": "push",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 6,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "wall-sit",
+            "movementName": "Wall sit",
+            "variationId": "wall-sit",
+            "variationName": "Wall sit",
+            "pattern": "legs",
+            "level": 1,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 15,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "plank",
+            "movementName": "Plank",
+            "variationId": "long-lever-plank",
+            "variationName": "Long-lever plank",
+            "pattern": "core",
+            "level": 2,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 10,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "hip-bridge",
+            "movementName": "Hip bridge",
+            "variationId": "glute-bridge",
+            "variationName": "Glute bridge",
+            "pattern": "back",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 10,
+            "restSeconds": 45
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-11",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 6,
+            "loggedOn": "2026-11-11",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-11",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-11",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-11",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-11",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-11",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-11",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": []
+      },
+      {
+        "id": "2026-11-12T1794506400000",
+        "date": "2026-11-12",
+        "dayType": "training",
+        "startedAt": 1794506400000,
+        "endedAt": 1794506594000,
+        "exercises": [
+          {
+            "movementId": "overhead-push",
+            "movementName": "Overhead push",
+            "variationId": "pike-hold",
+            "variationName": "Pike hold",
+            "pattern": "push",
+            "level": 0,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 20,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "squat",
+            "movementName": "Squat",
+            "variationId": "close-squat",
+            "variationName": "Close squat",
+            "pattern": "legs",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 10,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "leg-raise",
+            "movementName": "Leg raise",
+            "variationId": "lying-leg-raise",
+            "variationName": "Lying leg raise",
+            "pattern": "core",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 8,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "back-bridge",
+            "movementName": "Back bridge",
+            "variationId": "tabletop-hold",
+            "variationName": "Tabletop hold",
+            "pattern": "back",
+            "level": 0,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 35,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "mountain-climber",
+            "movementName": "Mountain climber",
+            "variationId": "mountain-climber",
+            "variationName": "Mountain climber",
+            "pattern": "conditioning",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 25,
+            "restSeconds": 60
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 35,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 35,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 35,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-12",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": [
+          {
+            "movementId": "overhead-push",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Pike hold: you hit every set, so next time is 3 × 25 s."
+          },
+          {
+            "movementId": "squat",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Close squat: you hit every set, so next time is 3 × 12 reps."
+          },
+          {
+            "movementId": "leg-raise",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Lying leg raise: you hit every set, so next time is 3 × 10 reps."
+          },
+          {
+            "movementId": "back-bridge",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Tabletop hold: you hit every set, so next time is 3 × 40 s."
+          },
+          {
+            "movementId": "mountain-climber",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Mountain climber: you hit every set, so next time is 3 × 30 reps."
+          }
+        ]
+      },
+      {
+        "id": "2026-11-13T1794592800000",
+        "date": "2026-11-13",
+        "dayType": "training",
+        "startedAt": 1794592800000,
+        "endedAt": 1794593027000,
+        "exercises": [
+          {
+            "movementId": "triceps-press",
+            "movementName": "Triceps press",
+            "variationId": "cobra-press",
+            "variationName": "Cobra press",
+            "pattern": "push",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 9,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "wall-sit",
+            "movementName": "Wall sit",
+            "variationId": "wall-sit",
+            "variationName": "Wall sit",
+            "pattern": "legs",
+            "level": 1,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 25,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "side-plank",
+            "movementName": "Side plank",
+            "variationId": "side-plank",
+            "variationName": "Side plank",
+            "pattern": "core",
+            "level": 1,
+            "type": "hold",
+            "perSide": true,
+            "plannedSets": 3,
+            "target": 20,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "back-extension",
+            "movementName": "Back extension",
+            "variationId": "prone-chest-lift",
+            "variationName": "Prone chest lift",
+            "pattern": "back",
+            "level": 1,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 12,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "jumps",
+            "movementName": "Jumps",
+            "variationId": "squat-jack",
+            "variationName": "Squat jack",
+            "pattern": "conditioning",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 15,
+            "restSeconds": 60
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 9,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 9,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 9,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": "left",
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": "right",
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": "left",
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": "right",
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": "left",
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": "right",
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-13",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": [
+          {
+            "movementId": "triceps-press",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Cobra press: you hit every set, so next time is 3 × 10 reps."
+          },
+          {
+            "movementId": "wall-sit",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Wall sit: you hit every set, so next time is 3 × 30 s."
+          },
+          {
+            "movementId": "side-plank",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Side plank: you hit every set, so next time is 3 × 25 s each side."
+          },
+          {
+            "movementId": "back-extension",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Prone chest lift: you hit every set, so next time is 3 × 13 reps."
+          },
+          {
+            "movementId": "jumps",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Squat jack: you hit every set, so next time is 3 × 18 reps."
+          }
+        ]
+      },
+      {
+        "id": "2026-11-14T1794679200000",
+        "date": "2026-11-14",
+        "dayType": "training",
+        "startedAt": 1794679200000,
+        "endedAt": 1794679289000,
+        "exercises": [
+          {
+            "movementId": "push-up",
+            "movementName": "Push-up",
+            "variationId": "wall-push-up",
+            "variationName": "Wall push-up",
+            "pattern": "push",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 10,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "squat",
+            "movementName": "Squat",
+            "variationId": "close-squat",
+            "variationName": "Close squat",
+            "pattern": "legs",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 12,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "plank",
+            "movementName": "Plank",
+            "variationId": "long-lever-plank",
+            "variationName": "Long-lever plank",
+            "pattern": "core",
+            "level": 2,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 20,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "hip-bridge",
+            "movementName": "Hip bridge",
+            "variationId": "glute-bridge",
+            "variationName": "Glute bridge",
+            "pattern": "back",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 17,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "burpee",
+            "movementName": "Burpee",
+            "variationId": "burpee",
+            "variationName": "Burpee",
+            "pattern": "conditioning",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 8,
+            "restSeconds": 60
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 17,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 17,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 17,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-14",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": [
+          {
+            "movementId": "push-up",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Wall push-up: you hit every set, so next time is 3 × 12 reps."
+          },
+          {
+            "movementId": "squat",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Close squat: you hit every set, so next time is 3 × 14 reps."
+          },
+          {
+            "movementId": "plank",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Long-lever plank: you hit every set, so next time is 3 × 25 s."
+          },
+          {
+            "movementId": "hip-bridge",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Glute bridge: you hit every set, so next time is 3 × 19 reps."
+          },
+          {
+            "movementId": "burpee",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Burpee: you hit every set, so next time is 3 × 10 reps."
+          }
+        ]
+      },
+      {
+        "id": "2026-11-15T1794765600000",
+        "date": "2026-11-15",
+        "dayType": "recovery",
+        "startedAt": 1794765600000,
+        "endedAt": 1794765747000,
+        "exercises": [
+          {
+            "movementId": "overhead-push",
+            "movementName": "Overhead push",
+            "variationId": "pike-hold",
+            "variationName": "Pike hold",
+            "pattern": "push",
+            "level": 0,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 15,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "wall-sit",
+            "movementName": "Wall sit",
+            "variationId": "wall-sit",
+            "variationName": "Wall sit",
+            "pattern": "legs",
+            "level": 1,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 20,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "side-plank",
+            "movementName": "Side plank",
+            "variationId": "side-plank",
+            "variationName": "Side plank",
+            "pattern": "core",
+            "level": 1,
+            "type": "hold",
+            "perSide": true,
+            "plannedSets": 2,
+            "target": 15,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "back-extension",
+            "movementName": "Back extension",
+            "variationId": "prone-chest-lift",
+            "variationName": "Prone chest lift",
+            "pattern": "back",
+            "level": 1,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 8,
+            "restSeconds": 45
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-15",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-15",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-15",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 20,
+            "loggedOn": "2026-11-15",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": "left",
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-15",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": "right",
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-15",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": "left",
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-15",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": "right",
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-15",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-15",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-15",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": []
+      },
+      {
+        "id": "2026-11-16T1794852000000",
+        "date": "2026-11-16",
+        "dayType": "training",
+        "startedAt": 1794852000000,
+        "endedAt": 1794852152000,
+        "exercises": [
+          {
+            "movementId": "triceps-press",
+            "movementName": "Triceps press",
+            "variationId": "cobra-press",
+            "variationName": "Cobra press",
+            "pattern": "push",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 10,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "lunge",
+            "movementName": "Lunge",
+            "variationId": "reverse-lunge",
+            "variationName": "Reverse lunge",
+            "pattern": "legs",
+            "level": 2,
+            "type": "reps",
+            "perSide": true,
+            "plannedSets": 3,
+            "target": 8,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "leg-raise",
+            "movementName": "Leg raise",
+            "variationId": "lying-leg-raise",
+            "variationName": "Lying leg raise",
+            "pattern": "core",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 10,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "back-bridge",
+            "movementName": "Back bridge",
+            "variationId": "tabletop-hold",
+            "variationName": "Tabletop hold",
+            "pattern": "back",
+            "level": 0,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 40,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "jumps",
+            "movementName": "Jumps",
+            "variationId": "squat-jack",
+            "variationName": "Squat jack",
+            "pattern": "conditioning",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 18,
+            "restSeconds": 60
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": "left",
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": "right",
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": "left",
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": "right",
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": "left",
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": "right",
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 40,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 40,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 40,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 18,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 18,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 18,
+            "loggedOn": "2026-11-16",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": [
+          {
+            "movementId": "triceps-press",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Cobra press: you hit every set, so next time is 3 × 11 reps."
+          },
+          {
+            "movementId": "lunge",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Reverse lunge: you hit every set, so next time is 3 × 10 reps each side."
+          },
+          {
+            "movementId": "leg-raise",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Lying leg raise: you hit every set, so next time is 3 × 12 reps."
+          },
+          {
+            "movementId": "back-bridge",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Tabletop hold: you hit every set, so next time is 3 × 45 s."
+          },
+          {
+            "movementId": "jumps",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Squat jack: you hit every set, so next time is 3 × 21 reps."
+          }
+        ]
+      },
+      {
+        "id": "2026-11-18T1795024800000",
+        "date": "2026-11-18",
+        "dayType": "recovery",
+        "startedAt": 1795024800000,
+        "endedAt": 1795024895000,
+        "exercises": [
+          {
+            "movementId": "triceps-press",
+            "movementName": "Triceps press",
+            "variationId": "cobra-press",
+            "variationName": "Cobra press",
+            "pattern": "push",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 7,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "squat",
+            "movementName": "Squat",
+            "variationId": "close-squat",
+            "variationName": "Close squat",
+            "pattern": "legs",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 8,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "plank",
+            "movementName": "Plank",
+            "variationId": "long-lever-plank",
+            "variationName": "Long-lever plank",
+            "pattern": "core",
+            "level": 2,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 15,
+            "restSeconds": 45
+          },
+          {
+            "movementId": "back-bridge",
+            "movementName": "Back bridge",
+            "variationId": "tabletop-hold",
+            "variationName": "Tabletop hold",
+            "pattern": "back",
+            "level": 0,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 2,
+            "target": 25,
+            "restSeconds": 45
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 7,
+            "loggedOn": "2026-11-18",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 7,
+            "loggedOn": "2026-11-18",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-18",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 8,
+            "loggedOn": "2026-11-18",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-18",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 15,
+            "loggedOn": "2026-11-18",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-18",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-18",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": []
+      },
+      {
+        "id": "2026-11-19T1795111200000",
+        "date": "2026-11-19",
+        "dayType": "training",
+        "startedAt": 1795111200000,
+        "endedAt": 1795111307000,
+        "exercises": [
+          {
+            "movementId": "overhead-push",
+            "movementName": "Overhead push",
+            "variationId": "pike-hold",
+            "variationName": "Pike hold",
+            "pattern": "push",
+            "level": 0,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 25,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "lunge",
+            "movementName": "Lunge",
+            "variationId": "reverse-lunge",
+            "variationName": "Reverse lunge",
+            "pattern": "legs",
+            "level": 2,
+            "type": "reps",
+            "perSide": true,
+            "plannedSets": 3,
+            "target": 10,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "leg-raise",
+            "movementName": "Leg raise",
+            "variationId": "lying-leg-raise",
+            "variationName": "Lying leg raise",
+            "pattern": "core",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 12,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "back-extension",
+            "movementName": "Back extension",
+            "variationId": "prone-chest-lift",
+            "variationName": "Prone chest lift",
+            "pattern": "back",
+            "level": 1,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 13,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "jumps",
+            "movementName": "Jumps",
+            "variationId": "squat-jack",
+            "variationName": "Squat jack",
+            "pattern": "conditioning",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 21,
+            "restSeconds": 60
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": "left",
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": "right",
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": "left",
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": "right",
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": "left",
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": "right",
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 12,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 13,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 13,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 13,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 21,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 21,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 21,
+            "loggedOn": "2026-11-19",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": [
+          {
+            "movementId": "overhead-push",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Pike hold: you hit every set, so next time is 3 × 30 s."
+          },
+          {
+            "movementId": "lunge",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Reverse lunge: you hit every set, so next time is 3 × 12 reps each side."
+          },
+          {
+            "movementId": "leg-raise",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Lying leg raise: you hit every set, so next time is 3 × 14 reps."
+          },
+          {
+            "movementId": "back-extension",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Prone chest lift: you hit every set, so next time is 3 × 14 reps."
+          },
+          {
+            "movementId": "jumps",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Squat jack: you hit every set, so next time is 3 × 24 reps."
+          }
+        ]
+      },
+      {
+        "id": "2026-11-20T1795197600000",
+        "date": "2026-11-20",
+        "dayType": "training",
+        "startedAt": 1795197600000,
+        "endedAt": 1795197794000,
+        "exercises": [
+          {
+            "movementId": "triceps-press",
+            "movementName": "Triceps press",
+            "variationId": "cobra-press",
+            "variationName": "Cobra press",
+            "pattern": "push",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 11,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "wall-sit",
+            "movementName": "Wall sit",
+            "variationId": "wall-sit",
+            "variationName": "Wall sit",
+            "pattern": "legs",
+            "level": 1,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 30,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "plank",
+            "movementName": "Plank",
+            "variationId": "long-lever-plank",
+            "variationName": "Long-lever plank",
+            "pattern": "core",
+            "level": 2,
+            "type": "hold",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 25,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "hip-bridge",
+            "movementName": "Hip bridge",
+            "variationId": "glute-bridge",
+            "variationName": "Glute bridge",
+            "pattern": "back",
+            "level": 0,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 19,
+            "restSeconds": 60
+          },
+          {
+            "movementId": "burpee",
+            "movementName": "Burpee",
+            "variationId": "burpee",
+            "variationName": "Burpee",
+            "pattern": "conditioning",
+            "level": 2,
+            "type": "reps",
+            "perSide": false,
+            "plannedSets": 3,
+            "target": 10,
+            "restSeconds": 60
+          }
+        ],
+        "steps": [
+          {
+            "exerciseIndex": 0,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 11,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 11,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 0,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 11,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 30,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 30,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 1,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 30,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 2,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 25,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 19,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 19,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 3,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 19,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 1,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 2,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          },
+          {
+            "exerciseIndex": 4,
+            "setNumber": 3,
+            "side": null,
+            "status": "logged",
+            "value": 10,
+            "loggedOn": "2026-11-20",
+            "reasons": []
+          }
+        ],
+        "endedEarly": false,
+        "endReasons": [],
+        "endMovementId": null,
+        "changes": [
+          {
+            "movementId": "triceps-press",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Cobra press: you hit every set, so next time is 3 × 12 reps."
+          },
+          {
+            "movementId": "wall-sit",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Wall sit: you hit every set, so next time is 3 × 35 s."
+          },
+          {
+            "movementId": "plank",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Long-lever plank: you hit every set, so next time is 3 × 30 s."
+          },
+          {
+            "movementId": "hip-bridge",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Glute bridge: you hit every set, so next time is 3 × 20 reps."
+          },
+          {
+            "movementId": "burpee",
+            "kind": "target-up",
+            "reason": "met",
+            "sentence": "Burpee: you hit every set, so next time is 3 × 12 reps."
+          }
+        ]
+      }
+    ],
+    "activeSession": null
+  }
+}

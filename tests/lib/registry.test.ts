@@ -2,8 +2,8 @@ import { describe, expect, it } from "vitest";
 import { tools } from "../../src/lib/tools/registry";
 
 describe("tools registry", () => {
-  it("contains all 8 tools", () => {
-    expect(tools).toHaveLength(8);
+  it("contains all 9 tools", () => {
+    expect(tools).toHaveLength(9);
   });
 
   it("has unique, url-safe slugs", () => {
@@ -26,6 +26,7 @@ describe("tools registry", () => {
         "qr",
         "regex",
         "uuid",
+        "workout",
       ].sort(),
     );
   });

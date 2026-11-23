@@ -29,7 +29,11 @@ export default defineConfig({
   },
   integrations: [
     expressiveCode(),
-    sitemap({ filter: (page) => !page.includes("/tools/cycle") }),
+    sitemap({
+      filter: (page) =>
+        !page.includes("/tools/cycle") &&
+        !page.includes("/tools/workout/gallery"),
+    }),
     svelte(),
   ],
 });
