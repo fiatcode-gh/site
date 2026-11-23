@@ -43,16 +43,12 @@ Blog posts live in `src/content/blog/`. Frontmatter must match the schema in `sr
 
 ### Blog Post Style
 
-- **Voice:** First-person, direct, opinionated. No preamble, no "Hope this helps" closings.
-- **Opening:** Hook into a specific frustration or observation. Skip the generic intro.
+- **Voice:** follow `.omp/skills/blog-post/voice.md` (the author's own voice rules).
 - **Headings:**
-  - `##` — lede/subtitle (one per post, immediately after the title, punchy)
+  - `##` — lede/subtitle (optional, at most one, immediately after the title, punchy): opinion/argument posts use one; how-to/setup posts skip it
   - `###` — main sections
   - `---` — horizontal rule between sections
   - No `#` (H1) anywhere in the post body
-- **Closing:** End decisively. A statement, not a sendoff.
-- **Grammar:** Correct. No "Do you ever wondering", no "Let's get started!"
-- **Tone reference:** See the three most recent posts by date.
 
 ### Tag System
 
@@ -276,8 +272,8 @@ Do not change without understanding fingerprinting behavior.
 
 ### Add a blog post
 
-1. Create `src/content/blog/<slug>.md` with required frontmatter (title, description, date, draft: false, tags)
-2. Run `npm run dev` to verify rendering
+1. Create `src/content/blog/<slug>.md` with required frontmatter (title, description, date, tags) and `draft: true`; flip it to `false` only when the author says to publish
+2. Run `npm run dev` to verify rendering (every page hides drafts, so this needs `draft: false`)
 3. Run `npm run format`
 4. Commit with conventional commit: `feat: add post <title>`
 
